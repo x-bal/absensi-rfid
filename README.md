@@ -24,12 +24,12 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 ## Installation This Project
 
 - Open directory project on terminal.
-- Write Command "composer install".
-- Write Command "cp .env.example .env".
+- Run Command "composer install".
+- Run Command "cp .env.example .env".
 - Open .env file and set your database.
 - In .env set FILESYSTEM_DRIVER to public.
-- Write Command "php artisan migrate:fresh --seed".
-- Write Command "php artisan storage:link".
+- Run Command "php artisan migrate:fresh --seed".
+- Run Command "php artisan storage:link".
 - Run project using command "php artisan serve".
 
 
