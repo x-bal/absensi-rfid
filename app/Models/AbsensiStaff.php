@@ -10,4 +10,14 @@ class AbsensiStaff extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function staff()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function device()
+    {
+        return $this->belongsTo(Device::class);
+    }
 }

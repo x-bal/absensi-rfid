@@ -10,4 +10,14 @@ class Absensi extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function siswa()
+    {
+        return $this->belongsTo(Siswa::class);
+    }
+
+    public function device()
+    {
+        return $this->belongsTo(Device::class);
+    }
 }

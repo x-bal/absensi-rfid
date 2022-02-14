@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Jadwal extends Model
+class History extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
 
-    public function staff()
+    public function device()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Device::class);
     }
 }
