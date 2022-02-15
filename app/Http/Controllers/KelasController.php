@@ -4,82 +4,84 @@ namespace App\Http\Controllers;
 
 use App\Models\Kelas;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KelasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $kelas = Kelas::orderBy('nama', 'ASC')->get();
+
+        return view('kelas.index', compact('kelas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $kela = new Kelas();
+
+        return view('kelas.create', compact('kela'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate(['nama' => 'required']);
+
+        try {
+            DB::beginTransaction();
+
+            Kelas::create($request->all());
+
+            DB::commit();
+
+            return redirect()->route('kelas.index')->with('success', 'Kelas berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('kelas.index')->with('error', $th->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Kelas  $kelas
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Kelas $kelas)
+    public function show(Kelas $kela)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Kelas  $kelas
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Kelas $kelas)
+    public function edit(Kelas $kela)
     {
-        //
+        return view('kelas.edit', compact('kela'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Kelas  $kelas
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Kelas $kelas)
+    public function update(Request $request, Kelas $kela)
     {
-        //
+        $request->validate(['nama' => 'required']);
+
+        try {
+            DB::beginTransaction();
+
+            $kela->update($request->all());
+
+            DB::commit();
+
+            return redirect()->route('kelas.index')->with('success', 'Kelas berhasil diupdate');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('kelas.index')->with('error', $th->getMessage());
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Kelas  $kelas
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Kelas $kelas)
+    public function destroy(Kelas $kela)
     {
-        //
+        dd($kela);
+        try {
+            DB::beginTransaction();
+
+            $kela->delete();
+
+            DB::commit();
+
+            return redirect()->route('kelas.index')->with('success', 'Kelas berhasil didelete');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('kelas.index')->with('error', $th->getMessage());
+        }
     }
 }

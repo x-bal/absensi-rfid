@@ -41,7 +41,7 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
             $foto = $request->file('foto');
-            $fotoUrl = $foto->storeAs('users/foto', date('YmdHis') . '-' . Str::slug($request->nama) . '.' . $foto->extension());
+            $fotoUrl = $foto->storeAs('images/user', date('YmdHis') . '-' . Str::slug($request->nama) . '.' . $foto->extension());
 
             $user = User::create([
                 'username' => $request->username,
@@ -93,7 +93,7 @@ class UserController extends Controller
             if ($request->file('foto')) {
                 Storage::delete($user->foto);
                 $foto = $request->file('foto');
-                $fotoUrl = $foto->storeAs('users/foto', date('YmdHis') . '-' . Str::slug($request->nama) . '.' . $foto->extension());
+                $fotoUrl = $foto->storeAs('images/user', date('YmdHis') . '-' . Str::slug($request->nama) . '.' . $foto->extension());
             } else {
                 $fotoUrl = $user->foto;
             }
@@ -119,14 +119,20 @@ class UserController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(User $user)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            Storage::delete($user->foto);
+            $user->delete();
+
+            DB::commit();
+
+            return redirect()->route('user.index')->with('success', 'User berhasil didelete');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('user.index')->with('error', $th->getMessage());
+        }
     }
 }

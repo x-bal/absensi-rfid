@@ -2,84 +2,130 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kelas;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SiswaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $siswas = Siswa::orderBy('nama')->get();
+
+        return view('siswa.index', compact('siswas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $siswa = new Siswa();
+        $kelas = Kelas::orderBy('nama', 'ASC')->get();
+
+        return view('siswa.create', compact('siswa', 'kelas'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nisn' => 'required',
+            'nama' => 'required',
+            'gender' => 'required',
+            'kelas' => 'required',
+            'foto.*' => 'required|mimes: jpeg, jpg, png',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $foto = $request->file('foto');
+            $fotoUrl = $foto->storeAs('images/siswa', date('YmdHis') . '-' . Str::slug($request->nama) . '.' . $foto->extension());
+
+            Siswa::create([
+                'nisn' => $request->nisn,
+                'nama' => $request->nama,
+                'gender' => $request->gender,
+                'kelas_id' => $request->kelas,
+                'rfid' => $request->rfid ?? '',
+                'foto' => $fotoUrl,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('siswa.index')->with('success', 'Siswa berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('siswa.index')->with('error', $th->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
     public function show(Siswa $siswa)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Siswa $siswa)
     {
-        //
+        $kelas = Kelas::orderBy('nama', 'ASC')->get();
+
+        return view('siswa.edit', compact('siswa', 'kelas'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Siswa $siswa)
     {
-        //
+        $request->validate([
+            'nisn' => 'required',
+            'nama' => 'required',
+            'gender' => 'required',
+            'kelas' => 'required',
+            'foto.*' => 'required|mimes: jpeg, jpg, png',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            if ($request->file('foto')) {
+                Storage::delete($siswa->foto);
+                $foto = $request->file('foto');
+                $fotoUrl = $foto->storeAs('images/siswa', date('YmdHis') . '-' . Str::slug($request->nama) . '.' . $foto->extension());
+            } else {
+                $fotoUrl = $siswa->foto;
+            }
+
+            $siswa->update([
+                'nisn' => $request->nisn,
+                'nama' => $request->nama,
+                'gender' => $request->gender,
+                'kelas_id' => $request->kelas,
+                'rfid' => $request->rfid ?? '',
+                'foto' => $fotoUrl,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('siswa.index')->with('success', 'Siswa berhasil diupdate');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('siswa.index')->with('error', $th->getMessage());
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Siswa  $siswa
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Siswa $siswa)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            Storage::delete($siswa->foto);
+
+            $siswa->delete();
+
+            DB::commit();
+
+            return redirect()->route('siswa.index')->with('success', 'Siswa berhasil didelete');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('siswa.index')->with('error', $th->getMessage());
+        }
     }
 }

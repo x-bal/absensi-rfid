@@ -30,6 +30,11 @@
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="{{ asset('/') }}css/demo.css">
 
+    <style>
+        .menu-icon {
+            color: #575962 !important;
+        }
+    </style>
     @stack('style')
 </head>
 
@@ -150,12 +155,13 @@
 
                     <ul class="nav nav-primary">
                         <li class="nav-item {{ request()->is('dashboard*') ? 'active' : '' }}">
-                            <a class="nav-link" href="/dashboard">
-                                <span><i class="fas fa-home"></i> Dashboard </span>
+                            <a href="/dashboard">
+                                <i class="fas fa-home"></i>
+                                <p>Dashboard</p>
                             </a>
                         </li>
 
-                        <li class="nav-item submenu">
+                        <li class="nav-item">
                             <a data-toggle="collapse" href="#base">
                                 <i class="fas fa-th"></i>
                                 <p>Data Master</p>
@@ -165,21 +171,94 @@
                                 <ul class="nav nav-collapse">
                                     <li class="{{ request()->is('user*') ? 'active' : '' }}">
                                         <a href="{{ route('user.index') }}">
-                                            <span class="sub-item"><i class="fas fa-users"></i> Data User</span>
+                                            <span class="sub-item"><i class="menu-icon fas fa-users"></i> Master User</span>
                                         </a>
                                     </li>
-                                    <li class="{{ request()->is('permission*') ? 'active' : '' }}">
-                                        <a href="{{ route('permission.index') }}">
-                                            <span class="sub-item"><i class="fas fa-exclamation-circle"></i> Data Permission</span>
+                                    <li class="{{ request()->is('kelas*') ? 'active' : '' }}">
+                                        <a href="{{ route('kelas.index') }}">
+                                            <span class="sub-item"><i class="menu-icon fas fa-door-open"></i> Master Kelas</span>
                                         </a>
                                     </li>
-                                    <li class="{{ request()->is('role*') ? 'active' : '' }}">
-                                        <a href="{{ route('role.index') }}">
-                                            <span class="sub-item"><i class="fas fa-user-cog"></i> Data Role</span>
+                                    <li class="{{ request()->is('siswa*') ? 'active' : '' }}">
+                                        <a href="{{ route('siswa.index') }}">
+                                            <span class="sub-item"><i class="menu-icon fas fa-user-check"></i> Master Siswa</span>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#alat">
+                                <i class="fas fa-cogs"></i>
+                                <p>Data Alat</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="alat">
+                                <ul class="nav nav-collapse">
+                                    <li class="{{ request()->is('device*') ? 'active' : '' }}">
+                                        <a href="{{ route('device.index') }}">
+                                            <span class="sub-item"><i class="menu-icon fas fa-suitcase"></i> Device</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ request()->is('rfid*') ? 'active' : '' }}">
+                                        <a href="{{ route('rfid.index') }}">
+                                            <span class="sub-item"><i class="menu-icon fas fa-id-card"></i> Rfid</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#absensi">
+                                <i class="fas fa-calendar-alt"></i>
+                                <p>Absensi</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="absensi">
+                                <ul class="nav nav-collapse">
+                                    <li class="{{ request()->is('absensi*') ? 'active' : '' }}">
+                                        <a href="{{ route('permission.index') }}">
+                                            <span class="sub-item"><i class="menu-icon fas fa-id-badge"></i> Absensi Siswa</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ request()->is('absensi-staff*') ? 'active' : '' }}">
+                                        <a href="{{ route('role.index') }}">
+                                            <span class="sub-item"><i class="menu-icon fas fa-clipboard-list"></i> Absensi Staff</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item {{ request()->is('role*') || request()->is('permission*') ? 'active submenu'  : '' }}">
+                            <a data-toggle="collapse" href="#access">
+                                <i class="fas fa-universal-access"></i>
+                                <p>Access User</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse {{ request()->is('role*') || request()->is('permission*')  ? 'show'  : '' }}" id="access">
+                                <ul class="nav nav-collapse">
+                                    <li class="{{ request()->is('permission*') ? 'active' : '' }}">
+                                        <a href="{{ route('permission.index') }}">
+                                            <span class="sub-item"><i style="color: #575962 !important;" class="fas fa-exclamation-circle menu-icon"></i> Data Permission</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ request()->is('role*') ? 'active' : '' }}">
+                                        <a href="{{ route('role.index') }}">
+                                            <span class="sub-item"><i " class=" menu-icon fas fa-user-cog"></i> Data Role</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item {{ request()->is('setting*') ? 'active' : '' }}">
+                            <a href="/setting">
+                                <i class="fas fa-cog"></i>
+                                <p>Setting</p>
+                            </a>
                         </li>
                     </ul>
                 </div>

@@ -9,4 +9,9 @@ class Rfid extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function device()
+    {
+        return $this->belongsTo(Device::class);
+    }
 }

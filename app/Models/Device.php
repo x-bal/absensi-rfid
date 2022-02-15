@@ -29,4 +29,9 @@ class Device extends Model
     {
         return $this->hasMany(History::class);
     }
+
+    public function rfid()
+    {
+        return $this->hasMany(Rfid::class);
+    }
 }

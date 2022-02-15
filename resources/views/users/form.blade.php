@@ -33,7 +33,7 @@
         <option {{ $user->gender == 'Perempuan' ? 'selected' : '' }} value="Perempuan">Perempuan</option>
     </select>
 
-    @error('jabatan')
+    @error('gender')
     <small class="text-danger">{{ $message }}</small>
     @enderror
 </div>
