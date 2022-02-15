@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Device;
+use App\Models\Rfid;
 use App\Models\SecretKey;
 use App\Models\User;
 use App\Models\WaktuOperasional;
@@ -66,6 +68,16 @@ class AdminSeeder extends Seeder
         WaktuOperasional::create([
             'waktu_masuk' => '07:00 - 08:00',
             'waktu_keluar' => '15:00 - 16:00',
+        ]);
+
+        Device::create([
+            'nama' => 'Absensi'
+        ]);
+
+        Rfid::create([
+            'device_id' => 1,
+            'rfid' => '123',
+            'status' => 1
         ]);
     }
 }
