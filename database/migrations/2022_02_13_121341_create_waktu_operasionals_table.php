@@ -15,9 +15,9 @@ class CreateWaktuOperasionalsTable extends Migration
     {
         Schema::create('waktu_operasionals', function (Blueprint $table) {
             $table->id();
-            $table->string('start');
-            $table->string('end');
-            $table->string('keterangan');
+            $table->string('waktu_masuk');
+            $table->string('waktu_keluar');
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

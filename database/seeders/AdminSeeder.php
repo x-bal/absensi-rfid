@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\SecretKey;
 use App\Models\User;
+use App\Models\WaktuOperasional;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -56,5 +58,14 @@ class AdminSeeder extends Seeder
 
         $superAdmin->syncPermissions($perm);
         $user->assignRole('Super Admin');
+
+        SecretKey::create([
+            'key' => 'testabsensi123'
+        ]);
+
+        WaktuOperasional::create([
+            'waktu_masuk' => '07:00 - 08:00',
+            'waktu_keluar' => '15:00 - 16:00',
+        ]);
     }
 }
