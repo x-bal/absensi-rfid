@@ -6,7 +6,7 @@
     <title>Absensi - {{ $title }}</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="{{ asset('/') }}img/icon.ico" type="image/x-icon" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fonts and icons -->
     <script src="{{ asset('/') }}js/plugin/webfont/webfont.min.js"></script>
     <script>
@@ -98,7 +98,9 @@
                                         <a class="dropdown-item" href="#">Account Setting</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">Logout</a>
+                                                     document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                             @csrf
@@ -161,61 +163,66 @@
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a data-toggle="collapse" href="#base">
+                        <li class="nav-item {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') ? 'active submenu' : '' }}">
+                            <a data-toggle="collapse" href="#master">
                                 <i class="fas fa-th"></i>
                                 <p>Data Master</p>
                                 <span class="caret"></span>
                             </a>
-                            <div class="collapse" id="base">
+                            <div class="collapse {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') ? 'show' : '' }}" id="master">
                                 <ul class="nav nav-collapse">
                                     <li class="{{ request()->is('user*') ? 'active' : '' }}">
                                         <a href="{{ route('user.index') }}">
-                                            <span class="sub-item"><i class="menu-icon fas fa-users"></i> Master User</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('user*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-users"></i> Master User</span>
                                         </a>
                                     </li>
                                     <li class="{{ request()->is('kelas*') ? 'active' : '' }}">
                                         <a href="{{ route('kelas.index') }}">
-                                            <span class="sub-item"><i class="menu-icon fas fa-door-open"></i> Master Kelas</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('kelas*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-door-open"></i> Master Kelas</span>
                                         </a>
                                     </li>
                                     <li class="{{ request()->is('siswa*') ? 'active' : '' }}">
                                         <a href="{{ route('siswa.index') }}">
-                                            <span class="sub-item"><i class="menu-icon fas fa-user-check"></i> Master Siswa</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('siswa*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-user-check"></i> Master Siswa</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ request()->is('jadwal*') ? 'active' : '' }}">
+                                        <a href="{{ route('jadwal.index') }}">
+                                            <span class="sub-item"><i style="color: {{ request()->is('jadwal*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-calendar-check"></i> Master Jadwal</span>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
 
-                        <li class="nav-item">
+                        <li class="nav-item {{ request()->is('device*') || request()->is('rfid*') || request()->is('history*') ? 'active submenu' : '' }}">
                             <a data-toggle="collapse" href="#alat">
                                 <i class="fas fa-cogs"></i>
                                 <p>Data Alat</p>
                                 <span class="caret"></span>
                             </a>
-                            <div class="collapse" id="alat">
+                            <div class="collapse {{ request()->is('device*') || request()->is('rfid*') || request()->is('history*') ? 'show' : '' }}" id="alat">
                                 <ul class="nav nav-collapse">
                                     <li class="{{ request()->is('device*') ? 'active' : '' }}">
                                         <a href="{{ route('device.index') }}">
-                                            <span class="sub-item"><i class="menu-icon fas fa-suitcase"></i> Device</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('device*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-suitcase"></i> Device</span>
                                         </a>
                                     </li>
                                     <li class="{{ request()->is('rfid*') ? 'active' : '' }}">
                                         <a href="{{ route('rfid.index') }}">
-                                            <span class="sub-item"><i class="menu-icon fas fa-id-card"></i> Rfid</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('rfid*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-id-card"></i> Rfid</span>
                                         </a>
                                     </li>
                                     <li class="{{ request()->is('history*') ? 'active' : '' }}">
                                         <a href="{{ route('history.index') }}">
-                                            <span class="sub-item"><i class="menu-icon fas fa-history"></i> History</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('history*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-history"></i> History</span>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
 
-                        <li class="nav-item">
+                        <li class="nav-item {{ request()->is('absensi*') || request()->is('absensi-staff*') ? 'submenu active' : '' }}">
                             <a data-toggle="collapse" href="#absensi">
                                 <i class="fas fa-calendar-alt"></i>
                                 <p>Absensi</p>
@@ -225,12 +232,12 @@
                                 <ul class="nav nav-collapse">
                                     <li class="{{ request()->is('absensi*') ? 'active' : '' }}">
                                         <a href="{{ route('absensi.index') }}">
-                                            <span class="sub-item"><i class="menu-icon fas fa-id-badge"></i> Absensi Siswa</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('absensi*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-id-badge"></i> Absensi Siswa</span>
                                         </a>
                                     </li>
                                     <li class="{{ request()->is('absensi-staff*') ? 'active' : '' }}">
                                         <a href="{{ route('role.index') }}">
-                                            <span class="sub-item"><i class="menu-icon fas fa-clipboard-list"></i> Absensi Staff</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('absensi-staff*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-clipboard-list"></i> Absensi Staff</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -247,12 +254,12 @@
                                 <ul class="nav nav-collapse">
                                     <li class="{{ request()->is('permission*') ? 'active' : '' }}">
                                         <a href="{{ route('permission.index') }}">
-                                            <span class="sub-item"><i style="color: #575962 !important;" class="fas fa-exclamation-circle menu-icon"></i> Data Permission</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('permission*') ? '' : '#575962' }} !important;" class="fas fa-exclamation-circle menu-icon"></i> Data Permission</span>
                                         </a>
                                     </li>
                                     <li class="{{ request()->is('role*') ? 'active' : '' }}">
                                         <a href="{{ route('role.index') }}">
-                                            <span class="sub-item"><i " class=" menu-icon fas fa-user-cog"></i> Data Role</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('role*') ? '' : '#575962' }} !important;" class=" menu-icon fas fa-user-cog"></i> Data Role</span>
                                         </a>
                                     </li>
                                 </ul>

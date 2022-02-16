@@ -4,6 +4,7 @@ use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RfidController;
@@ -28,6 +29,9 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+// Route::post('login', function () {
+//     return request()->all();
+// })->name('login');
 Auth::routes();
 
 Route::middleware('auth')->group(function () {
@@ -49,6 +53,9 @@ Route::middleware('auth')->group(function () {
     //Route Data Siswa
     Route::resource('siswa', SiswaController::class);
 
+    //Route Data Jadwal
+    Route::resource('jadwal', JadwalController::class);
+
     //Route Data Device
     Route::resource('device', DeviceController::class);
 
@@ -65,3 +72,7 @@ Route::middleware('auth')->group(function () {
     Route::get('setting', [DashboardController::class, 'setting'])->name('setting');
     Route::post('setting-update-waktu/{id}', [DashboardController::class, 'updateWaktu'])->name('setting.update.waktu');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -411,13 +411,13 @@ class ApiController extends Controller
                                         'status' => 'success',
                                         'ket' => $respon
                                     ];
-                                    echo json_encode($respon);
+                                    echo json_encode($response);
                                 } catch (\Throwable $th) {
                                     $response = [
                                         'status' => 'failed',
                                         'ket' => 'gagal insert absensi'
                                     ];
-                                    echo json_encode($respon);
+                                    echo json_encode($response);
                                 }
                             } else if ($absensi && $absensi->masuk == 1 && $absensi->keluar == 0) {
                                 try {
@@ -431,9 +431,18 @@ class ApiController extends Controller
                                         'keterangan' => $ket
                                     ]);
 
-                                    echo $respon;
+
+                                    $response = [
+                                        'status' => 'success',
+                                        'ket' => $respon
+                                    ];
+                                    echo json_encode($response);
                                 } catch (\Throwable $th) {
-                                    echo "*gagal-insert-absensi*";
+                                    $response = [
+                                        'status' => 'failed',
+                                        'ket' => 'gagal insert absensi'
+                                    ];
+                                    echo json_encode($response);
                                 }
                             } else {
                                 $notif = array('status' => 'failed', 'ket' => 'sudah absensi');

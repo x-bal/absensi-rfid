@@ -6,7 +6,7 @@
     <title>Login</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="{{ asset('/') }}img/icon.ico" type="image/x-icon" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fonts and icons -->
     <script src="{{ asset('/') }}js/plugin/webfont/webfont.min.js"></script>
     <script>
@@ -34,8 +34,8 @@
         <div class="col-md-4">
             <div class="card pb-5 px-3 mt-5">
                 <div class="card-body">
-                    <h3 class="text-center">Sign In To Admin</h3>
-                    <form action="{{ route('login') }}" method="post">
+                    <h3 class="text-center">Sign In To Dashboard</h3>
+                    <form action="{{ route('login') }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="username" class="placeholder"><b>Username</b></label>
@@ -50,11 +50,6 @@
 
                         <div class="form-group">
                             <label for="password" class="placeholder"><b>Password</b></label>
-                            @if (Route::has('password.request'))
-                            <a class="link float-right" href="{{ route('password.request') }}">
-                                {{ __('Forgot Your Password?') }}
-                            </a>
-                            @endif
                             <div class="position-relative">
                                 <input id="password" name="password" type="password" class="form-control">
                             </div>
@@ -67,10 +62,15 @@
                         </div>
 
                         <div class="form-group form-action-d-flex mb-3">
-                            <div class="custom-control custom-checkbox">
+                            <!-- <div class="custom-control custom-checkbox">
                                 <input type="checkbox" name="remember" class="custom-control-input" id="remember">
                                 <label class="custom-control-label m-0" for="remember" {{ old('remember') ? 'checked' : '' }}>Remember Me</label>
-                            </div>
+                            </div> -->
+                            @if (Route::has('password.request'))
+                            <a class="link float-left" href="{{ route('password.request') }}">
+                                {{ __('Forgot Your Password?') }}
+                            </a>
+                            @endif
                             <button type="submit" class="btn btn-primary col-md-5 float-right mt-3 mt-sm-0 fw-bold">Sign In</button>
                         </div>
                     </form>
