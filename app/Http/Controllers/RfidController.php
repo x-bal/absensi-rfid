@@ -24,9 +24,14 @@ class RfidController extends Controller
         //
     }
 
-    public function show(Rfid $rfid)
+    public function show($id)
     {
-        //
+        $rfid = Rfid::where('id', $id)->where('status', 1)->first();
+
+        return response()->json([
+            'status' => 'Success',
+            'rfid' => $rfid
+        ]);
     }
 
     public function edit(Rfid $rfid)

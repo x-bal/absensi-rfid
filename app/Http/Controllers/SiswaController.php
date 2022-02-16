@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Device;
 use App\Models\Kelas;
+use App\Models\Rfid;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +15,7 @@ class SiswaController extends Controller
 {
     public function index()
     {
-        $siswas = Siswa::orderBy('nama')->get();
+        $siswas = Siswa::orderBy('nama', 'ASC')->get();
 
         return view('siswa.index', compact('siswas'));
     }
@@ -93,11 +95,19 @@ class SiswaController extends Controller
                 $fotoUrl = $siswa->foto;
             }
 
+            if ($request->rfid) {
+                $device = Rfid::where('rfid', $request->rfid)->first();
+                $device->update(['status' => 0]);
+            } else {
+                $device = 0;
+            }
+
             $siswa->update([
                 'nisn' => $request->nisn,
                 'nama' => $request->nama,
                 'gender' => $request->gender,
                 'kelas_id' => $request->kelas,
+                'device_id' => $device->device_id,
                 'rfid' => $request->rfid ?? '',
                 'foto' => $fotoUrl,
             ]);

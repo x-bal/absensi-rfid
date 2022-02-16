@@ -22,7 +22,8 @@ class CreateAbsensisTable extends Migration
             $table->integer('sakit')->default(0);
             $table->integer('izin')->default(0);
             $table->integer('alpa')->default(1);
-            $table->string('keterangan')->nullable();
+            $table->integer('masuk')->default(0);
+            $table->integer('keluar')->default(0);
             $table->foreignId('edited_by')->default(0);
             $table->timestamps();
         });

@@ -206,6 +206,11 @@
                                             <span class="sub-item"><i class="menu-icon fas fa-id-card"></i> Rfid</span>
                                         </a>
                                     </li>
+                                    <li class="{{ request()->is('history*') ? 'active' : '' }}">
+                                        <a href="{{ route('history.index') }}">
+                                            <span class="sub-item"><i class="menu-icon fas fa-history"></i> History</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -216,10 +221,10 @@
                                 <p>Absensi</p>
                                 <span class="caret"></span>
                             </a>
-                            <div class="collapse" id="absensi">
+                            <div class="collapse {{ request()->is('absensi*') || request()->is('absensi-staff*') ? 'show' : '' }}" id="absensi">
                                 <ul class="nav nav-collapse">
                                     <li class="{{ request()->is('absensi*') ? 'active' : '' }}">
-                                        <a href="{{ route('permission.index') }}">
+                                        <a href="{{ route('absensi.index') }}">
                                             <span class="sub-item"><i class="menu-icon fas fa-id-badge"></i> Absensi Siswa</span>
                                         </a>
                                     </li>

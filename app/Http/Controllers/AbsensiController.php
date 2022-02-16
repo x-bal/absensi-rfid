@@ -3,25 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absensi;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AbsensiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $absensiMasuk = Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->where('masuk', 1)->get();
+        $absensiKeluar = Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->where('keluar', 1)->get();
+
+        return view('absensi.index', compact('absensiMasuk', 'absensiKeluar'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //

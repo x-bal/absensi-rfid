@@ -47,6 +47,7 @@
                             </span>
                             @enderror
                         </div>
+
                         <div class="form-group">
                             <label for="password" class="placeholder"><b>Password</b></label>
                             @if (Route::has('password.request'))
@@ -64,6 +65,7 @@
                             </span>
                             @enderror
                         </div>
+
                         <div class="form-group form-action-d-flex mb-3">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" name="remember" class="custom-control-input" id="remember">

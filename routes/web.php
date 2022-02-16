@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RfidController;
@@ -52,6 +54,12 @@ Route::middleware('auth')->group(function () {
 
     //Route Data Rfid
     Route::resource('rfid', RfidController::class);
+
+    //Route Data History
+    Route::resource('history', HistoryController::class);
+
+    //Route Data Absensi
+    Route::resource('absensi', AbsensiController::class);
 
     // Route Setting
     Route::get('setting', [DashboardController::class, 'setting'])->name('setting');

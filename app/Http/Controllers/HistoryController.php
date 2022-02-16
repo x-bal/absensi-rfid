@@ -3,18 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\History;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class HistoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        if (request()->ajax()) {
+            $data = History::latest()->get();
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('device', function ($row) {
+                    return $row->device->nama . ' ' . '(' . $row->device->id . ')';
+                })
+                ->editColumn('waktu', function ($row) {
+                    return Carbon::parse($row->created_at)->format('d/m/Y H:i:s');
+                })
+                ->rawColumns(['device', 'waktu'])
+                ->make(true);
+        }
+
+        return view('history.index');
     }
 
     /**
