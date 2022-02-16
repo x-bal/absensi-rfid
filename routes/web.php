@@ -58,6 +58,7 @@ Route::middleware('auth')->group(function () {
 
     //Route Data Device
     Route::resource('device', DeviceController::class);
+    Route::post('/device/{device:id}/change', [DeviceController::class, 'change'])->name('device.change');
 
     //Route Data Rfid
     Route::resource('rfid', RfidController::class);

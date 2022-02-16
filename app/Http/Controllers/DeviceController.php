@@ -83,4 +83,17 @@ class DeviceController extends Controller
             return redirect()->route('device.index')->with('error', $th->getMessage());
         }
     }
+
+    public function change(Device $device)
+    {
+        $device->update([
+            'mode' => request('mode')
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Mode berhasil diubah',
+            'device' => $device
+        ]);
+    }
 }

@@ -57,7 +57,7 @@
     <select name="role" id="role" class="form-control">
         <option disabled selected>-- Pilih role --</option>
         @foreach($roles as $role)
-        <option {{ $role->id == $user->roles()->first()->id ? 'selected' : '' }} value="{{ $role->id }}">{{ $role->name }}</option>
+        <option {{ $user->id && $role->id == $user->roles()->first()->id ? 'selected' : '' }} value="{{ $role->id }}">{{ $role->name }}</option>
         @endforeach
     </select>
 

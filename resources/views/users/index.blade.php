@@ -29,7 +29,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>
-                                <div class="avatar avatar-xl">
+                                <div class="avatar avatar-l">
                                     <img src="{{ asset('storage/' . $user->foto ) }}" alt="" class="avatar-img rounded-circle">
                                 </div>
                             </td>
