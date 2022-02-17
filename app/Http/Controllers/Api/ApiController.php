@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Absensi;
+use App\Models\AbsensiStaff;
 use App\Models\Device;
 use App\Models\History;
+use App\Models\Jadwal;
 use App\Models\Rfid;
 use App\Models\SecretKey;
 use App\Models\Siswa;
+use App\Models\User;
 use App\Models\WaktuOperasional;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -320,153 +323,344 @@ class ApiController extends Controller
 
             if ($cekKey->key == $request->key) {
                 $device = Device::find($request->iddev);
-                $rfid = Siswa::where('rfid', $request->rfid)->first();
 
                 if ($device) {
-                    if ($rfid) {
+                    $rfid = Siswa::where('rfid', $request->rfid)->first() ?? User::where('rfid', $request->rfid)->first();
+
+                    if ($rfid->status_pelajar == 'Siswa') {
+
                         $waktu = WaktuOperasional::find(1);
+                        $this->abseniSiswa($waktu, $rfid, $device);
+                    } else if ($rfid->hasRole(['Admin', 'Guru'])) {
 
-                        $masuk = explode(' - ', $waktu->waktu_masuk);
-                        $keluar = explode(' - ', $waktu->waktu_keluar);
+                        $jadwal = Jadwal::where('user_id', $rfid->id)->first();
+                        $now = Carbon::now()->format('l');
 
-                        $startMasuk = Carbon::parse($masuk[0])->format('His');
-                        $endMasuk = Carbon::parse($masuk[1])->format('His');
-                        $startKeluar = Carbon::parse($keluar[0])->format('His');
-                        $endKeluar = Carbon::parse($keluar[1])->format('His');
-
-                        $absen = false;
-                        $now = Carbon::now()->format('His');
-
-                        if ($now < $startMasuk) {
-                            $response = [
-                                'status' => 'failed',
-                                'ket' => 'absensi diluar waktu'
-                            ];
-                            echo json_encode($response);
-                        }
-
-                        if ($now >= $startMasuk && $now <= $endMasuk) {
-                            $absen = true;
-                            $ket = "masuk";
-                            $status = 1;
-                            $respon = "*masuk-tepat-waktu*";
-                        }
-
-                        if ($now > $endMasuk && $now <= Carbon::parse($endMasuk)->addHour()->format('His')) {
-                            //3600 = 1 jam
-                            $absen = true;
-                            $ket = "masuk";
-                            $status = 1;
-                            $respon = "*telat-masuk*";
-                        }
-
-                        if ($now > Carbon::parse($endMasuk)->addHour()->format('His') && $now < $startKeluar) {
-                            //3600 = 1 jam
-                            $response = [
-                                'status' => 'failed',
-                                'ket' => 'absensi diluar waktu masuk dan keluar'
-                            ];
-                            echo json_encode($response);
-                        }
-
-                        if ($now >= $startKeluar && $now <= Carbon::parse($endKeluar)->addHour()->format('His')) {
-                            $absen = true;
-                            $ket = "keluar";
-                            $status = 1;
-                            $respon = "*keluar*";
-                        }
-
-                        if ($now > Carbon::parse($endKeluar)->addHour()->format('His')) {
-                            $response = [
-                                'status' => 'failed',
-                                'ket' => 'absensi diluar waktu'
-                            ];
-                            echo json_encode($response);
-                        }
-
-                        if ($absen) {
-                            $today = Carbon::now()->format('Y-m-d');
-                            $tomorrow = Carbon::tomorrow()->format('Y-m-d');
-
-                            $absensi = Absensi::where('siswa_id', $rfid->id)->where('created_at', '>=', $today)->where('created_at', '<', $tomorrow)->first();
-
-
-                            if (!$absensi) {
-                                try {
-                                    Absensi::create([
-                                        'device_id' => $device->id,
-                                        'siswa_id' => $rfid->id,
-                                        'alpa' => $ket == 'masuk' ? 0 : $status,
-                                        'hadir' => $ket == 'masuk' ? $status : 0,
-                                        'masuk' => $ket == 'masuk' ? $status : 0
-                                    ]);
-
-                                    History::create([
-                                        'device_id' => $device->id,
-                                        'rfid' => $rfid->rfid,
-                                        'keterangan' => $ket
-                                    ]);
-
-                                    $response = [
-                                        'status' => 'success',
-                                        'ket' => $respon
-                                    ];
-                                    echo json_encode($response);
-                                } catch (\Throwable $th) {
-                                    $response = [
-                                        'status' => 'failed',
-                                        'ket' => 'gagal insert absensi'
-                                    ];
-                                    echo json_encode($response);
-                                }
-                            } else if ($absensi && $absensi->masuk == 1 && $absensi->keluar == 0) {
-                                try {
-                                    $absensi->update([
-                                        'keluar' => $status
-                                    ]);
-
-                                    History::create([
-                                        'device_id' => $device->id,
-                                        'rfid' => $rfid->rfid,
-                                        'keterangan' => $ket
-                                    ]);
-
-
-                                    $response = [
-                                        'status' => 'success',
-                                        'ket' => $respon
-                                    ];
-                                    echo json_encode($response);
-                                } catch (\Throwable $th) {
-                                    $response = [
-                                        'status' => 'failed',
-                                        'ket' => 'gagal insert absensi'
-                                    ];
-                                    echo json_encode($response);
-                                }
-                            } else {
-                                $notif = array('status' => 'failed', 'ket' => 'sudah absensi');
+                        if ($now == 'Monday') {
+                            if ($jadwal->saturday == '00:00 - 00:00') {
+                                $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
                                 echo json_encode($notif);
+                            } else {
+                                $waktu = explode(' - ', $jadwal->monday);
+                                $this->absenStaff($waktu, $rfid, $device);
                             }
-                        } else {
-                            $notif = array('status' => 'failed', 'ket' => 'error waktu operasional');
-                            echo json_encode($notif);
+                        }
+
+                        if ($now == 'Tuesday') {
+                            if ($jadwal->tuesday == '00:00 - 00:00') {
+                                $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
+                                echo json_encode($notif);
+                            } else {
+                                $waktu = explode(' - ', $jadwal->tuesday);
+                                $this->absenStaff($waktu, $rfid, $device);
+                            }
+                        }
+
+                        if ($now == 'Wednesday') {
+                            if ($jadwal->wednesday == '00:00 - 00:00') {
+                                $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
+                                echo json_encode($notif);
+                            } else {
+                                $waktu = explode(' - ', $jadwal->wednesday);
+                                $this->absenStaff($waktu, $rfid, $device);
+                            }
+                        }
+
+                        if ($now == 'Thursday') {
+                            if ($jadwal->thursday == '00:00 - 00:00') {
+                                $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
+                                echo json_encode($notif);
+                            } else {
+                                $waktu = explode(' - ', $jadwal->thursday);
+                                $this->absenStaff($waktu, $rfid, $device);
+                            }
+                        }
+
+                        if ($now == 'Friday') {
+                            if ($jadwal->friday == '00:00 - 00:00') {
+                                $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
+                                echo json_encode($notif);
+                            } else {
+                                $waktu = explode(' - ', $jadwal->friday);
+                                $this->absenStaff($waktu, $rfid, $device);
+                            }
+                        }
+
+                        if ($now == 'Saturday') {
+                            if ($jadwal->saturday == '00:00 - 00:00') {
+                                $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
+                                echo json_encode($notif);
+                            } else {
+                                $waktu = explode(' - ', $jadwal->saturday);
+                                $this->absenStaff($waktu, $rfid, $device);
+                            }
                         }
                     } else {
-                        $notif = array('status' => 'failed', 'ket' => 'rfid tidak ditemukan');
+                        $notif = array('status' => 'failed', 'ket' => 'RFID Tidak Ditemukan');
                         echo json_encode($notif);
                     }
                 } else {
-                    $notif = array('status' => 'failed', 'ket' => 'id device tidak ditemukan');
+                    $notif = array('status' => 'failed', 'ket' => 'ID Device Tidak Ditemukan');
                     echo json_encode($notif);
                 }
             } else {
-                $notif = array('status' => 'failed', 'ket' => 'salah secret key');
+                $notif = array('status' => 'failed', 'ket' => 'Salah Secret Key');
                 echo json_encode($notif);
             }
         } else {
-            $notif = array('status' => 'failed', 'ket' => 'salah parameter');
+            $notif = array('status' => 'failed', 'ket' => 'Salah Parameter');
             echo json_encode($notif);
+        }
+    }
+
+    public function absenStaff($waktu, $rfid, $device)
+    {
+        $startMasuk = Carbon::parse($waktu[0])->subMinute(10)->format('His');
+        $endMasuk = Carbon::parse($waktu[1])->format('His');
+        $startKeluar = Carbon::parse($waktu[1])->format('His');
+        $endKeluar = Carbon::parse($waktu[1])->addMinute(10)->format('His');
+
+        $absen = false;
+        $today = Carbon::now()->format('His');
+
+        if ($today < $startMasuk) {
+            $response = [
+                'status' => 'failed',
+                'ket' => 'Absensi Diluar Waktu'
+            ];
+            echo json_encode($response);
+        }
+
+        if ($today >= $startMasuk && $today <= $endMasuk) {
+            $absen = true;
+            $ket = "Masuk";
+            $status = 1;
+            $respon = "Masuk Tepat Waktu";
+        }
+
+        if ($today > $endMasuk && $today <= Carbon::parse($endMasuk)->format('His')) {
+            $absen = true;
+            $ket = "Telat Masuk";
+            $status = 1;
+            $respon = "Telat Masuk";
+        }
+
+        if ($today > Carbon::parse($endMasuk)->format('His') && $today < $startKeluar) {
+            $response = [
+                'status' => 'failed',
+                'ket' => 'Absensi Diluar Waktu Masuk dan Keluar'
+            ];
+            echo json_encode($response);
+        }
+
+        if ($today >= $startKeluar && $today <= Carbon::parse($endKeluar)->format('His')) {
+            $absen = true;
+            $ket = "Keluar";
+            $status = 1;
+            $respon = "Keluar";
+        }
+
+        if ($today > Carbon::parse($endKeluar)->format('His')) {
+            $response = [
+                'status' => 'failed',
+                'ket' => 'Absensi Diluar Waktu'
+            ];
+            echo json_encode($response);
+        }
+
+        if ($absen) {
+            $today = Carbon::now()->format('Y-m-d');
+            $tomorrow = Carbon::tomorrow()->format('Y-m-d');
+
+            $absensi = AbsensiStaff::where('user_id', $rfid->id)->where('created_at', '>=', $today)->where('created_at', '<', $tomorrow)->first();
+
+
+            if (!$absensi) {
+                try {
+                    AbsensiStaff::create([
+                        'device_id' => $device->id,
+                        'user_id' => $rfid->id,
+                        'waktu' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'masuk' => $ket == 'Masuk' ? $status : 0,
+                        'keterangan' => $ket
+                    ]);
+
+                    History::create([
+                        'device_id' => $device->id,
+                        'rfid' => $rfid->rfid,
+                        'keterangan' => $ket
+                    ]);
+
+                    $response = [
+                        'status' => 'success',
+                        'ket' => $respon
+                    ];
+                    echo json_encode($response);
+                } catch (\Throwable $th) {
+                    $response = [
+                        'status' => 'failed',
+                        'ket' => 'gagal insert absensi'
+                    ];
+                    echo json_encode($response);
+                }
+            } else if ($absensi && $absensi->masuk == 1 && $absensi->keluar == 0) {
+                try {
+                    $absensi->update([
+                        'keluar' => $ket == 'Keluar' ? $status : 0
+                    ]);
+
+                    History::create([
+                        'device_id' => $device->id,
+                        'rfid' => $rfid->rfid,
+                        'keterangan' => $ket
+                    ]);
+
+
+                    $response = [
+                        'status' => 'success',
+                        'ket' => $respon
+                    ];
+                    echo json_encode($response);
+                } catch (\Throwable $th) {
+                    $response = [
+                        'status' => 'failed',
+                        'ket' => 'Gagal Insert Absensi'
+                    ];
+                    echo json_encode($response);
+                }
+            } else {
+                $response = array('status' => 'failed', 'ket' => 'Sudah Absensi');
+                echo json_encode($response);
+            }
+        }
+
+        return $response;
+    }
+
+    public function abseniSiswa($waktu, $rfid, $device)
+    {
+        $masuk = explode(' - ', $waktu->waktu_masuk);
+        $keluar = explode(' - ', $waktu->waktu_keluar);
+
+        $startMasuk = Carbon::parse($masuk[0])->format('His');
+        $endMasuk = Carbon::parse($masuk[1])->format('His');
+        $startKeluar = Carbon::parse($keluar[0])->format('His');
+        $endKeluar = Carbon::parse($keluar[1])->format('His');
+
+        $absen = false;
+        $now = Carbon::now()->format('His');
+
+        if ($now < $startMasuk) {
+            $response = [
+                'status' => 'failed',
+                'ket' => 'Absensi Diluar Waktu'
+            ];
+            echo json_encode($response);
+        }
+
+        if ($now >= $startMasuk && $now <= $endMasuk) {
+            $absen = true;
+            $ket = "Masuk";
+            $status = 1;
+            $respon = "Masuk Tepat Waktu";
+        }
+
+        if ($now > $endMasuk && $now <= Carbon::parse($endMasuk)->addHour()->format('His')) {
+            //3600 = 1 jam
+            $absen = true;
+            $ket = "Telat Masuk";
+            $status = 1;
+            $respon = "Telat Masuk";
+        }
+
+        if ($now > Carbon::parse($endMasuk)->addHour()->format('His') && $now < $startKeluar) {
+            //3600 = 1 jam
+            $response = [
+                'status' => 'failed',
+                'ket' => 'Absensi Diluar Waktu Masuk dan Keluar'
+            ];
+            echo json_encode($response);
+        }
+
+        if ($now >= $startKeluar && $now <= Carbon::parse($endKeluar)->addHour()->format('His')) {
+            $absen = true;
+            $ket = "Keluar";
+            $status = 1;
+            $respon = "Keluar";
+        }
+
+        if ($now > Carbon::parse($endKeluar)->addHour()->format('His')) {
+            $response = [
+                'status' => 'failed',
+                'ket' => 'Absensi Diluar Waktu'
+            ];
+            echo json_encode($response);
+        }
+
+        if ($absen) {
+            $today = Carbon::now()->format('Y-m-d');
+            $tomorrow = Carbon::tomorrow()->format('Y-m-d');
+
+            $absensi = Absensi::where('siswa_id', $rfid->id)->where('created_at', '>=', $today)->where('created_at', '<', $tomorrow)->first();
+
+
+            if (!$absensi) {
+                try {
+                    Absensi::create([
+                        'device_id' => $device->id,
+                        'siswa_id' => $rfid->id,
+                        'alpa' => $ket == 'Masuk'  || $ket == 'Telat Masuk' ? 0 : $status,
+                        'hadir' => $ket == 'Masuk' ? $status : 0,
+                        'masuk' => $ket == 'Masuk' ? $status : 0
+                    ]);
+
+                    History::create([
+                        'device_id' => $device->id,
+                        'rfid' => $rfid->rfid,
+                        'keterangan' => $ket
+                    ]);
+
+                    $response = [
+                        'status' => 'success',
+                        'ket' => $respon
+                    ];
+                    echo json_encode($response);
+                } catch (\Throwable $th) {
+                    $response = [
+                        'status' => 'failed',
+                        'ket' => 'gagal insert absensi'
+                    ];
+                    echo json_encode($response);
+                }
+            } else if ($absensi && $absensi->masuk == 1 && $absensi->keluar == 0) {
+                try {
+                    $absensi->update([
+                        'keluar' => $ket == 'Keluar' ? $status : 0
+                    ]);
+
+                    History::create([
+                        'device_id' => $device->id,
+                        'rfid' => $rfid->rfid,
+                        'keterangan' => $ket
+                    ]);
+
+
+                    $response = [
+                        'status' => 'success',
+                        'ket' => $respon
+                    ];
+                    echo json_encode($response);
+                } catch (\Throwable $th) {
+                    $response = [
+                        'status' => 'failed',
+                        'ket' => 'Gagal Insert Absensi'
+                    ];
+                    echo json_encode($response);
+                }
+            } else {
+                $notif = array('status' => 'failed', 'ket' => 'Sudah Absensi');
+                echo json_encode($notif);
+            }
         }
     }
 }

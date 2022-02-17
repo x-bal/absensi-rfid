@@ -18,8 +18,8 @@ class JadwalController extends Controller
 
     public function create()
     {
-        $users = User::role(['Admin', 'Guru'])->get();
         $jadwal = new Jadwal();
+        $users = User::role(['Admin', 'Guru'])->get();
 
         return view('jadwal.create', compact('users', 'jadwal'));
     }
@@ -53,48 +53,60 @@ class JadwalController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Jadwal  $jadwal
-     * @return \Illuminate\Http\Response
-     */
     public function show(Jadwal $jadwal)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Jadwal  $jadwal
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Jadwal $jadwal)
     {
-        //
+        $users = User::role(['Admin', 'Guru'])->get();
+
+        return view('jadwal.edit', compact('users', 'jadwal'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Jadwal  $jadwal
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Jadwal $jadwal)
     {
-        //
+        $request->validate([
+            'guru' => 'required',
+            'monday' => 'required',
+            'tuesday' => 'required',
+            'wednesday' => 'required',
+            'thursday' => 'required',
+            'friday' => 'required',
+            'saturday' => 'required',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $attr = $request->except('guru');
+            $attr['user_id'] = $request->guru;
+
+            $jadwal->update($attr);
+
+            DB::commit();
+
+            return redirect()->route('jadwal.index')->with('success', 'Jadwal berhasil diupdate');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('jadwal.index')->with('error', $th->getMessage());
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Jadwal  $jadwal
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Jadwal $jadwal)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $jadwal->delete();
+
+            DB::commit();
+
+            return redirect()->route('jadwal.index')->with('success', 'Jadwal berhasil didelete');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('jadwal.index')->with('error', $th->getMessage());
+        }
     }
 }
