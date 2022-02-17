@@ -17,13 +17,11 @@ class CreateAbsensisTable extends Migration
             $table->id();
             $table->foreignId('device_id');
             $table->foreignId('siswa_id');
-            $table->integer('hadir')->default(0);
-            $table->integer('hadir_via_zoom')->default(0);
-            $table->integer('sakit')->default(0);
-            $table->integer('izin')->default(0);
-            $table->integer('alpa')->default(1);
             $table->integer('masuk')->default(0);
+            $table->timestamp('waktu_masuk')->nullable();
             $table->integer('keluar')->default(0);
+            $table->timestamp('waktu_keluar')->nullable();
+            $table->enum('status_hadir', ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Izin', 'Alpa'])->default('Alpa');
             $table->foreignId('edited_by')->default(0);
             $table->timestamps();
         });

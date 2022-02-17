@@ -65,10 +65,10 @@
                                             <h4 class="card-title">Url Mode Device</h4>
                                             <p class="card-category">
                                             <div>
-                                                <i class="fab fa-chrome"></i> http://absensi.xyz/api/getmode?key=mrRkmgf82kjrJNkVYjsfnxz&iddev=XXX
+                                                <i class="fab fa-chrome"></i> {{url()->to('/')}}/api/getmode?key={{ $secretKey->key }}&iddev=XXX
                                             </div>
                                             <div>
-                                                <i class="fab fa-chrome"></i> http://absensi.xyz/api/getmodejson?key=mrRkmgf82kjrJNkVYjsfnxz&iddev=XXX
+                                                <i class="fab fa-chrome"></i> {{url()->to('/')}}/api/getmodejson?key={{ $secretKey->key }}&iddev=XXX
                                             </div>
                                             </p>
                                         </div>
@@ -92,10 +92,10 @@
                                             <h4 class="card-title">Url Add Rfid Card</h4>
                                             <p class="card-category">
                                             <div>
-                                                <i class="fab fa-chrome"></i> http://absensi.xyz/api/getmode?key=mrRkmgf82kjrJNkVYjsfnxz&iddev=XXX
+                                                <i class="fab fa-chrome"></i> {{url()->to('/')}}/api/addcard?key={{ $secretKey->key }}&iddev=XXX
                                             </div>
                                             <div>
-                                                <i class="fab fa-chrome"></i> http://absensi.xyz/api/getmodejson?key=mrRkmgf82kjrJNkVYjsfnxz&iddev=XXX
+                                                <i class="fab fa-chrome"></i> {{url()->to('/')}}/api/addcardjson?key={{ $secretKey->key }}&iddev=XXX
                                             </div>
                                             </p>
                                         </div>
@@ -119,10 +119,10 @@
                                             <h4 class="card-title">Url Absensi</h4>
                                             <p class="card-category">
                                             <div>
-                                                <i class="fab fa-chrome"></i> http://absensi.xyz/api/getmode?key=mrRkmgf82kjrJNkVYjsfnxz&iddev=XXX
+                                                <i class="fab fa-chrome"></i> {{url()->to('/')}}/api/absensi?key={{ $secretKey->key }}&iddev=XXX
                                             </div>
                                             <div>
-                                                <i class="fab fa-chrome"></i> http://absensi.xyz/api/getmodejson?key=mrRkmgf82kjrJNkVYjsfnxz&iddev=XXX
+                                                <i class="fab fa-chrome"></i> {{url()->to('/')}}/api/absensijson?key={{ $secretKey->key }}&iddev=XXX
                                             </div>
                                             </p>
                                         </div>

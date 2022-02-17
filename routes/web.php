@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\AbsensiStaffController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\HistoryController;
@@ -29,9 +30,6 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-// Route::post('login', function () {
-//     return request()->all();
-// })->name('login');
 Auth::routes();
 
 Route::middleware('auth')->group(function () {
@@ -68,6 +66,13 @@ Route::middleware('auth')->group(function () {
 
     //Route Data Absensi
     Route::resource('absensi', AbsensiController::class);
+    Route::get('absensi-masuk', [AbsensiController::class, 'masuk'])->name('absensi.masuk');
+    Route::get('absensi-keluar', [AbsensiController::class, 'keluar'])->name('absensi.keluar');
+
+    //Route Data Absensi Staff
+    Route::resource('absensi-staff', AbsensiStaffController::class);
+    Route::get('absensi-staff-masuk', [AbsensiStaffController::class, 'masuk'])->name('absensi-staff.masuk');
+    Route::get('absensi-staff-keluar', [AbsensiStaffController::class, 'keluar'])->name('absensi-staff.keluar');
 
     // Route Setting
     Route::get('setting', [DashboardController::class, 'setting'])->name('setting');

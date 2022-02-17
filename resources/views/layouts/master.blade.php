@@ -236,7 +236,7 @@
                                         </a>
                                     </li>
                                     <li class="{{ request()->is('absensi-staff*') ? 'active' : '' }}">
-                                        <a href="{{ route('role.index') }}">
+                                        <a href="{{ route('absensi-staff.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('absensi-staff*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-clipboard-list"></i> Absensi Staff</span>
                                         </a>
                                     </li>

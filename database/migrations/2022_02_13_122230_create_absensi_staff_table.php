@@ -17,13 +17,11 @@ class CreateAbsensiStaffTable extends Migration
             $table->id();
             $table->foreignId('device_id');
             $table->foreignId('user_id');
-            $table->string('waktu');
             $table->integer('masuk')->default(0);
-            $table->integer('sakit')->default(0);
-            $table->integer('izin')->default(0);
-            $table->integer('alpa')->default(1);
+            $table->timestamp('waktu_masuk')->nullable();
             $table->integer('keluar')->default(0);
-            $table->string('keterangan');
+            $table->timestamp('waktu_keluar')->nullable();
+            $table->enum('status_hadir', ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Izin', 'Alpa'])->default('Alpa');
             $table->timestamps();
         });
     }

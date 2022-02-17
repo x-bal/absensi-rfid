@@ -29,23 +29,25 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>
-                                <div class="avatar avatar-xl">
+                                <div class="avatar avatar-l">
                                     <img src="{{ asset('storage/' . $siswa->foto ) }}" alt="" class="avatar-img rounded-circle">
                                 </div>
                             </td>
-                            <td>{{ $siswa->device->nama ?? '-' }}</td>
+                            <td>{{ $siswa->device->nama ?? '' }} {{ $siswa->device->id ?? '' }}</td>
                             <td>{{ $siswa->rfid }}</td>
                             <td>{{ $siswa->nisn }}</td>
                             <td>{{ $siswa->nama }}</td>
                             <td>{{ $siswa->gender }}</td>
                             <td>{{ $siswa->kelas->nama }}</td>
                             <td>
-                                <a href="{{ route('siswa.edit', $siswa->id) }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
-                                <form action="{{ route('siswa.destroy', $siswa->id) }}" method="post" style="display: inline;" class="form-delete">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash"></i></button>
-                                </form>
+                                <div class="d-flex">
+                                    <a href="{{ route('siswa.edit', $siswa->id) }}" class="btn btn-sm btn-success mr-1"><i class="fas fa-edit"></i></a>
+                                    <form action="{{ route('siswa.destroy', $siswa->id) }}" method="post" class="form-delete">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         @endforeach

@@ -5,15 +5,73 @@ namespace App\Http\Controllers;
 use App\Models\Absensi;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class AbsensiController extends Controller
 {
     public function index()
     {
-        $absensiMasuk = Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->where('masuk', 1)->get();
-        $absensiKeluar = Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->where('keluar', 1)->get();
+        return view('absensi.index');
+    }
 
-        return view('absensi.index', compact('absensiMasuk', 'absensiKeluar'));
+    public function masuk()
+    {
+        if (request()->ajax()) {
+            $data = Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->where('masuk', 1)->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('device', function ($row) {
+                    return $row->device->nama . ' ' . '(' . $row->device->id . ')';
+                })
+                ->editColumn('rfid', function ($row) {
+                    return $row->siswa->rfid;
+                })
+                ->editColumn('nama', function ($row) {
+                    return $row->siswa->nama . ' ' . '(' . $row->siswa->nisn . ')';
+                })
+                ->editColumn('kelas', function ($row) {
+                    return $row->siswa->kelas->nama;
+                })
+                ->editColumn('waktu', function ($row) {
+                    return Carbon::parse($row->waktu_masuk)->format('d/m/Y H:i:s');
+                })
+                ->editColumn('action', function ($row) {
+                    return ' <a href="' . route('absensi.edit', $row->id) . '" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>';
+                })
+                ->rawColumns(['device', 'rfid', 'waktu', 'nama', 'kelas', 'action'])
+                ->make(true);
+        }
+    }
+
+    public function keluar()
+    {
+        if (request()->ajax()) {
+            $data = Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->where('keluar', 1)->get();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('device', function ($row) {
+                    return $row->device->nama . ' ' . '(' . $row->device->id . ')';
+                })
+                ->editColumn('rfid', function ($row) {
+                    return $row->siswa->rfid;
+                })
+                ->editColumn('nama', function ($row) {
+                    return $row->siswa->nama . ' ' . '(' . $row->siswa->nisn . ')';
+                })
+                ->editColumn('kelas', function ($row) {
+                    return $row->siswa->kelas->nama;
+                })
+                ->editColumn('waktu', function ($row) {
+                    return Carbon::parse($row->waktu_keluar)->format('d/m/Y H:i:s');
+                })
+                ->editColumn('action', function ($row) {
+                    return '<a href="' . route('absensi.edit', $row->id) . '" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>';
+                })
+                ->rawColumns(['device', 'rfid', 'waktu', 'nama', 'kelas', 'action'])
+                ->make(true);
+        }
     }
 
     public function create()

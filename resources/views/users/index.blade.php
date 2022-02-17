@@ -33,7 +33,7 @@
                                     <img src="{{ asset('storage/' . $user->foto ) }}" alt="" class="avatar-img rounded-circle">
                                 </div>
                             </td>
-                            <td>{{ $user->rfid }}</td>
+                            <td>{{ $user->device->nama ?? '' }} ({{ $user->device->id ?? '' }})</td>
                             <td>{{ $user->rfid }}</td>
                             <td>{{ $user->username }}</td>
                             <td>{{ $user->nik }}</td>

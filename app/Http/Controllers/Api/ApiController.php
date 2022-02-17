@@ -331,7 +331,7 @@ class ApiController extends Controller
                     if ($rfid->status_pelajar == 'Siswa') {
 
                         $waktu = WaktuOperasional::find(1);
-                        $this->abseniSiswa($waktu, $rfid, $device);
+                        $this->absensiSiswa($waktu, $rfid, $device);
                     } else if ($rfid->hasRole(['Admin', 'Guru'])) {
 
                         $jadwal = Jadwal::where('user_id', $rfid->id)->first();
@@ -481,10 +481,9 @@ class ApiController extends Controller
                     AbsensiStaff::create([
                         'device_id' => $device->id,
                         'user_id' => $rfid->id,
-                        'waktu' => Carbon::now()->format('Y-m-d H:i:s'),
-                        'alpa' => $ket == 'Masuk'  || $ket == 'Telat Masuk' ? 0 : $status,
                         'masuk' => $ket == 'Masuk' || $ket == 'Telat Masuk' ? $status : 0,
-                        'keterangan' => $ket
+                        'waktu_masuk' => Carbon::now()->format('Y-m-d H:i:s'),
+                        'status_hadir' => 'Hadir'
                     ]);
 
                     History::create([
@@ -508,7 +507,8 @@ class ApiController extends Controller
             } else if ($absensi && $absensi->masuk == 1 && $absensi->keluar == 0) {
                 try {
                     $absensi->update([
-                        'keluar' => $ket == 'Keluar' ? $status : 0
+                        'keluar' => $ket == 'Keluar' ? $status : 0,
+                        'waktu_keluar' => Carbon::now()->format('Y-m-d H:i:s'),
                     ]);
 
                     History::create([
@@ -539,7 +539,7 @@ class ApiController extends Controller
         return $response;
     }
 
-    public function abseniSiswa($waktu, $rfid, $device)
+    public function absensiSiswa($waktu, $rfid, $device)
     {
         $masuk = explode(' - ', $waktu->waktu_masuk);
         $keluar = explode(' - ', $waktu->waktu_keluar);
@@ -611,9 +611,9 @@ class ApiController extends Controller
                     Absensi::create([
                         'device_id' => $device->id,
                         'siswa_id' => $rfid->id,
-                        'alpa' => $ket == 'Masuk'  || $ket == 'Telat Masuk' ? 0 : $status,
-                        'hadir' => $ket == 'Masuk' ? $status : 0,
-                        'masuk' => $ket == 'Masuk' ? $status : 0
+                        'masuk' => $ket == 'Masuk' ? $status : 0,
+                        'waktu_masuk' => date('Y-m-d H:i:s'),
+                        'status_hadir' => 'Hadir'
                     ]);
 
                     History::create([
@@ -637,7 +637,8 @@ class ApiController extends Controller
             } else if ($absensi && $absensi->masuk == 1 && $absensi->keluar == 0) {
                 try {
                     $absensi->update([
-                        'keluar' => $ket == 'Keluar' ? $status : 0
+                        'keluar' => $ket == 'Keluar' ? $status : 0,
+                        'waktu_keluar' => date('Y-m-d H:i:s'),
                     ]);
 
                     History::create([

@@ -1,4 +1,4 @@
-@extends('layouts.master', ['title' => 'Data Absensi Siswa'])
+@extends('layouts.master', ['title' => 'Data Absensi Staff'])
 
 @push('style')
 <!-- Datatable -->
@@ -11,83 +11,60 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">Data Absensi Siswa Masuk Tanggal {{ Carbon\Carbon::now()->format('d/m/Y') }}</div>
+            <div class="card-header">Data Absensi Staff Masuk Tanggal {{ Carbon\Carbon::now()->format('d/m/Y') }}</div>
 
             <div class="card-body">
                 <!-- <a href="{{ route('absensi.create') }}" class="btn btn-primary mb-3">Tambah Absensi</a> -->
-                <div class="table-responsive">
-                    <table class="table table-masuk table-bordered table-striped" width="100%">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>No</th>
-                                <th>Device</th>
-                                <th>Rfid</th>
-                                <th>Nama</th>
-                                <th>Kelas</th>
-                                <th>Waktu</th>
-                                <th>Keterangan</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
 
-                        <tbody>
+                <table class="table table-masuk table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>No</th>
+                            <th>Device</th>
+                            <th>Rfid</th>
+                            <th>Nama</th>
+                            <th>Kelas</th>
+                            <th>Ket</th>
+                            <th>Waktu</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-                        </tbody>
-                    </table>
-                </div>
+                    <tbody>
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">Data Absensi Siswa Keluar Tanggal {{ Carbon\Carbon::now()->format('d/m/Y') }}</div>
+            <div class="card-header">Data Absensi Staff Keluar Tanggal {{ Carbon\Carbon::now()->format('d/m/Y') }}</div>
 
             <div class="card-body">
                 <!-- <a href="{{ route('absensi.create') }}" class="btn btn-primary mb-3">Tambah Absensi</a> -->
-                <div class="table-responvie">
-                    <table class="table table-keluar table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>No</th>
-                                <th>Device</th>
-                                <th>Rfid</th>
-                                <th>Nama</th>
-                                <th>Kelas</th>
-                                <th>Waktu</th>
-                                <th>Keterangan</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
 
-                        <tbody>
+                <table class="table table-keluar table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>No</th>
+                            <th>Device</th>
+                            <th>Rfid</th>
+                            <th>Nama</th>
+                            <th>Jabatan</th>
+                            <th>Ket</th>
+                            <th>Waktu</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                    <tbody>
 
-<!-- Modal -->
-<div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -109,7 +86,7 @@
             serverSide: true,
             orderable: true,
             searchable: true,
-            ajax: "{{ route('absensi.masuk') }}",
+            ajax: "{{ route('absensi-staff.masuk') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
@@ -131,8 +108,8 @@
                     name: 'nama'
                 },
                 {
-                    data: 'kelas',
-                    name: 'kelas'
+                    data: 'jabatan',
+                    name: 'jabatan'
                 },
                 {
                     data: 'waktu',
@@ -164,7 +141,7 @@
             serverSide: true,
             orderable: true,
             searchable: true,
-            ajax: "{{ route('absensi.keluar') }}",
+            ajax: "{{ route('absensi-staff.keluar') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
@@ -186,8 +163,8 @@
                     name: 'nama'
                 },
                 {
-                    data: 'kelas',
-                    name: 'kelas'
+                    data: 'jabatan',
+                    name: 'jabatan'
                 },
                 {
                     data: 'waktu',
