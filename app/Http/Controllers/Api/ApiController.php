@@ -482,7 +482,7 @@ class ApiController extends Controller
                         'device_id' => $device->id,
                         'user_id' => $rfid->id,
                         'waktu' => Carbon::now()->format('Y-m-d H:i:s'),
-                        'masuk' => $ket == 'Masuk' ? $status : 0,
+                        'masuk' => $ket == 'Masuk' || $ket == 'Telat Masuk' ? $status : 0,
                         'keterangan' => $ket
                     ]);
 
