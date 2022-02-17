@@ -96,10 +96,11 @@ class SiswaController extends Controller
             }
 
             if ($request->rfid) {
-                $device = Rfid::where('rfid', $request->rfid)->first()->id;
+                $device = Rfid::where('rfid', $request->rfid)->first();
                 $device->update(['status' => 0]);
+                $device_id = $device->id;
             } else {
-                $device = 0;
+                $device_id = 0;
             }
 
             $siswa->update([
@@ -107,7 +108,7 @@ class SiswaController extends Controller
                 'nama' => $request->nama,
                 'gender' => $request->gender,
                 'kelas_id' => $request->kelas,
-                'device_id' => $device->device_id,
+                'device_id' => $device_id,
                 'rfid' => $request->rfid ?? '',
                 'foto' => $fotoUrl,
             ]);

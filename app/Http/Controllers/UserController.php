@@ -100,10 +100,11 @@ class UserController extends Controller
             }
 
             if ($request->rfid) {
-                $device = Rfid::where('rfid', $request->rfid)->first()->id;
+                $device = Rfid::where('rfid', $request->rfid)->first();
                 $device->update(['status' => 0]);
+                $device_id = $device->id;
             } else {
-                $device = 0;
+                $device_id = 0;
             }
 
             $user->update([
@@ -114,7 +115,7 @@ class UserController extends Controller
                 'password' => bcrypt($request->nik),
                 'jabatan' => $request->jabatan,
                 'rfid' => $request->rfid ?? '',
-                'device_id' => $device,
+                'device_id' => $device_id,
                 'foto' => $fotoUrl
             ]);
 
