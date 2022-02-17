@@ -151,7 +151,8 @@ class ApiController extends Controller
 
                         $newRfid = $rfid->update([
                             'device_id' => $device->id,
-                            'rfid' => $request->rfid
+                            'rfid' => $request->rfid,
+                            'status' => 1
                         ]);
 
                         if ($newRfid) {
@@ -164,13 +165,13 @@ class ApiController extends Controller
                             if ($history) {
                                 $response = [
                                     'status' => 'success',
-                                    'ket' => 'berhasil tambah rfid card'
+                                    'ket' => 'Rfid berhasil ditambahkan'
                                 ];
                                 echo json_encode($response);
                             } else {
                                 $response = [
                                     'status' => 'failed',
-                                    'ket' => 'terjadi kesalahan'
+                                    'ket' => 'Terjadi Kesalahan'
                                 ];
                                 echo json_encode($response);
                             }
@@ -178,7 +179,7 @@ class ApiController extends Controller
                     } else {
                         $response = [
                             'status' => 'failed',
-                            'ket' => 'device tidak ditemukan'
+                            'ket' => 'Device tidak ditemukan'
                         ];
                         echo json_encode($response);
                     }

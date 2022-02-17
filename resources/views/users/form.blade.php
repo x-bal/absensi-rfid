@@ -67,6 +67,15 @@
 </div>
 
 <div class="form-group">
+    <label for="rfid">RFID</label>
+    <input type="text" name="rfid" id="rfid" class="form-control" value="{{ $user->rfid ?? old('rfid') }}">
+
+    @error('rfid')
+    <small class="text-danger">{{ $message }}</small>
+    @enderror
+</div>
+
+<div class="form-group">
     <label for="foto">Foto</label>
     <input type="file" name="foto" id="foto" class="form-control">
 

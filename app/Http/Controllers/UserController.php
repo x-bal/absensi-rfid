@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rfid;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -98,6 +99,13 @@ class UserController extends Controller
                 $fotoUrl = $user->foto;
             }
 
+            if ($request->rfid) {
+                $device = Rfid::where('rfid', $request->rfid)->first()->id;
+                $device->update(['status' => 0]);
+            } else {
+                $device = 0;
+            }
+
             $user->update([
                 'username' => $request->username,
                 'nama' => $request->nama,
@@ -105,6 +113,8 @@ class UserController extends Controller
                 'gender' => $request->gender,
                 'password' => bcrypt($request->nik),
                 'jabatan' => $request->jabatan,
+                'rfid' => $request->rfid ?? '',
+                'device_id' => $device,
                 'foto' => $fotoUrl
             ]);
 
