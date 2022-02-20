@@ -84,6 +84,7 @@ Auth::routes();
 
 Route::get('/install', function () {
     shell_exec('composer install');
+    shell_exec('cp .env.example .env');
     Artisan::call('key:generate');
     Artisan::call('migrate:fresh --seed');
     Artisan::call('storage:link');
