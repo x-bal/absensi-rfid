@@ -12,6 +12,7 @@ use App\Http\Controllers\RfidController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -80,5 +81,12 @@ Route::middleware('auth')->group(function () {
 });
 
 Auth::routes();
+
+Route::get('/install', function () {
+    shell_exec('composer install');
+    Artisan::call('key:generate');
+    Artisan::call('migrate:fresh --seed');
+    Artisan::call('storage:link');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
