@@ -87,6 +87,7 @@ Route::get('/install', function () {
     Artisan::call('key:generate');
     Artisan::call('migrate:fresh --seed');
     Artisan::call('storage:link');
+    Artisan::call('cache:clear');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
