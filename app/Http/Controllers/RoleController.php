@@ -11,6 +11,8 @@ class RoleController extends Controller
 {
     public function index()
     {
+        auth()->user()->can('role-access') ? true : abort(403);
+
         $roles = Role::orderBy('name', 'ASC')->get();
 
         return view('roles.index', compact('roles'));
@@ -18,6 +20,8 @@ class RoleController extends Controller
 
     public function create()
     {
+        auth()->user()->can('role-create') ? true : abort(403);
+
         $role = new Role();
         $permissions = Permission::orderBy('name', 'ASC')->get();
 
@@ -26,6 +30,8 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
+        auth()->user()->can('role-create') ? true : abort(403);
+
         $request->validate([
             'name' => 'required',
             'permission' => 'required'
@@ -57,6 +63,8 @@ class RoleController extends Controller
 
     public function edit(Role $role)
     {
+        auth()->user()->can('role-edit') ? true : abort(403);
+
         $permissions = Permission::orderBy('name', 'ASC')->get();
 
         return view('roles.edit', compact('role', 'permissions'));
@@ -64,6 +72,8 @@ class RoleController extends Controller
 
     public function update(Request $request, Role $role)
     {
+        auth()->user()->can('role-edit') ? true : abort(403);
+
         $request->validate([
             'name' => 'required',
             'permission' => 'required'
@@ -89,6 +99,8 @@ class RoleController extends Controller
 
     public function destroy(Role $role)
     {
+        auth()->user()->can('role-delete') ? true : abort(403);
+
         try {
             DB::beginTransaction();
 

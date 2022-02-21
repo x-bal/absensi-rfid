@@ -4,82 +4,89 @@ namespace App\Http\Controllers;
 
 use App\Models\Holiday;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HolidayController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $holidays = Holiday::get();
+
+        return view('holiday.index', compact('holidays'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        $holiday = new Holiday();
+
+        return view('holiday.create', compact('holiday'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'waktu' => 'required',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            Holiday::create($request->all());
+
+            DB::commit();
+
+            return redirect()->route('holiday.index')->with('success', 'Data holiday berhasil ditambahkan');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('holiday.index')->with('error', $th->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Holiday  $holiday
-     * @return \Illuminate\Http\Response
-     */
     public function show(Holiday $holiday)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Holiday  $holiday
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Holiday $holiday)
     {
-        //
+        return view('holiday.edit', compact('holiday'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Holiday  $holiday
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Holiday $holiday)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'waktu' => 'required',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $holiday->update($request->all());
+
+            DB::commit();
+
+            return redirect()->route('holiday.index')->with('success', 'Data holiday berhasil diupdate');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('holiday.index')->with('error', $th->getMessage());
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Holiday  $holiday
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Holiday $holiday)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $holiday->delete();
+
+            DB::commit();
+
+            return redirect()->route('holiday.index')->with('success', 'Data holiday berhasil didelete');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('holiday.index')->with('error', $th->getMessage());
+        }
     }
 }

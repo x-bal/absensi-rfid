@@ -5,6 +5,7 @@ use App\Http\Controllers\AbsensiStaffController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KelasController;
 use App\Http\Controllers\PermissionController;
@@ -54,6 +55,9 @@ Route::middleware('auth')->group(function () {
 
     //Route Data Jadwal
     Route::resource('jadwal', JadwalController::class);
+
+    //Route Data Holiday
+    Route::resource('holiday', HolidayController::class);
 
     //Route Data Device
     Route::resource('device', DeviceController::class);

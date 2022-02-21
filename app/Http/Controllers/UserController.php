@@ -14,6 +14,8 @@ class UserController extends Controller
 {
     public function index()
     {
+        auth()->user()->can('user-access') ? true : abort(403);
+
         $users = User::get();
 
         return view('users.index', compact('users'));
@@ -21,6 +23,8 @@ class UserController extends Controller
 
     public function create()
     {
+        auth()->user()->can('user-create') ? true : abort(403);
+
         $user = new User();
         $roles = Role::get();
 
@@ -29,6 +33,8 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        auth()->user()->can('user-create') ? true : abort(403);
+
         $request->validate([
             'username' => 'required|unique:users',
             'nama' => 'required',
@@ -72,6 +78,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        auth()->user()->can('user-edit') ? true : abort(403);
+
         $roles = Role::get();
 
         return view('users.edit', compact('user', 'roles'));
@@ -79,6 +87,8 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+        auth()->user()->can('user-edit') ? true : abort(403);
+
         $request->validate([
             'username' => 'required|unique:users,username,' . $user->id,
             'nama' => 'required',
@@ -132,6 +142,8 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
+        auth()->user()->can('user-delete') ? true : abort(403);
+
         try {
             DB::beginTransaction();
 

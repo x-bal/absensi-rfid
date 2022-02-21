@@ -62,15 +62,11 @@
                         </div>
 
                         <div class="form-group form-action-d-flex mb-3">
-                            <!-- <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="remember" class="custom-control-input" id="remember">
-                                <label class="custom-control-label m-0" for="remember" {{ old('remember') ? 'checked' : '' }}>Remember Me</label>
-                            </div> -->
-                            @if (Route::has('password.request'))
+                            <!-- @if (Route::has('password.request'))
                             <a class="link float-left" href="{{ route('password.request') }}">
                                 {{ __('Forgot Your Password?') }}
                             </a>
-                            @endif
+                            @endif -->
                             <button type="submit" class="btn btn-primary col-md-5 float-right mt-3 mt-sm-0 fw-bold">Sign In</button>
                         </div>
                     </form>

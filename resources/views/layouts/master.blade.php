@@ -163,13 +163,13 @@
                             </a>
                         </li>
 
-                        <li class="nav-item {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') ? 'active submenu' : '' }}">
+                        <li class="nav-item {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') || request()->is('holiday*') ? 'active submenu' : '' }}">
                             <a data-toggle="collapse" href="#master">
                                 <i class="fas fa-th"></i>
                                 <p>Data Master</p>
                                 <span class="caret"></span>
                             </a>
-                            <div class="collapse {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') ? 'show' : '' }}" id="master">
+                            <div class="collapse {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') || request()->is('holiday*') ? 'show' : '' }}" id="master">
                                 <ul class="nav nav-collapse">
                                     <li class="{{ request()->is('user*') ? 'active' : '' }}">
                                         <a href="{{ route('user.index') }}">
@@ -189,6 +189,11 @@
                                     <li class="{{ request()->is('jadwal*') ? 'active' : '' }}">
                                         <a href="{{ route('jadwal.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('jadwal*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-calendar-check"></i> Master Jadwal</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ request()->is('holiday*') ? 'active' : '' }}">
+                                        <a href="{{ route('holiday.index') }}">
+                                            <span class="sub-item"><i style="color: {{ request()->is('holiday*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-calendar-times"></i> Master Holiday</span>
                                         </a>
                                     </li>
                                 </ul>

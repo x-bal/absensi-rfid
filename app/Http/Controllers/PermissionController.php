@@ -11,6 +11,8 @@ class PermissionController extends Controller
 {
     public function index()
     {
+        auth()->user()->can('permission-access') ? true : abort(403);
+
         $permissions = Permission::orderBy('name', 'ASC')->get();
 
         return view('permissions.index', compact('permissions'));
@@ -18,6 +20,8 @@ class PermissionController extends Controller
 
     public function create()
     {
+        auth()->user()->can('permission-create') ? true : abort(403);
+
         $permission = new Permission();
 
         return view('permissions.create', compact('permission'));
@@ -25,6 +29,8 @@ class PermissionController extends Controller
 
     public function store(Request $request)
     {
+        auth()->user()->can('permission-create') ? true : abort(403);
+
         $request->validate([
             'name' => 'required'
         ]);
@@ -52,11 +58,15 @@ class PermissionController extends Controller
 
     public function edit(Permission $permission)
     {
+        auth()->user()->can('permission-edit') ? true : abort(403);
+
         return view('permissions.edit', compact('permission'));
     }
 
     public function update(Request $request, Permission $permission)
     {
+        auth()->user()->can('permission-edit') ? true : abort(403);
+
         $request->validate([
             'name' => 'required'
         ]);
@@ -78,6 +88,8 @@ class PermissionController extends Controller
 
     public function destroy(Permission $permission)
     {
+        auth()->user()->can('permission-delete') ? true : abort(403);
+
         try {
             DB::beginTransaction();
 
