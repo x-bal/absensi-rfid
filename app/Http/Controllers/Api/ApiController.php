@@ -496,7 +496,11 @@ class ApiController extends Controller
 
                     $response = [
                         'status' => 'success',
-                        'ket' => $respon
+                        'ket' => $respon,
+                        'nama' => $rfid->nama,
+                        'jabatan' => $rfid->jabatan,
+                        'waktu' => date('Y-m-d H:i:s'),
+                        'absensi' => 'Masuk'
                     ];
                     echo json_encode($response);
                 } catch (\Throwable $th) {
@@ -522,7 +526,11 @@ class ApiController extends Controller
 
                     $response = [
                         'status' => 'success',
-                        'ket' => $respon
+                        'ket' => $respon,
+                        'nama' => $rfid->nama,
+                        'jabatan' => $rfid->jabatan,
+                        'waktu' => date('Y-m-d H:i:s'),
+                        'absensi' => 'Keluar'
                     ];
                     echo json_encode($response);
                 } catch (\Throwable $th) {
@@ -537,8 +545,6 @@ class ApiController extends Controller
                 echo json_encode($response);
             }
         }
-
-        return $response;
     }
 
     public function absensiSiswa($waktu, $rfid, $device)
@@ -601,12 +607,12 @@ class ApiController extends Controller
             echo json_encode($response);
         }
 
+
         if ($absen) {
             $today = Carbon::now()->format('Y-m-d');
             $tomorrow = Carbon::tomorrow()->format('Y-m-d');
 
             $absensi = Absensi::where('siswa_id', $rfid->id)->where('created_at', '>=', $today)->where('created_at', '<', $tomorrow)->first();
-
 
             if (!$absensi) {
                 try {
@@ -626,7 +632,11 @@ class ApiController extends Controller
 
                     $response = [
                         'status' => 'success',
-                        'ket' => $respon
+                        'ket' => $respon,
+                        'nama' => $rfid->nama,
+                        'kelas' => $rfid->kelas->nama,
+                        'waktu' => date('Y-m-d H:i:s'),
+                        'absensi' => 'Masuk'
                     ];
                     echo json_encode($response);
                 } catch (\Throwable $th) {
@@ -652,7 +662,11 @@ class ApiController extends Controller
 
                     $response = [
                         'status' => 'success',
-                        'ket' => $respon
+                        'ket' => $respon,
+                        'nama' => $rfid->nama,
+                        'kelas' => $rfid->kelas->nama,
+                        'waktu' => date('Y-m-d H:i:s'),
+                        'absensi' => 'Keluar'
                     ];
                     echo json_encode($response);
                 } catch (\Throwable $th) {
