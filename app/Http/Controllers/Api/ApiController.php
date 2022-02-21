@@ -339,7 +339,7 @@ class ApiController extends Controller
                             $now = Carbon::now()->format('l');
 
                             if ($now == 'Monday') {
-                                if ($jadwal->saturday == '00:00 - 00:00') {
+                                if ($jadwal->monday == '00:00 - 00:00') {
                                     $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
                                     echo json_encode($notif);
                                 } else {
@@ -499,7 +499,7 @@ class ApiController extends Controller
                         'ket' => $respon,
                         'nama' => $rfid->nama,
                         'jabatan' => $rfid->jabatan,
-                        'waktu' => date('Y-m-d H:i:s'),
+                        'waktu' => date('d/m/Y H:i:s'),
                         'absensi' => 'Masuk'
                     ];
                     echo json_encode($response);
@@ -529,7 +529,7 @@ class ApiController extends Controller
                         'ket' => $respon,
                         'nama' => $rfid->nama,
                         'jabatan' => $rfid->jabatan,
-                        'waktu' => date('Y-m-d H:i:s'),
+                        'waktu' => date('d/m/Y H:i:s'),
                         'absensi' => 'Keluar'
                     ];
                     echo json_encode($response);
@@ -635,7 +635,7 @@ class ApiController extends Controller
                         'ket' => $respon,
                         'nama' => $rfid->nama,
                         'kelas' => $rfid->kelas->nama,
-                        'waktu' => date('Y-m-d H:i:s'),
+                        'waktu' => date('d/m/Y H:i:s'),
                         'absensi' => 'Masuk'
                     ];
                     echo json_encode($response);
@@ -665,7 +665,7 @@ class ApiController extends Controller
                         'ket' => $respon,
                         'nama' => $rfid->nama,
                         'kelas' => $rfid->kelas->nama,
-                        'waktu' => date('Y-m-d H:i:s'),
+                        'waktu' => date('d/m/Y H:i:s'),
                         'absensi' => 'Keluar'
                     ];
                     echo json_encode($response);
