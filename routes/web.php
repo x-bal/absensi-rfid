@@ -84,7 +84,6 @@ Route::middleware('auth')->group(function () {
     Route::post('setting-update-waktu/{id}', [DashboardController::class, 'updateWaktu'])->name('setting.update.waktu');
 });
 
-Auth::routes();
 
 Route::get('/install', function () {
     shell_exec('composer install');
@@ -94,5 +93,3 @@ Route::get('/install', function () {
     Artisan::call('storage:link');
     Artisan::call('cache:clear');
 });
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

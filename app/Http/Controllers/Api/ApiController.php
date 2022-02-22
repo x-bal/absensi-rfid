@@ -497,6 +497,7 @@ class ApiController extends Controller
                     $response = [
                         'status' => 'success',
                         'ket' => $respon,
+                        'flag' => 'staff',
                         'nama' => $rfid->nama,
                         'jabatan' => $rfid->jabatan,
                         'waktu' => date('d/m/Y H:i:s'),
@@ -527,6 +528,7 @@ class ApiController extends Controller
                     $response = [
                         'status' => 'success',
                         'ket' => $respon,
+                        'flag' => 'staff',
                         'nama' => $rfid->nama,
                         'jabatan' => $rfid->jabatan,
                         'waktu' => date('d/m/Y H:i:s'),
@@ -633,6 +635,7 @@ class ApiController extends Controller
                     $response = [
                         'status' => 'success',
                         'ket' => $respon,
+                        'flag' => 'siswa',
                         'nama' => $rfid->nama,
                         'kelas' => $rfid->kelas->nama,
                         'waktu' => date('d/m/Y H:i:s'),
@@ -663,6 +666,7 @@ class ApiController extends Controller
                     $response = [
                         'status' => 'success',
                         'ket' => $respon,
+                        'flag' => 'siswa',
                         'nama' => $rfid->nama,
                         'kelas' => $rfid->kelas->nama,
                         'waktu' => date('d/m/Y H:i:s'),
