@@ -24,7 +24,7 @@
                             <th>Device</th>
                             <th>Rfid</th>
                             <th>Nama</th>
-                            <th>Kelas</th>
+                            <th>Jabatan</th>
                             <th>Waktu</th>
                             <th>Ket</th>
                             <th>Action</th>
