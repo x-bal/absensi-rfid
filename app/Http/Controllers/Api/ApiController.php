@@ -340,77 +340,70 @@ class ApiController extends Controller
                             $jadwal = Jadwal::where('user_id', $rfid->id)->first();
                             $now = Carbon::now()->format('l');
 
-                            if ($now == 'Monday' && isset($jadwal->monday)) {
-                                if ($jadwal->monday == '00:00 - 00:00') {
-                                    $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
-                                    echo json_encode($notif);
-                                } else {
-                                    $waktu = explode(' - ', $jadwal->monday);
-                                    $this->absenStaff($waktu, $rfid, $device);
+                            if ($jadwal) {
+
+                                if ($now == 'Monday') {
+                                    if ($jadwal->monday == '00:00 - 00:00') {
+                                        $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
+                                        echo json_encode($notif);
+                                    } else {
+                                        $waktu = explode(' - ', $jadwal->monday);
+                                        $this->absenStaff($waktu, $rfid, $device);
+                                    }
+                                }
+
+                                if ($now == 'Tuesday') {
+                                    if ($jadwal->tuesday == '00:00 - 00:00') {
+                                        $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
+                                        echo json_encode($notif);
+                                    } else {
+                                        $waktu = explode(' - ', $jadwal->tuesday);
+                                        $this->absenStaff($waktu, $rfid, $device);
+                                    }
+                                }
+
+                                if ($now == 'Wednesday') {
+                                    if ($jadwal->wednesday == '00:00 - 00:00') {
+                                        $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
+                                        echo json_encode($notif);
+                                    } else {
+                                        $waktu = explode(' - ', $jadwal->wednesday);
+                                        $this->absenStaff($waktu, $rfid, $device);
+                                    }
+                                }
+
+                                if ($now == 'Thursday') {
+                                    if ($jadwal->thursday == '00:00 - 00:00') {
+                                        $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
+                                        echo json_encode($notif);
+                                    } else {
+                                        $waktu = explode(' - ', $jadwal->thursday);
+                                        $this->absenStaff($waktu, $rfid, $device);
+                                    }
+                                }
+
+                                if ($now == 'Friday') {
+                                    if ($jadwal->friday == '00:00 - 00:00') {
+                                        $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
+                                        echo json_encode($notif);
+                                    } else {
+                                        $waktu = explode(' - ', $jadwal->friday);
+                                        $this->absenStaff($waktu, $rfid, $device);
+                                    }
+                                }
+
+                                if ($now == 'Saturday') {
+                                    if ($jadwal->saturday == '00:00 - 00:00') {
+                                        $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
+                                        echo json_encode($notif);
+                                    } else {
+                                        $waktu = explode(' - ', $jadwal->saturday);
+                                        $this->absenStaff($waktu, $rfid, $device);
+                                    }
                                 }
                             } else {
                                 $notif = array('status' => 'failed', 'ket' => 'Jadwal Belum Dibuat');
                                 echo json_encode($notif);
-                            }
-
-                            if ($now == 'Tuesday' && isset($jadwal->tuesday)) {
-                                if ($jadwal->tuesday == '00:00 - 00:00') {
-                                    $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
-                                    echo json_encode($notif);
-                                } else {
-                                    $waktu = explode(' - ', $jadwal->tuesday);
-                                    $this->absenStaff($waktu, $rfid, $device);
-                                }
-                            } else {
-                                $notif = array('status' => 'failed', 'ket' => 'Jadwal Belum Dibuat');
-                            }
-
-                            if ($now == 'Wednesday' && isset($jadwal->wednesday)) {
-                                if ($jadwal->wednesday == '00:00 - 00:00') {
-                                    $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
-                                    echo json_encode($notif);
-                                } else {
-                                    $waktu = explode(' - ', $jadwal->wednesday);
-                                    $this->absenStaff($waktu, $rfid, $device);
-                                }
-                            } else {
-                                $notif = array('status' => 'failed', 'ket' => 'Jadwal Belum Dibuat');
-                            }
-
-                            if ($now == 'Thursday' && $jadwal->thursday) {
-                                if ($jadwal->thursday == '00:00 - 00:00') {
-                                    $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
-                                    echo json_encode($notif);
-                                } else {
-                                    $waktu = explode(' - ', $jadwal->thursday);
-                                    $this->absenStaff($waktu, $rfid, $device);
-                                }
-                            } else {
-                                $notif = array('status' => 'failed', 'ket' => 'Jadwal Belum Dibuat');
-                            }
-
-                            if ($now == 'Friday' && $jadwal->friday) {
-                                if ($jadwal->friday == '00:00 - 00:00') {
-                                    $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
-                                    echo json_encode($notif);
-                                } else {
-                                    $waktu = explode(' - ', $jadwal->friday);
-                                    $this->absenStaff($waktu, $rfid, $device);
-                                }
-                            } else {
-                                $notif = array('status' => 'failed', 'ket' => 'Jadwal Belum Dibuat');
-                            }
-
-                            if ($now == 'Saturday' && isset($jadwal->saturday)) {
-                                if ($jadwal->saturday == '00:00 - 00:00') {
-                                    $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
-                                    echo json_encode($notif);
-                                } else {
-                                    $waktu = explode(' - ', $jadwal->saturday);
-                                    $this->absenStaff($waktu, $rfid, $device);
-                                }
-                            } else {
-                                $notif = array('status' => 'failed', 'ket' => 'Jadwal Belum Dibuat');
                             }
                         }
                     } else {
