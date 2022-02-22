@@ -16,6 +16,8 @@ use App\Models\WaktuOperasional;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+date_default_timezone_set("asia/jakarta");
+
 class ApiController extends Controller
 {
     public function index()
@@ -608,7 +610,6 @@ class ApiController extends Controller
             ];
             echo json_encode($response);
         }
-
 
         if ($absen) {
             $today = Carbon::now()->format('Y-m-d');
