@@ -55,8 +55,8 @@
                             <th>Rfid</th>
                             <th>Nama</th>
                             <th>Jabatan</th>
-                            <th>Ket</th>
                             <th>Waktu</th>
+                            <th>Ket</th>
                             <th>Action</th>
                         </tr>
                     </thead>
