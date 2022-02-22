@@ -519,7 +519,13 @@ class ApiController extends Controller
                     ];
                     echo json_encode($response);
                 }
-            } else if ($absensi && $absensi->masuk == 1 && $absensi->keluar == 0) {
+            } else if ($absensi && $absensi->masuk == 1 && $today <= $startKeluar) {
+                $response = [
+                    'status' => 'failed',
+                    'ket' => 'Sudah Absensi'
+                ];
+                echo json_encode($response);
+            } else if ($absensi && $absensi->masuk == 1 && $absensi->keluar == 0 && $today >= $startKeluar) {
                 try {
                     $absensi->update([
                         'keluar' => $ket == 'Keluar' ? $status : 0,
