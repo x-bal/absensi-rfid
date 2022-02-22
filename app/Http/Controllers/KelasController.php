@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\SiswaImport;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KelasController extends Controller
 {
@@ -82,6 +84,20 @@ class KelasController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->route('kelas.index')->with('error', $th->getMessage());
+        }
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required',
+            'file.*' => 'mimes:xlsx, xls, csv',
+        ]);
+
+        try {
+            Excel::import(new SiswaImport($request->kelas_id), $request->file('file'));
+        } catch (\Throwable $th) {
+            //throw $th;
         }
     }
 }

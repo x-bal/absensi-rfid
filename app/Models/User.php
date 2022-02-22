@@ -51,6 +51,6 @@ class User extends Authenticatable
 
     public function absensiStaff()
     {
-        return $this->hasMany(AbsensiStaff::class);
+        return $this->hasMany(AbsensiStaff::class, 'user_id');
     }
 }

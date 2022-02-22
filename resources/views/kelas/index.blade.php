@@ -53,7 +53,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="" method="post">
+            <form action="{{ route('kelas.import') }}" method="post">
+                @csrf
                 <div class="modal-body">
                     <input type="hidden" class="kelas_id" name="kelas_id" value="">
                     <div class="form-gruop">

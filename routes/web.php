@@ -46,9 +46,11 @@ Route::middleware('auth')->group(function () {
 
     //Route Data Users
     Route::resource('user', UserController::class);
+    Route::post('/user/import', [UserController::class, 'import'])->name('user.import');
 
     //Route Data Kelas
     Route::resource('kelas', KelasController::class);
+    Route::post('/kelas/import', [KelasController::class, 'import'])->name('kelas.import');
 
     //Route Data Siswa
     Route::resource('siswa', SiswaController::class);

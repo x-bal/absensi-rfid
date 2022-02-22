@@ -42,9 +42,9 @@
     <label for="jabatan">Jabatan</label>
     <select name="jabatan" id="jabatan" class="form-control">
         <option disabled selected>-- Pilih Jabatan --</option>
-        <option {{ $user->jabatan == 'Kepala Sekolah' ? 'selected' : '' }} value="Kepala Sekolah">Kepala Sekolah</option>
-        <option {{ $user->jabatan == 'Guru' ? 'selected' : '' }} value="Guru">Guru</option>
-        <option {{ $user->jabatan == 'Staff' ? 'selected' : '' }} value="Staff">Staff</option>
+        @foreach($jabatan as $jb)
+        <option {{ $jb == $user->jabatan ? 'selected' : '' }} value="{{ $jb }}">{{ $jb }}</option>
+        @endforeach
     </select>
 
     @error('jabatan')

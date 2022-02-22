@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\StaffImport;
 use App\Models\Rfid;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -27,8 +29,9 @@ class UserController extends Controller
 
         $user = new User();
         $roles = Role::get();
+        $jabatan = ['Kepala Sekolah TK', 'Wakasek', 'Kepala Sekolah SD', 'Admin', 'Koordinator', 'School Assistant', 'Guru'];
 
-        return view('users.create', compact('user', 'roles'));
+        return view('users.create', compact('user', 'roles', 'jabatan'));
     }
 
     public function store(Request $request)
@@ -81,8 +84,9 @@ class UserController extends Controller
         auth()->user()->can('user-edit') ? true : abort(403);
 
         $roles = Role::get();
+        $jabatan = ['Kepala Sekolah TK', 'Wakasek', 'Kepala Sekolah SD', 'Admin', 'Koordinator', 'School Assistant', 'Guru'];
 
-        return view('users.edit', compact('user', 'roles'));
+        return view('users.edit', compact('user', 'roles', 'jabatan'));
     }
 
     public function update(Request $request, User $user)
@@ -153,6 +157,27 @@ class UserController extends Controller
             DB::commit();
 
             return redirect()->route('user.index')->with('success', 'User berhasil didelete');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->route('user.index')->with('error', $th->getMessage());
+        }
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required',
+            'file.*' => 'mimes:xlsx, xls, csv'
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            Excel::import(new StaffImport, $request->file('file'));
+
+            DB::commit();
+
+            return redirect()->route('user.index')->with('success', 'Data berhasil diimport');
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->route('user.index')->with('error', $th->getMessage());
