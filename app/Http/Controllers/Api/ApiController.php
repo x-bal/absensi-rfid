@@ -575,9 +575,9 @@ class ApiController extends Controller
         $endKeluar = Carbon::parse($keluar[1])->format('His');
 
         $absen = false;
-        $now = Carbon::now()->format('His');
+        $today = Carbon::now()->format('His');
 
-        if ($now < $startMasuk) {
+        if ($today < $startMasuk) {
             $response = [
                 'status' => 'failed',
                 'ket' => 'Absensi Diluar Waktu'
@@ -585,23 +585,21 @@ class ApiController extends Controller
             echo json_encode($response);
         }
 
-        if ($now >= $startMasuk && $now <= $endMasuk) {
+        if ($today >= $startMasuk && $today <= $endMasuk) {
             $absen = true;
             $ket = "Masuk";
             $status = 1;
             $respon = "Masuk Tepat Waktu";
         }
 
-        if ($now > $endMasuk && $now <= Carbon::parse($endMasuk)->addHour()->format('His')) {
-            //3600 = 1 jam
+        if ($today > $endMasuk && $today <= Carbon::parse($endMasuk)->format('His')) {
             $absen = true;
             $ket = "Telat Masuk";
             $status = 1;
             $respon = "Telat Masuk";
         }
 
-        if ($now > Carbon::parse($endMasuk)->addHour()->format('His') && $now < $startKeluar) {
-            //3600 = 1 jam
+        if ($today > Carbon::parse($endMasuk)->format('His') && $today < $startKeluar) {
             $response = [
                 'status' => 'failed',
                 'ket' => 'Absensi Diluar Waktu Masuk dan Keluar'
@@ -609,14 +607,14 @@ class ApiController extends Controller
             echo json_encode($response);
         }
 
-        if ($now >= $startKeluar && $now <= Carbon::parse($endKeluar)->addHour()->format('His')) {
+        if ($today >= $startKeluar && $today <= Carbon::parse($endKeluar)->format('His')) {
             $absen = true;
             $ket = "Keluar";
             $status = 1;
             $respon = "Keluar";
         }
 
-        if ($now > Carbon::parse($endKeluar)->addHour()->format('His')) {
+        if ($today > Carbon::parse($endKeluar)->format('His')) {
             $response = [
                 'status' => 'failed',
                 'ket' => 'Absensi Diluar Waktu'
@@ -630,13 +628,14 @@ class ApiController extends Controller
 
             $absensi = Absensi::where('siswa_id', $rfid->id)->where('created_at', '>=', $today)->where('created_at', '<', $tomorrow)->first();
 
+
             if (!$absensi) {
                 try {
                     Absensi::create([
                         'device_id' => $device->id,
                         'siswa_id' => $rfid->id,
-                        'masuk' => $ket == 'Masuk' ? $status : 0,
-                        'waktu_masuk' => date('Y-m-d H:i:s'),
+                        'masuk' => $ket == 'Masuk' || $ket == 'Telat Masuk' ? $status : 0,
+                        'waktu_masuk' => Carbon::now()->format('Y-m-d H:i:s'),
                         'status_hadir' => 'Hadir'
                     ]);
 
@@ -663,11 +662,17 @@ class ApiController extends Controller
                     ];
                     echo json_encode($response);
                 }
-            } else if ($absensi && $absensi->masuk == 1 && $absensi->keluar == 0) {
+            } else if ($absensi && $absensi->masuk == 1 && $today <= $startKeluar) {
+                $response = [
+                    'status' => 'failed',
+                    'ket' => 'Sudah Absensi'
+                ];
+                echo json_encode($response);
+            } else if ($absensi && $absensi->masuk == 1 && $absensi->keluar == 0 && $today >= $startKeluar) {
                 try {
                     $absensi->update([
                         'keluar' => $ket == 'Keluar' ? $status : 0,
-                        'waktu_keluar' => date('Y-m-d H:i:s'),
+                        'waktu_keluar' => Carbon::now()->format('Y-m-d H:i:s'),
                     ]);
 
                     History::create([
@@ -695,8 +700,8 @@ class ApiController extends Controller
                     echo json_encode($response);
                 }
             } else {
-                $notif = array('status' => 'failed', 'ket' => 'Sudah Absensi');
-                echo json_encode($notif);
+                $response = array('status' => 'failed', 'ket' => 'Sudah Absensi');
+                echo json_encode($response);
             }
         }
     }
