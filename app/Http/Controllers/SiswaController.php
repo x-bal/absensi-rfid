@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Device;
 use App\Models\Kelas;
 use App\Models\Rfid;
 use App\Models\Siswa;
@@ -10,14 +9,43 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Yajra\Datatables\Datatables;
 
 class SiswaController extends Controller
 {
     public function index()
     {
-        $siswas = Siswa::orderBy('nama', 'ASC')->get();
+        if (request()->ajax()) {
+            $data = Siswa::orderBy('nama', 'ASC')->get();
 
-        return view('siswa.index', compact('siswas'));
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('foto', function ($row) {
+                    return '<div class="avatar avatar-l">
+                    <img src="' . asset('storage/' . $row->foto) . '" alt="" class="avatar-img rounded-circle">
+                </div>';
+                })
+                ->editColumn('device', function ($row) {
+                    return $row->device->nama ?? '-';
+                })
+                ->editColumn('kelas', function ($row) {
+                    return $row->kelas->nama;
+                })
+                ->editColumn('action', function ($row) {
+                    return '<div class="d-flex">
+                    <a href="' . route("siswa.edit", $row->id) . '" class="btn btn-sm btn-success mr-1"><i class="fas fa-edit"></i></a>
+                    <form action="' . route("siswa.destroy", $row->id) . '" method="post" class="form-delete">
+                    ' . csrf_field() . '
+                    ' . method_field("DELETE") . '
+                        <button type="button" onclick="return confirm(\'Hapus Data?\')" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash"></i></button>
+                    </form>
+                </div>';
+                })
+                ->rawColumns(['device', 'foto', 'kelas', 'action'])
+                ->make(true);
+        }
+
+        return view('siswa.index');
     }
 
     public function create()

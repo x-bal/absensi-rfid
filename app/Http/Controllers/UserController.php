@@ -121,12 +121,18 @@ class UserController extends Controller
                 $device_id = 0;
             }
 
+            if ($request->password) {
+                $password = bcrypt('password');
+            } else {
+                $password = $user->password;
+            }
+
             $user->update([
                 'username' => $request->username,
                 'nama' => $request->nama,
                 'nik' => $request->nik,
                 'gender' => $request->gender,
-                'password' => bcrypt($request->nik),
+                'password' => $password,
                 'jabatan' => $request->jabatan,
                 'rfid' => $request->rfid ?? '',
                 'device_id' => $device_id,

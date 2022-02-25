@@ -63,7 +63,7 @@ class AdminSeeder extends Seeder
         $user->assignRole('Super Admin');
 
         SecretKey::create([
-            'key' => 'testabsensi123'
+            'key' => 'westinattendance2022'
         ]);
 
         WaktuOperasional::create([

@@ -21,7 +21,7 @@ class CreateAbsensiStaffTable extends Migration
             $table->timestamp('waktu_masuk')->nullable();
             $table->integer('keluar')->default(0);
             $table->timestamp('waktu_keluar')->nullable();
-            $table->enum('status_hadir', ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Izin', 'Alpa'])->default('Alpa');
+            $table->string('status_hadir')->default('Alpa');
             $table->timestamps();
         });
     }

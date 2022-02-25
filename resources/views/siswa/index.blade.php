@@ -1,5 +1,12 @@
 @extends('layouts.master', ['title' => 'Data Siswa'])
 
+@push('style')
+<!-- Datatable -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.7/css/fixedHeader.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.6/css/responsive.bootstrap4.min.css">
+@endpush
+
 @section('content')
 <div class="row">
     <div class="col-md-12">
@@ -9,50 +16,28 @@
             <div class="card-body">
                 <a href="{{ route('siswa.create') }}" class="btn btn-primary mb-3">Tambah Siswa</a>
 
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Foto</th>
-                            <th>Device</th>
-                            <th>RFID</th>
-                            <th>Nisn</th>
-                            <th>Nama</th>
-                            <th>Gender</th>
-                            <th>Kelas</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped" width="100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>No</th>
+                                <th>Foto</th>
+                                <th>Device</th>
+                                <th>RFID</th>
+                                <th>Nisn</th>
+                                <th>Nama</th>
+                                <th>Gender</th>
+                                <th>Kelas</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        @foreach($siswas as $siswa)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>
-                                <div class="avatar avatar-l">
-                                    <img src="{{ asset('storage/' . $siswa->foto ) }}" alt="" class="avatar-img rounded-circle">
-                                </div>
-                            </td>
-                            <td>{{ $siswa->device->nama ?? '' }} {{ $siswa->device->id ?? '' }}</td>
-                            <td>{{ $siswa->rfid }}</td>
-                            <td>{{ $siswa->nisn }}</td>
-                            <td>{{ $siswa->nama }}</td>
-                            <td>{{ $siswa->gender }}</td>
-                            <td>{{ $siswa->kelas->nama }}</td>
-                            <td>
-                                <div class="d-flex">
-                                    <a href="{{ route('siswa.edit', $siswa->id) }}" class="btn btn-sm btn-success mr-1"><i class="fas fa-edit"></i></a>
-                                    <form action="{{ route('siswa.destroy', $siswa->id) }}" method="post" class="form-delete">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -60,7 +45,102 @@
 @stop
 
 @push('script')
+<!-- Datatable -->
+<script src=" https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js">
+</script>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap.min.js"></script>
+
 <script>
-    $(".table").DataTable()
+    $(document).ready(function() {
+        var table = $('.table').DataTable({
+            processing: true,
+            serverSide: true,
+            orderable: true,
+            searchable: true,
+            ajax: "{{ route('siswa.index') }}",
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'foto',
+                    name: 'foto'
+                },
+                {
+                    data: 'device',
+                    name: 'device'
+                },
+                {
+                    data: 'rfid',
+                    name: 'rfid'
+                },
+                {
+                    data: 'nisn',
+                    name: 'nisn'
+                },
+                {
+                    data: 'nama',
+                    name: 'nama'
+                },
+                {
+                    data: 'gender',
+                    name: 'gender'
+                },
+                {
+                    data: 'kelas',
+                    name: 'kelas'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                },
+            ],
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            columnDefs: [{
+                className: 'dtr-control',
+                responsivePriority: 1,
+                targets: 0
+            }, ]
+        });
+
+        new $.fn.dataTable.FixedHeader(table);
+
+        $('.btn-delete').click(function(e) {
+            e.preventDefault();
+            swal({
+                title: 'Hapus data?',
+                text: "Data yang dihapus bersifat permanen!",
+                type: 'warning',
+                buttons: {
+                    confirm: {
+                        text: 'Ya, Hapus!',
+                        className: 'btn btn-success'
+                    },
+                    cancel: {
+                        text: 'Batal',
+                        visible: true,
+                        className: 'btn btn-danger'
+                    }
+                }
+            }).then((response) => {
+                if (response) {
+                    $(".form-delete").submit()
+                } else {
+                    swal.close();
+                }
+            });
+        });
+    });
 </script>
 @endpush

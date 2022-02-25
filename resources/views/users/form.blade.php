@@ -17,6 +17,15 @@
 </div>
 
 <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" class="form-control">
+
+    @error('password')
+    <small class="text-danger">{{ $message }}</small>
+    @enderror
+</div>
+
+<div class="form-group">
     <label for="nik">Nik</label>
     <input type="number" name="nik" id="nik" class="form-control" value="{{ $user->nik ?? old('nik') }}">
 

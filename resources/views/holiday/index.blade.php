@@ -25,34 +25,36 @@
             <div class="card-body">
                 <a href="{{ route('holiday.create') }}" class="btn btn-primary mb-3">Tambah Holiday</a>
 
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>Waktu</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Waktu</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        @foreach($holidays as $holiday)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $holiday->nama }}</td>
-                            <td>{{ Carbon\Carbon::parse($holiday->waktu)->format('d/m/Y') }}</td>
-                            <td>
-                                <a href="{{ route('holiday.edit', $holiday->id) }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
-                                <form action="{{ route('holiday.destroy', $holiday->id) }}" method="post" style="display: inline;" class="form-delete">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        <tbody>
+                            @foreach($holidays as $holiday)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $holiday->nama }}</td>
+                                <td>{{ Carbon\Carbon::parse($holiday->waktu)->format('d/m/Y') }}</td>
+                                <td>
+                                    <a href="{{ route('holiday.edit', $holiday->id) }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
+                                    <form action="{{ route('holiday.destroy', $holiday->id) }}" method="post" style="display: inline;" class="form-delete">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

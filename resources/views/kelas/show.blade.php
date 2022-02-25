@@ -1,37 +1,39 @@
-@extends('layouts.master', ['title' => 'Data Kelas'])
+@extends('layouts.master', ['title' => 'Data Siswa Kelas ' . $kela->nama])
 
 @section('content')
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">Data Kelas</div>
+            <div class="card-header">Data Siswa Kelas {{ $kela->nama }}</div>
 
             <div class="card-body">
-                <a href="{{ route('kelas.create') }}" class="btn btn-primary mb-3">Tambah Kelas</a>
+                <a href="{{ route('kelas.index') }}" class="btn btn-secondary mb-3"><i class="fas fa-arrow-left"></i> Kembali</a>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Device</th>
+                                <th>Rfid</th>
+                                <th>Nisn</th>
                                 <th>Nama</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach($kelas as $kela)
+                            @foreach($kela->siswa as $siswa)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $kela->nama }}</td>
+                                <td>{{ $siswa->device->nama ?? '' }}</td>
+                                <td>{{ $siswa->rfid }}</td>
+                                <td>{{ $siswa->nisn }}</td>
+                                <td>{{ $siswa->nama }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <button type="button" class="btn btn-sm btn-info btn-import mr-1" data-toggle="modal" data-target="#modalImport" id="{{ $kela->id }}">
-                                            <i class="fas fa-upload"></i>
-                                        </button>
-                                        <a href="{{ route('kelas.show', $kela->id) }}" class="btn btn-sm btn-secondary mr-1"><i class="fas fa-eye"></i></a>
-                                        <a href="{{ route('kelas.edit', $kela->id) }}" class="btn btn-sm btn-success mr-1"><i class="fas fa-edit"></i></a>
-                                        <form action="{{ route('kelas.destroy', $kela->id) }}" method="post" style="display: inline;" class="form-delete">
+                                        <a href="{{ route('siswa.edit', $siswa->id) }}" class="btn btn-sm btn-success mr-1"><i class="fas fa-edit"></i></a>
+                                        <form action="{{ route('siswa.destroy', $siswa->id) }}" method="post" style="display: inline;" class="form-delete">
                                             @method('DELETE')
                                             @csrf
                                             <button type="submit" class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button>

@@ -6,6 +6,7 @@
     <title>Login</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="{{ asset('/') }}img/icon.ico" type="image/x-icon" />
+    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fonts and icons -->
     <script src="{{ asset('/') }}js/plugin/webfont/webfont.min.js"></script>
@@ -35,24 +36,25 @@
             <div class="card pb-5 px-3 mt-5">
                 <div class="card-body">
                     <h3 class="text-center">Sign In To Dashboard</h3>
-                    <form action="{{ route('login') }}" method="POST">
+                    <form method="POST" action="{{ route('login') }}">
                         @csrf
+
                         <div class="form-group">
-                            <label for="username" class="placeholder"><b>Username</b></label>
-                            <input id="username" name="username" type="text" class="form-control">
+                            <label for="username" class="text-md-end">{{ __('Username') }}</label>
+
+                            <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
 
                             @error('username')
                             <span class="invalid-feedback" role="alert">
-                                <strong class="text-danger">{{ $message }}</strong>
+                                <strong>{{ $message }}</strong>
                             </span>
                             @enderror
                         </div>
 
                         <div class="form-group">
-                            <label for="password" class="placeholder"><b>Password</b></label>
-                            <div class="position-relative">
-                                <input id="password" name="password" type="password" class="form-control">
-                            </div>
+                            <label for="password" class="text-md-end">{{ __('Password') }}</label>
+
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                             @error('password')
                             <span class="invalid-feedback" role="alert">
@@ -61,13 +63,12 @@
                             @enderror
                         </div>
 
-                        <div class="form-group form-action-d-flex mb-3">
-                            <!-- @if (Route::has('password.request'))
-                            <a class="link float-left" href="{{ route('password.request') }}">
-                                {{ __('Forgot Your Password?') }}
-                            </a>
-                            @endif -->
-                            <button type="submit" class="btn btn-primary col-md-5 float-right mt-3 mt-sm-0 fw-bold">Sign In</button>
+                        <div class="row mb-0">
+                            <div class="col-md-8 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('Login') }}
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>

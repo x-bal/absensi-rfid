@@ -25,36 +25,38 @@
             <div class="card-body">
                 <a href="{{ route('device.create') }}" class="btn btn-primary mb-3">Tambah Device</a>
 
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama</th>
-                            <th>Mode</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama</th>
+                                <th>Mode</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        @foreach($devices as $device)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $device->nama }}</td>
-                            <td class="text-center text-light">
-                                <input type="checkbox" class="mode" id="{{ $device->id }}" value="{{ $device->mode == 'SCAN' ? 'ADD' : 'SCAN' }}" {{ $device->mode == 'SCAN' ? 'checked' : '' }}>
-                            </td>
-                            <td>
-                                <a href="{{ route('device.edit', $device->id) }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
-                                <form action="{{ route('device.destroy', $device->id) }}" method="post" style="display: inline;" class="form-delete">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        <tbody>
+                            @foreach($devices as $device)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $device->nama }}</td>
+                                <td class="text-center text-light">
+                                    <input type="checkbox" class="mode" id="{{ $device->id }}" value="{{ $device->mode == 'SCAN' ? 'ADD' : 'SCAN' }}" {{ $device->mode == 'SCAN' ? 'checked' : '' }}>
+                                </td>
+                                <td>
+                                    <a href="{{ route('device.edit', $device->id) }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
+                                    <form action="{{ route('device.destroy', $device->id) }}" method="post" style="display: inline;" class="form-delete">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

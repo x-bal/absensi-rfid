@@ -16,25 +16,27 @@
             <div class="card-body">
                 <!-- <a href="{{ route('absensi.create') }}" class="btn btn-primary mb-3">Tambah Absensi</a> -->
 
-                <table class="table table-masuk table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>No</th>
-                            <th>Device</th>
-                            <th>Rfid</th>
-                            <th>Nama</th>
-                            <th>Jabatan</th>
-                            <th>Waktu</th>
-                            <th>Ket</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+                <div class="table-responsive">
+                    <table class="table table-masuk table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>No</th>
+                                <th>Device</th>
+                                <th>Rfid</th>
+                                <th>Nama</th>
+                                <th>Jabatan</th>
+                                <th>Waktu</th>
+                                <th>Ket</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -46,25 +48,27 @@
             <div class="card-body">
                 <!-- <a href="{{ route('absensi.create') }}" class="btn btn-primary mb-3">Tambah Absensi</a> -->
 
-                <table class="table table-keluar table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>No</th>
-                            <th>Device</th>
-                            <th>Rfid</th>
-                            <th>Nama</th>
-                            <th>Jabatan</th>
-                            <th>Waktu</th>
-                            <th>Ket</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+                <div class="table-responsive">
+                    <table class="table table-keluar table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>No</th>
+                                <th>Device</th>
+                                <th>Rfid</th>
+                                <th>Nama</th>
+                                <th>Jabatan</th>
+                                <th>Waktu</th>
+                                <th>Ket</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
+                        <tbody>
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -44,7 +44,7 @@ class KelasController extends Controller
 
     public function show(Kelas $kela)
     {
-        //
+        return view('kelas.show', compact('kela'));
     }
 
     public function edit(Kelas $kela)
@@ -95,9 +95,16 @@ class KelasController extends Controller
         ]);
 
         try {
+            DB::beginTransaction();
+
             Excel::import(new SiswaImport($request->kelas_id), $request->file('file'));
+
+            DB::commit();
+
+            return redirect()->route('kelas.index')->with('success', 'Data Siswa berhasil diimport');
         } catch (\Throwable $th) {
-            //throw $th;
+            DB::rollBack();
+            return redirect()->route('kelas.index')->with('error', $th->getMessage());
         }
     }
 }

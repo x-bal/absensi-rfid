@@ -11,50 +11,53 @@
                 <button type="button" class="btn mb-3 btn-info btn-import" data-toggle="modal" data-target="#modalImport">
                     <i class="fas fa-upload"></i> Import
                 </button>
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Foto</th>
-                            <th>Device</th>
-                            <th>RFID</th>
-                            <th>Username</th>
-                            <th>West ID</th>
-                            <th>Nama</th>
-                            <th>Jabatan</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
 
-                    <tbody>
-                        @foreach($users as $user)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>
-                                <div class="avatar avatar-l">
-                                    <img src="{{ asset('storage/' . $user->foto ) }}" alt="" class="avatar-img rounded-circle">
-                                </div>
-                            </td>
-                            <td>{{ $user->device->nama ?? '' }} ({{ $user->device->id ?? '' }})</td>
-                            <td>{{ $user->rfid }}</td>
-                            <td>{{ $user->username }}</td>
-                            <td>{{ $user->nik }}</td>
-                            <td>{{ $user->nama }}</td>
-                            <td>{{ $user->jabatan }}</td>
-                            <td>
-                                <div class="d-flex">
-                                    <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-success mr-1"><i class="fas fa-edit"></i></a>
-                                    <form action="{{ route('user.destroy', $user->id) }}" method="post" class="form-delete">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Foto</th>
+                                <th>Device</th>
+                                <th>RFID</th>
+                                <th>Username</th>
+                                <th>West ID</th>
+                                <th>Nama</th>
+                                <th>Jabatan</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach($users as $user)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>
+                                    <div class="avatar avatar-l">
+                                        <img src="{{ asset('storage/' . $user->foto ) }}" alt="" class="avatar-img rounded-circle">
+                                    </div>
+                                </td>
+                                <td>{{ $user->device->nama ?? '' }} ({{ $user->device->id ?? '' }})</td>
+                                <td>{{ $user->rfid }}</td>
+                                <td>{{ $user->username }}</td>
+                                <td>{{ $user->nik }}</td>
+                                <td>{{ $user->nama }}</td>
+                                <td>{{ $user->jabatan }}</td>
+                                <td>
+                                    <div class="d-flex">
+                                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-success mr-1"><i class="fas fa-edit"></i></a>
+                                        <form action="{{ route('user.destroy', $user->id) }}" method="post" class="form-delete">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
