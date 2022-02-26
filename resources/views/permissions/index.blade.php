@@ -7,7 +7,7 @@
             <div class="card-header">Data Permission</div>
 
             <div class="card-body">
-                <a href="{{ route('permission.create') }}" class="btn btn-primary mb-3">Tambah Permission</a>
+                <a href="{{ route('permission.create') }}" class="btn btn-danger mb-3">Tambah Permission</a>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">

@@ -582,13 +582,13 @@ body {
     .sidebar .nav.nav-warning > .nav-item.active a i, .sidebar[data-background-color="white"] .nav.nav-warning > .nav-item.active a i {
       color: #FFAD46 !important; }
     .sidebar .nav.nav-danger > .nav-item a:hover i, .sidebar .nav.nav-danger > .nav-item a:focus i, .sidebar .nav.nav-danger > .nav-item a[data-toggle=collapse][aria-expanded=true] i, .sidebar[data-background-color="white"] .nav.nav-danger > .nav-item a:hover i, .sidebar[data-background-color="white"] .nav.nav-danger > .nav-item a:focus i, .sidebar[data-background-color="white"] .nav.nav-danger > .nav-item a[data-toggle=collapse][aria-expanded=true] i {
-      color: #F25961 !important; }
+      color: #E21E26 !important; }
     .sidebar .nav.nav-danger > .nav-item a[data-toggle=collapse][aria-expanded=true]:before, .sidebar[data-background-color="white"] .nav.nav-danger > .nav-item a[data-toggle=collapse][aria-expanded=true]:before {
-      background: #F25961 !important; }
+      background: #E21E26 !important; }
     .sidebar .nav.nav-danger > .nav-item.active a:before, .sidebar[data-background-color="white"] .nav.nav-danger > .nav-item.active a:before {
-      background: #F25961 !important; }
+      background: #E21E26 !important; }
     .sidebar .nav.nav-danger > .nav-item.active a i, .sidebar[data-background-color="white"] .nav.nav-danger > .nav-item.active a i {
-      color: #F25961 !important; }
+      color: #E21E26 !important; }
   .sidebar .nav-collapse, .sidebar[data-background-color="white"] .nav-collapse {
     margin-top: 0px;
     margin-bottom: 15px;
@@ -1436,16 +1436,16 @@ body {
   background: #FF9E27 !important; }
 
 .logo-header[data-background-color="red"] {
-  background: #F25961 !important; }
+  background: #E21E26 !important; }
 
 .logo-header[data-background-color="red2"] {
-  background: #EA4d56 !important; }
+  background: #E21E26 !important; }
 
 .navbar-header[data-background-color="red"] {
-  background: #F25961 !important; }
+  background: #E21E26 !important; }
 
 .navbar-header[data-background-color="red2"] {
-  background: #EA4d56 !important; }
+  background: #E21E26 !important; }
 
 .sidebar[data-background-color="dark"] {
   background: #1a2035 !important; }

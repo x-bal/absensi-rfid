@@ -11,10 +11,38 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
+            <div class="card-body">
+                <form action="" class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="mulai">Mulai</label>
+                            <input type="date" name="mulai" id="mulai" class="form-control" value="{{ request('mulai') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="sampai">Sampai</label>
+                            <input type="date" name="sampai" id="sampai" class="form-control" value="{{ request('sampai') }}">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for=""></label><br>
+                            <button type="submit" class="btn btn-sm btn-danger mt-2">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="card">
             <div class="card-header">Data Absensi Siswa Masuk Tanggal {{ Carbon\Carbon::now()->format('d/m/Y') }}</div>
 
             <div class="card-body">
-                <!-- <a href="{{ route('absensi.create') }}" class="btn btn-primary mb-3">Tambah Absensi</a> -->
                 <div class="table-responsive">
                     <table class="table table-masuk table-bordered table-striped" width="100%">
                         <thead>
@@ -109,7 +137,7 @@
             serverSide: true,
             orderable: true,
             searchable: true,
-            ajax: "{{ route('absensi.masuk') }}",
+            ajax: "{{ request('mulai') && request('selesai') ? '/absensi/masuk?mulai='.request('mulai').'&sampai='.request('sampai') : route('absensi.masuk') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
@@ -164,7 +192,7 @@
             serverSide: true,
             orderable: true,
             searchable: true,
-            ajax: "{{ route('absensi.keluar') }}",
+            ajax: "{{ request('mulai') && request('selesai') ? '/absensi/keluar?mulai='.request('mulai').'&sampai='.request('sampai') : route('absensi.keluar') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'

@@ -7,7 +7,7 @@
             <div class="card-header">Master Jadwal</div>
 
             <div class="card-body">
-                <a href="{{ route('jadwal.create') }}" class="btn btn-primary mb-3">Tambah Jadwal</a>
+                <a href="{{ route('jadwal.create') }}" class="btn btn-danger mb-3">Tambah Jadwal</a>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">

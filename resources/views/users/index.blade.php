@@ -7,7 +7,7 @@
             <div class="card-header">Data User</div>
 
             <div class="card-body">
-                <a href="{{ route('user.create') }}" class="btn btn-primary mb-3">Tambah User</a>
+                <a href="{{ route('user.create') }}" class="btn btn-danger mb-3">Tambah User</a>
                 <button type="button" class="btn mb-3 btn-info btn-import" data-toggle="modal" data-target="#modalImport">
                     <i class="fas fa-upload"></i> Import
                 </button>

@@ -14,7 +14,7 @@
             <div class="card-header">Data Siswa</div>
 
             <div class="card-body">
-                <a href="{{ route('siswa.create') }}" class="btn btn-primary mb-3">Tambah Siswa</a>
+                <a href="{{ route('siswa.create') }}" class="btn btn-danger mb-3">Tambah Siswa</a>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped" width="100%">

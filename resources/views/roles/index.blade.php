@@ -7,7 +7,7 @@
             <div class="card-header">Data Role</div>
 
             <div class="card-body">
-                <a href="{{ route('role.create') }}" class="btn btn-primary mb-3">Tambah Role</a>
+                <a href="{{ route('role.create') }}" class="btn btn-danger mb-3">Tambah Role</a>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">

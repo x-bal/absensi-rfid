@@ -23,7 +23,7 @@
             <div class="card-header">Data Device</div>
 
             <div class="card-body">
-                <a href="{{ route('device.create') }}" class="btn btn-primary mb-3">Tambah Device</a>
+                <a href="{{ route('device.create') }}" class="btn btn-danger mb-3">Tambah Device</a>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">

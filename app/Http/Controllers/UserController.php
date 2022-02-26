@@ -109,6 +109,7 @@ class UserController extends Controller
                 Storage::delete($user->foto);
                 $foto = $request->file('foto');
                 $fotoUrl = $foto->storeAs('images/user', date('YmdHis') . '-' . Str::slug($request->nama) . '.' . $foto->extension());
+                move_uploaded_file($foto->getClientOriginalName(), asset('strg/images/user'));
             } else {
                 $fotoUrl = $user->foto;
             }

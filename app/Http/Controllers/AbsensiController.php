@@ -17,7 +17,11 @@ class AbsensiController extends Controller
     public function masuk()
     {
         if (request()->ajax()) {
-            $data = Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->where('masuk', 1)->get();
+            if (request('mulai') && request('sampai')) {
+                $data = Absensi::whereBetween('created_at', [request('masuk'), request('sampai')])->where('masuk', 1)->get();
+            } else {
+                $data = Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->where('masuk', 1)->get();
+            }
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -47,7 +51,12 @@ class AbsensiController extends Controller
     public function keluar()
     {
         if (request()->ajax()) {
-            $data = Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->where('keluar', 1)->get();
+            if (request('mulai') && request('sampai')) {
+                $data = Absensi::whereBetween('created_at', [request('masuk'), request('sampai')])->where('keluar', 1)->get();
+            } else {
+                $data = Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->where('keluar', 1)->get();
+            }
+
 
             return DataTables::of($data)
                 ->addIndexColumn()

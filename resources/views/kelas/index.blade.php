@@ -7,7 +7,7 @@
             <div class="card-header">Data Kelas</div>
 
             <div class="card-body">
-                <a href="{{ route('kelas.create') }}" class="btn btn-primary mb-3">Tambah Kelas</a>
+                <a href="{{ route('kelas.create') }}" class="btn btn-danger mb-3">Tambah Kelas</a>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">

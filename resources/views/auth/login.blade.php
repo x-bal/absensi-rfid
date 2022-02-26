@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="{{ asset('/') }}css/atlantis.css">
 </head>
 
-<body class="bg-primary" style="overflow: hidden;">
+<body class="bg-danger" style="overflow: hidden;">
     <div class="row justify-content-center">
         <div class="col-md-4">
             <div class="card pb-5 px-3 mt-5">
@@ -65,7 +65,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-danger">
                                     {{ __('Login') }}
                                 </button>
                             </div>

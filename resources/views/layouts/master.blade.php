@@ -42,10 +42,10 @@
     <div class="wrapper">
         <div class="main-header">
             <!-- Logo Header -->
-            <div class="logo-header" data-background-color="blue">
+            <div class="logo-header" data-background-color="red">
 
                 <a href="/dashboard" class="logo">
-                    <img src="{{ asset('/') }}img/logo.svg" alt="navbar brand" class="navbar-brand">
+                    <img src="{{ asset('/') }}img/westinlogo.png" alt="navbar brand" class="navbar-brand" width="100">
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
@@ -62,7 +62,7 @@
             <!-- End Logo Header -->
 
             <!-- Navbar Header -->
-            <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
+            <nav class="navbar navbar-header navbar-expand-lg" data-background-color="red2">
 
                 <div class="container-fluid">
                     <div class="collapse" id="search-nav">
@@ -155,7 +155,7 @@
                         </div>
                     </div>
 
-                    <ul class="nav nav-primary">
+                    <ul class="nav nav-danger">
                         <li class="nav-item {{ request()->is('dashboard*') ? 'active' : '' }}">
                             <a href="/dashboard">
                                 <i class="fas fa-home"></i>

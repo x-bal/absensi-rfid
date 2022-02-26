@@ -7,7 +7,7 @@
             <div class="card-header">Data Rfid</div>
 
             <div class="card-body">
-                <a href="{{ route('rfid.create') }}" class="btn btn-primary mb-3">Tambah Rfid</a>
+                <a href="{{ route('rfid.create') }}" class="btn btn-danger mb-3">Tambah Rfid</a>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">

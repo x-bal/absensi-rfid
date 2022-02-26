@@ -1,10 +1,15 @@
-<div class="form-group">
-    <label for="nama">Nama</label>
-    <input type="text" name="nama" id="nama" class="form-control" value="{{ $kela->nama ?? old('nama') }}" autofocus>
+<div class="form-group row">
+    <div class="col-md-3">
+        <label for="nama">Nama</label>
+    </div>
 
-    @error('nama')
-    <small class="text-danger">{{ $message }}</small>
-    @enderror
+    <div class="col-md-9">
+        <input type="text" name="nama" id="nama" class="form-control" value="{{ $kela->nama ?? old('nama') }}" autofocus>
+
+        @error('nama')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
+    </div>
 </div>
 
 <div class="form-group">
