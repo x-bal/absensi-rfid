@@ -155,7 +155,7 @@
                                 <p>Data Master</p>
                                 <span class="caret"></span>
                             </a>
-                            <div class="collapse {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') || request()->is('holiday*') ? 'show' : '' }}" id="master">
+                            <div class="collapse {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') || request()->is('holiday*') ||request()->is('dump/user')  ? 'show' : '' }}" id="master">
                                 <ul class="nav nav-collapse">
                                     <li class="{{ request()->is('user*') ? 'active' : '' }}">
                                         <a href="{{ route('user.index') }}">
@@ -182,6 +182,13 @@
                                             <span class="sub-item"><i style="color: {{ request()->is('holiday*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-calendar-times"></i> Master Holiday</span>
                                         </a>
                                     </li>
+                                    @if(auth()->user()->hasRole('Super Admin'))
+                                    <li class="{{ request()->is('dump/user') ? 'active' : '' }}">
+                                        <a href="{{ route('user.dump') }}">
+                                            <span class="sub-item"><i style="color: {{ request()->is('dump/user') ? '' : '#575962' }} !important;" class="menu-icon fas fa-trash-alt"></i> Dump User</span>
+                                        </a>
+                                    </li>
+                                    @endif
                                 </ul>
                             </div>
                         </li>
@@ -235,6 +242,7 @@
                             </div>
                         </li>
 
+                        @if(auth()->user()->id == 1)
                         <li class="nav-item {{ request()->is('role*') || request()->is('permission*') ? 'active submenu'  : '' }}">
                             <a data-toggle="collapse" href="#access">
                                 <i class="fas fa-universal-access"></i>
@@ -256,6 +264,7 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
 
                         <li class="nav-item {{ request()->is('setting*') ? 'active' : '' }}">
                             <a href="/setting">

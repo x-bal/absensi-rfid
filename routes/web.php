@@ -49,6 +49,8 @@ Route::middleware('auth')->group(function () {
     //Route Data Users
     Route::post('/user/import', [UserController::class, 'import'])->name('user.import');
     Route::get('/user/download', [UserController::class, 'download'])->name('user.download');
+    Route::get('/dump/user', [UserController::class, 'dump'])->name('user.dump');
+    Route::get('/user/{user:id}/status', [UserController::class, 'status'])->name('user.status');
     Route::resource('user', UserController::class);
 
     //Route Data Kelas

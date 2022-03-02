@@ -1,18 +1,12 @@
-@extends('layouts.master', ['title' => 'Data User Aktif'])
+@extends('layouts.master', ['title' => 'Data Dump User'])
 
 @section('content')
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">Data User Aktif</div>
+            <div class="card-header">Data Dump User</div>
 
             <div class="card-body">
-                <a href="{{ route('user.create') }}" class="btn btn-danger mb-3">Tambah User</a>
-                <a href="{{ route('user.download') }}" class="btn btn-success mb-3"><i class="fas fa-download"></i> Example Format</a>
-                <button type="button" class="btn mb-3 btn-info btn-import" data-toggle="modal" data-target="#modalImport">
-                    <i class="fas fa-upload"></i> Import
-                </button>
-
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead>
@@ -46,12 +40,7 @@
                                 <td>{{ $user->jabatan }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-success mr-1"><i class="fas fa-edit"></i></a>
-                                        <form action="{{ route('user.destroy', $user->id) }}" method="post" class="form-delete">
-                                            @method('DELETE')
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash"></i></button>
-                                        </form>
+                                        <a href="{{ route('user.status', $user->id) }}" class="btn btn-sm btn-success mr-1" onclick="return confirm('Aktifkan kembali User?')"><i class="fas fa-check"></i></a>
                                     </div>
                                 </td>
                             </tr>

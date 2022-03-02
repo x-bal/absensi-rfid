@@ -19,7 +19,11 @@ class UserController extends Controller
     {
         auth()->user()->can('user-access') ? true : abort(403);
 
-        $users = User::get();
+        if (auth()->user()->id == 1) {
+            $users = User::where('status', 1)->get();
+        } else {
+            $users = User::where('id', '!=', 1)->where('status', 1)->get();
+        }
 
         return view('users.index', compact('users'));
     }
@@ -159,8 +163,8 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
 
-            Storage::delete($user->foto);
-            $user->delete();
+            // Storage::delete($user->foto);
+            $user->update(['status' => 0]);
 
             DB::commit();
 
@@ -189,6 +193,34 @@ class UserController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->route('user.index')->with('error', $th->getMessage());
+        }
+    }
+
+    public function dump()
+    {
+        auth()->user()->can('user-access') ? true : abort(403);
+
+        if (auth()->user()->id == 1) {
+            $users = User::where('status', 0)->get();
+        } else {
+            $users = User::where('id', '!=', 1)->where('status', 0)->get();
+        }
+
+        return view('users.dump', compact('users'));
+    }
+
+    public function status(User $user)
+    {
+        try {
+            DB::beginTransaction();
+
+            $user->update(['status' => 1]);
+
+            DB::commit();
+
+            return back()->with('success', 'User berhasil diaktifkan kembali');
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
         }
     }
 

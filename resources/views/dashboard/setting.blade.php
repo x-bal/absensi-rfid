@@ -66,7 +66,7 @@
                         </div>
                     </div>
 
-                    @if(auth()->user()->hasRole('Super Admin'))
+                    @if(auth()->user()->id == 1)
                     <div class="col-sm-12 col-md-12">
                         <div class="card card-stats card-warning card-round">
                             <div class="card-body">
