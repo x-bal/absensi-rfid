@@ -1,13 +1,12 @@
-@extends('layouts.master', ['title' => 'Data Rfid'])
+@extends('layouts.master', ['title' => 'Data Rfid Baru'])
 
 @section('content')
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">Data Rfid</div>
+            <div class="card-header">Data Rfid Baru</div>
 
             <div class="card-body">
-                <a href="{{ route('rfid.create') }}" class="btn btn-danger mb-3">Tambah Rfid</a>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
@@ -16,7 +15,6 @@
                                 <th>No</th>
                                 <th>Rfid</th>
                                 <th>Device</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
 
@@ -25,15 +23,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $rfid->rfid }}</td>
-                                <td>{{ $rfid->device->nama }}</td>
-                                <td>
-                                    <a href="{{ route('rfid.edit', $rfid->id) }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
-                                    <form action="{{ route('rfid.destroy', $rfid->id) }}" method="post" style="display: inline;" class="form-delete">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                </td>
+                                <td>{{ $rfid->device->nama ?? 'Device tidak ditemukan' }}</td>
                             </tr>
                             @endforeach
                         </tbody>

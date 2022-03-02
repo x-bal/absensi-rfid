@@ -37,6 +37,8 @@ Auth::routes();
 Route::middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
+    Route::post('/profile/update', [DashboardController::class, 'update'])->name('profile.update');
 
     //Route Data Permission
     Route::resource('permission', PermissionController::class);
@@ -45,12 +47,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('role', RoleController::class);
 
     //Route Data Users
-    Route::resource('user', UserController::class);
     Route::post('/user/import', [UserController::class, 'import'])->name('user.import');
+    Route::get('/user/download', [UserController::class, 'download'])->name('user.download');
+    Route::resource('user', UserController::class);
 
     //Route Data Kelas
-    Route::resource('kelas', KelasController::class);
     Route::post('/kelas/import', [KelasController::class, 'import'])->name('kelas.import');
+    Route::get('/kelas/download', [KelasController::class, 'download'])->name('kelas.download');
+    Route::resource('kelas', KelasController::class);
 
     //Route Data Siswa
     Route::resource('siswa', SiswaController::class);
@@ -62,8 +66,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('holiday', HolidayController::class);
 
     //Route Data Device
-    Route::resource('device', DeviceController::class);
     Route::post('/device/{device:id}/change', [DeviceController::class, 'change'])->name('device.change');
+    Route::resource('device', DeviceController::class);
 
     //Route Data Rfid
     Route::resource('rfid', RfidController::class);
@@ -72,18 +76,18 @@ Route::middleware('auth')->group(function () {
     Route::resource('history', HistoryController::class);
 
     //Route Data Absensi
+    Route::get('/absensi/export', [AbsensiController::class, 'export'])->name('absensi.export');
     Route::resource('absensi', AbsensiController::class);
-    Route::get('absensi-masuk', [AbsensiController::class, 'masuk'])->name('absensi.masuk');
-    Route::get('absensi-keluar', [AbsensiController::class, 'keluar'])->name('absensi.keluar');
 
     //Route Data Absensi Staff
+    Route::get('/absensi-staff/export', [AbsensiStaffController::class, 'export'])->name('absensi-staff.export');
     Route::resource('absensi-staff', AbsensiStaffController::class);
-    Route::get('absensi-staff-masuk', [AbsensiStaffController::class, 'masuk'])->name('absensi-staff.masuk');
-    Route::get('absensi-staff-keluar', [AbsensiStaffController::class, 'keluar'])->name('absensi-staff.keluar');
+
+
 
     // Route Setting
-    Route::get('setting', [DashboardController::class, 'setting'])->name('setting');
     Route::post('setting-update-waktu/{id}', [DashboardController::class, 'updateWaktu'])->name('setting.update.waktu');
+    Route::get('setting', [DashboardController::class, 'setting'])->name('setting');
 });
 
 

@@ -30,6 +30,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Id Device</th>
                                 <th>Nama</th>
                                 <th>Mode</th>
                                 <th>Action</th>
@@ -40,17 +41,18 @@
                             @foreach($devices as $device)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $device->id }}</td>
                                 <td>{{ $device->nama }}</td>
                                 <td class="text-center text-light">
                                     <input type="checkbox" class="mode" id="{{ $device->id }}" value="{{ $device->mode == 'SCAN' ? 'ADD' : 'SCAN' }}" {{ $device->mode == 'SCAN' ? 'checked' : '' }}>
                                 </td>
                                 <td>
                                     <a href="{{ route('device.edit', $device->id) }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
-                                    <form action="{{ route('device.destroy', $device->id) }}" method="post" style="display: inline;" class="form-delete">
+                                    <!-- <form action="{{ route('device.destroy', $device->id) }}" method="post" style="display: inline;" class="form-delete">
                                         @method('DELETE')
                                         @csrf
                                         <button type="submit" class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button>
-                                    </form>
+                                    </form> -->
                                 </td>
                             </tr>
                             @endforeach

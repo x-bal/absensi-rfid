@@ -6,6 +6,8 @@ use App\Imports\SiswaImport;
 use App\Models\Kelas;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 
 class KelasController extends Controller
@@ -106,5 +108,10 @@ class KelasController extends Controller
             DB::rollBack();
             return redirect()->route('kelas.index')->with('error', $th->getMessage());
         }
+    }
+
+    public function download()
+    {
+        return Response::download('excel/example-format-siswa.xlsx');
     }
 }

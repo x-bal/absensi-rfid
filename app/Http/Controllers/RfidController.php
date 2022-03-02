@@ -14,16 +14,6 @@ class RfidController extends Controller
         return view('rfid.index', compact('rfids'));
     }
 
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function show($id)
     {
         $rfid = Rfid::where('id', $id)->where('status', 1)->first();
@@ -32,20 +22,5 @@ class RfidController extends Controller
             'status' => 'Success',
             'rfid' => $rfid
         ]);
-    }
-
-    public function edit(Rfid $rfid)
-    {
-        //
-    }
-
-    public function update(Request $request, Rfid $rfid)
-    {
-        //
-    }
-
-    public function destroy(Rfid $rfid)
-    {
-        //
     }
 }

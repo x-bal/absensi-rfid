@@ -16,3 +16,18 @@
     </div>
 </div>
 @stop
+
+@push('script')
+<script>
+    setInterval(function() {
+        $.ajax({
+            method: 'GET',
+            type: 'GET',
+            url: '{{ route("rfid.show", 1) }}',
+            success: function(response) {
+                $("#rfid").val(response.rfid.rfid)
+            }
+        })
+    }, 2000)
+</script>
+@endpush

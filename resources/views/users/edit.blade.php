@@ -20,7 +20,7 @@
 
 @push('script')
 <script>
-    setTimeout(function() {
+    setInterval(function() {
         $.ajax({
             method: 'GET',
             type: 'GET',

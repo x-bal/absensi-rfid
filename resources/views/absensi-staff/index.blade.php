@@ -12,7 +12,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form action="" class="row">
+                <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="mulai">Mulai</label>
@@ -30,10 +30,11 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for=""></label><br>
-                            <button type="submit" class="btn btn-sm btn-danger mt-2">Submit</button>
+                            <button type="submit" class="btn btn-sm btn-danger btn-submit mt-2">Submit</button>
+                            <a href="{{ route('absensi-staff.export') }}" class="btn btn-sm btn-success link mt-2"><i class="fas fa-file-excel"></i> Export</a>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -46,7 +47,7 @@
                 <!-- <a href="{{ route('absensi.create') }}" class="btn btn-primary mb-3">Tambah Absensi</a> -->
 
                 <div class="table-responsive">
-                    <table class="table table-masuk table-bordered table-striped">
+                    <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -55,39 +56,8 @@
                                 <th>Rfid</th>
                                 <th>Nama</th>
                                 <th>Jabatan</th>
-                                <th>Waktu</th>
-                                <th>Ket</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">Data Absensi Staff Keluar Tanggal {{ Carbon\Carbon::now()->format('d/m/Y') }}</div>
-
-            <div class="card-body">
-                <!-- <a href="{{ route('absensi.create') }}" class="btn btn-primary mb-3">Tambah Absensi</a> -->
-
-                <div class="table-responsive">
-                    <table class="table table-keluar table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>No</th>
-                                <th>Device</th>
-                                <th>Rfid</th>
-                                <th>Nama</th>
-                                <th>Jabatan</th>
-                                <th>Waktu</th>
+                                <th>Waktu Masuk</th>
+                                <th>Waktu Keluar</th>
                                 <th>Ket</th>
                                 <th>Action</th>
                             </tr>
@@ -114,118 +84,89 @@
 
 <script>
     $(document).ready(function() {
-        var table = $('.table-masuk').DataTable({
-            processing: true,
-            serverSide: true,
-            orderable: true,
-            searchable: true,
-            ajax: "{{ request('mulai') && request('selesai') ? '/absensi-staff/masuk?mulai='.request('mulai').'&sampai='.request('sampai') : route('absensi-staff.masuk') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
+        function loadData(mulai = '', sampai = '') {
+            var table = $('.table').DataTable({
+                processing: true,
+                serverSide: true,
+                orderable: true,
+                searchable: true,
+                ajax: {
+                    url: "{{ route('absensi-staff.index') }}",
+                    data: {
+                        mulai: mulai,
+                        sampai: sampai,
+                    }
                 },
-                {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'device',
+                        name: 'device'
+                    },
+                    {
+                        data: 'rfid',
+                        name: 'rfid'
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'jabatan',
+                        name: 'jabatan'
+                    },
+                    {
+                        data: 'waktu_masuk',
+                        name: 'waktu_masuk'
+                    },
+                    {
+                        data: 'waktu_keluar',
+                        name: 'waktu_keluar'
+                    },
+                    {
+                        data: 'status_hadir',
+                        name: 'status_hadir'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action'
+                    },
+                ],
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
                 },
-                {
-                    data: 'device',
-                    name: 'device'
-                },
-                {
-                    data: 'rfid',
-                    name: 'rfid'
-                },
-                {
-                    data: 'nama',
-                    name: 'nama'
-                },
-                {
-                    data: 'jabatan',
-                    name: 'jabatan'
-                },
-                {
-                    data: 'waktu',
-                    name: 'waktu'
-                },
-                {
-                    data: 'status_hadir',
-                    name: 'status_hadir'
-                },
-                {
-                    data: 'action',
-                    name: 'action'
-                },
-            ],
-            responsive: {
-                details: {
-                    type: 'column'
-                }
-            },
-            columnDefs: [{
-                className: 'dtr-control',
-                responsivePriority: 1,
-                targets: 0
-            }, ]
-        });
+                columnDefs: [{
+                    className: 'dtr-control',
+                    responsivePriority: 1,
+                    targets: 0
+                }, ]
+            });
 
-        var tableKeluar = $('.table-keluar').DataTable({
-            processing: true,
-            serverSide: true,
-            orderable: true,
-            searchable: true,
-            ajax: "{{ request('mulai') && request('selesai') ? '/absensi-staff/keluar?mulai='.request('mulai').'&sampai='.request('sampai') : route('absensi-staff.keluar') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'device',
-                    name: 'device'
-                },
-                {
-                    data: 'rfid',
-                    name: 'rfid'
-                },
-                {
-                    data: 'nama',
-                    name: 'nama'
-                },
-                {
-                    data: 'jabatan',
-                    name: 'jabatan'
-                },
-                {
-                    data: 'waktu',
-                    name: 'waktu'
-                },
-                {
-                    data: 'status_hadir',
-                    name: 'status_hadir'
-                },
-                {
-                    data: 'action',
-                    name: 'action'
-                },
-            ],
-            responsive: {
-                details: {
-                    type: 'column'
-                }
-            },
-            columnDefs: [{
-                className: 'dtr-control',
-                responsivePriority: 1,
-                targets: 0
-            }, ]
-        });
+            new $.fn.dataTable.FixedHeader(table);
+        }
 
-        new $.fn.dataTable.FixedHeader(table);
-        new $.fn.dataTable.FixedHeader(tableKeluar);
+        loadData()
+
+        $('.btn-submit').click(function() {
+            var mulai = $('#mulai').val();
+            var sampai = $('#sampai').val();
+            console.log(mulai)
+            if (mulai != '' && sampai != '') {
+                $('.table').DataTable().destroy();
+                loadData(mulai, sampai);
+                $(".link").attr('href', '{{ route("absensi-staff.export") }}?mulai=' + mulai + '&sampai=' + sampai)
+            } else {
+                alert('Pilih Tanggal');
+            }
+        });
     });
 </script>
 @endpush

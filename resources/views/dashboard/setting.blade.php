@@ -8,23 +8,38 @@
                 <form action="{{ route('setting.update.waktu', $waktu->id) }}" method="post">
                     @csrf
                     <div class="row justify-content-center">
+                        <div class="col-md-6 text-center">
+                            <label for="waktu_masuk">Waktu Masuk Siswa</label>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <label for="waktu_keluar">Waktu Keluar Siswa</label>
+                        </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="waktu_masuk">Waktu Masuk</label>
-                                <input type="text" name="waktu_masuk" id="waktu_masuk" class="form-control text-center" value="{{ $waktu->waktu_masuk ?? '-' }}">
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_awal_masuk" id="waktu_awal_masuk" class="form-control text-center" value="{{ $masuk[0] ?? '-' }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_akhir_masuk" id="waktu_akhir_masuk" class="form-control text-center" value="{{ $masuk[1] ?? '-' }}">
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="waktu_keluar">Waktu Keluar</label>
-                                <input type="text" name="waktu_keluar" id="waktu_keluar" class="form-control text-center" value="{{ $waktu->waktu_keluar ?? '-' }}">
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_awal_keluar" id="waktu_awal_keluar" class="form-control text-center" value="{{ $keluar[0] ?? '-' }}">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_akhir_keluar" id="waktu_akhir_keluar" class="form-control text-center" value="{{ $keluar[1] ?? '-' }}">
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row justify-content-center">
                         <div class="col-md-2">
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Set Waktu</button>
+                                <button type="submit" class="btn btn-danger">Set Waktu</button>
                             </div>
                         </div>
                     </div>
@@ -51,6 +66,7 @@
                         </div>
                     </div>
 
+                    @if(auth()->user()->hasRole('Super Admin'))
                     <div class="col-sm-12 col-md-12">
                         <div class="card card-stats card-warning card-round">
                             <div class="card-body">
@@ -131,6 +147,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

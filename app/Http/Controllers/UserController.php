@@ -7,6 +7,7 @@ use App\Models\Rfid;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
@@ -189,5 +190,10 @@ class UserController extends Controller
             DB::rollBack();
             return redirect()->route('user.index')->with('error', $th->getMessage());
         }
+    }
+
+    public function download()
+    {
+        return Response::download('excel/example-format-staff.xlsx');
     }
 }

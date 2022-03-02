@@ -8,6 +8,7 @@
 
             <div class="card-body">
                 <a href="{{ route('kelas.create') }}" class="btn btn-danger mb-3">Tambah Kelas</a>
+                <a href="{{ route('kelas.download') }}" class="btn btn-success mb-3"><i class="fas fa-download"></i> Example Format</a>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">

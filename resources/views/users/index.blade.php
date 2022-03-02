@@ -8,6 +8,7 @@
 
             <div class="card-body">
                 <a href="{{ route('user.create') }}" class="btn btn-danger mb-3">Tambah User</a>
+                <a href="{{ route('user.download') }}" class="btn btn-success mb-3"><i class="fas fa-download"></i> Example Format</a>
                 <button type="button" class="btn mb-3 btn-info btn-import" data-toggle="modal" data-target="#modalImport">
                     <i class="fas fa-upload"></i> Import
                 </button>

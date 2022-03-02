@@ -1,16 +1,16 @@
-@extends('layouts.master', ['title' => 'Edit Kelas'])
+@extends('layouts.master', ['title' => 'Edit Absensi Siswa'])
 
 @section('content')
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">Edit Kelas</div>
+            <div class="card-header">Edit Absensi Siswa</div>
 
             <div class="card-body">
-                <form action="{{ route('kelas.update', $kela->id) }}" method="post">
+                <form action="{{ route('absensi.update', $absensi->id) }}" method="post">
                     @method('PATCH')
                     @csrf
-                    @include('kelas.form')
+                    @include('absensi.form')
                 </form>
             </div>
         </div>

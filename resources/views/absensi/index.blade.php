@@ -12,39 +12,52 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                <form action="" class="row">
-                    <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="mulai">Mulai</label>
                             <input type="date" name="mulai" id="mulai" class="form-control" value="{{ request('mulai') }}">
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="sampai">Sampai</label>
                             <input type="date" name="sampai" id="sampai" class="form-control" value="{{ request('sampai') }}">
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label for=""></label><br>
-                            <button type="submit" class="btn btn-sm btn-danger mt-2">Submit</button>
+                            <label for="kelas">Kelas</label>
+                            <select name="kelas" id="kelas" class="form-control">
+                                <option value="all">All</option>
+                                @foreach($kelas as $kls)
+                                <option {{ request('kelas') == $kls->id ? 'selected' : '' }} value="{{ $kls->id }}">{{ $kls->nama }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
-                </form>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for=""></label><br>
+                            <button type="submit" class="btn btn-sm btn-danger mt-2 btn-submit">Submit</button>
+                            <a href="{{ route('absensi.export') }}" class="btn btn-sm btn-success link mt-2"><i class="fas fa-file-excel"></i> Export</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">Data Absensi Siswa Masuk Tanggal {{ Carbon\Carbon::now()->format('d/m/Y') }}</div>
+            <div class="card-header">Data Absensi Siswa Tanggal {{ Carbon\Carbon::now()->format('d/m/Y') }}</div>
 
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-masuk table-bordered table-striped" width="100%">
+                    <table class="table table-bordered table-striped" width="100%">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -53,7 +66,8 @@
                                 <th>Rfid</th>
                                 <th>Nama</th>
                                 <th>Kelas</th>
-                                <th>Waktu</th>
+                                <th>Waktu Masuk</th>
+                                <th>Waktu Keluar</th>
                                 <th>Keterangan</th>
                                 <th>Action</th>
                             </tr>
@@ -64,58 +78,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">Data Absensi Siswa Keluar Tanggal {{ Carbon\Carbon::now()->format('d/m/Y') }}</div>
-
-            <div class="card-body">
-                <!-- <a href="{{ route('absensi.create') }}" class="btn btn-primary mb-3">Tambah Absensi</a> -->
-                <div class="table-responvie">
-                    <table class="table table-keluar table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>No</th>
-                                <th>Device</th>
-                                <th>Rfid</th>
-                                <th>Nama</th>
-                                <th>Kelas</th>
-                                <th>Waktu</th>
-                                <th>Keterangan</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -132,118 +94,91 @@
 
 <script>
     $(document).ready(function() {
-        var table = $('.table-masuk').DataTable({
-            processing: true,
-            serverSide: true,
-            orderable: true,
-            searchable: true,
-            ajax: "{{ request('mulai') && request('selesai') ? '/absensi/masuk?mulai='.request('mulai').'&sampai='.request('sampai') : route('absensi.masuk') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
+        function loadData(mulai = '', sampai = '', kelas = '') {
+            var table = $('.table').DataTable({
+                processing: true,
+                serverSide: true,
+                orderable: true,
+                searchable: true,
+                ajax: {
+                    url: "{{ route('absensi.index') }}",
+                    data: {
+                        mulai: mulai,
+                        sampai: sampai,
+                        kelas: kelas,
+                    }
                 },
-                {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'device',
+                        name: 'device'
+                    },
+                    {
+                        data: 'rfid',
+                        name: 'rfid'
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'kelas',
+                        name: 'kelas'
+                    },
+                    {
+                        data: 'waktu_masuk',
+                        name: 'waktu_masuk'
+                    },
+                    {
+                        data: 'waktu_keluar',
+                        name: 'waktu_keluar'
+                    },
+                    {
+                        data: 'status_hadir',
+                        name: 'status_hadir'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action'
+                    },
+                ],
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
                 },
-                {
-                    data: 'device',
-                    name: 'device'
-                },
-                {
-                    data: 'rfid',
-                    name: 'rfid'
-                },
-                {
-                    data: 'nama',
-                    name: 'nama'
-                },
-                {
-                    data: 'kelas',
-                    name: 'kelas'
-                },
-                {
-                    data: 'waktu',
-                    name: 'waktu'
-                },
-                {
-                    data: 'status_hadir',
-                    name: 'status_hadir'
-                },
-                {
-                    data: 'action',
-                    name: 'action'
-                },
-            ],
-            responsive: {
-                details: {
-                    type: 'column'
-                }
-            },
-            columnDefs: [{
-                className: 'dtr-control',
-                responsivePriority: 1,
-                targets: 0
-            }, ]
-        });
+                columnDefs: [{
+                    className: 'dtr-control',
+                    responsivePriority: 1,
+                    targets: 0
+                }, ]
+            });
 
-        var tableKeluar = $('.table-keluar').DataTable({
-            processing: true,
-            serverSide: true,
-            orderable: true,
-            searchable: true,
-            ajax: "{{ request('mulai') && request('selesai') ? '/absensi/keluar?mulai='.request('mulai').'&sampai='.request('sampai') : route('absensi.keluar') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'device',
-                    name: 'device'
-                },
-                {
-                    data: 'rfid',
-                    name: 'rfid'
-                },
-                {
-                    data: 'nama',
-                    name: 'nama'
-                },
-                {
-                    data: 'kelas',
-                    name: 'kelas'
-                },
-                {
-                    data: 'waktu',
-                    name: 'waktu'
-                },
-                {
-                    data: 'status_hadir',
-                    name: 'status_hadir'
-                },
-                {
-                    data: 'action',
-                    name: 'action'
-                },
-            ],
-            responsive: {
-                details: {
-                    type: 'column'
-                }
-            },
-            columnDefs: [{
-                className: 'dtr-control',
-                responsivePriority: 1,
-                targets: 0
-            }, ]
-        });
+            new $.fn.dataTable.FixedHeader(table);
+        }
 
-        new $.fn.dataTable.FixedHeader(table);
-        new $.fn.dataTable.FixedHeader(tableKeluar);
+        loadData()
+
+        $('.btn-submit').click(function() {
+            var mulai = $('#mulai').val();
+            var sampai = $('#sampai').val();
+            var kelas = $('#kelas').val();
+            console.log(mulai)
+            if (mulai != '' && sampai != '' || kelas != '') {
+                $('.table').DataTable().destroy();
+                loadData(mulai, sampai, kelas);
+                $(".link").attr('href', '{{ route("absensi.export") }}?mulai=' + mulai + '&sampai=' + sampai + '&kelas=' + kelas)
+            } else {
+                alert('Pilih Tanggal');
+            }
+        });
     });
 </script>
 @endpush

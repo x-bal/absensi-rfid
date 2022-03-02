@@ -91,11 +91,7 @@
                                     </li>
                                     <li>
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">My Profile</a>
-                                        <a class="dropdown-item" href="#">My Balance</a>
-                                        <a class="dropdown-item" href="#">Inbox</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Account Setting</a>
+                                        <a class="dropdown-item" href="{{ route('profile') }}">My Profile</a>
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -136,18 +132,8 @@
                             <div class="collapse in" id="collapseExample">
                                 <ul class="nav">
                                     <li>
-                                        <a href="#profile">
+                                        <a href="{{ route('profile') }}">
                                             <span class="link-collapse">My Profile</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#edit">
-                                            <span class="link-collapse">Edit Profile</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#settings">
-                                            <span class="link-collapse">Settings</span>
                                         </a>
                                     </li>
                                 </ul>
