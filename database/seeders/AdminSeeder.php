@@ -59,6 +59,11 @@ class AdminSeeder extends Seeder
             'guard_name' => 'web'
         ]);
 
+        Role::create([
+            'name' => 'Staff',
+            'guard_name' => 'web'
+        ]);
+
         $superAdmin->syncPermissions($perm);
         $user->assignRole('Super Admin');
 
@@ -71,8 +76,30 @@ class AdminSeeder extends Seeder
             'waktu_keluar' => '15:00 - 16:00',
         ]);
 
+        WaktuOperasional::create([
+            'waktu_masuk' => '05:15 - 06:20',
+            'waktu_keluar' => '17:00 - 18:00',
+        ]);
+
+        WaktuOperasional::create([
+            'waktu_masuk' => '08:00 - 09:00',
+            'waktu_keluar' => '15:00 - 17:00',
+        ]);
+
         Device::create([
-            'nama' => 'Absensi'
+            'nama' => 'Device Siswa 1'
+        ]);
+
+        Device::create([
+            'nama' => 'Device Siswa 2'
+        ]);
+
+        Device::create([
+            'nama' => 'Device Gedung G'
+        ]);
+
+        Device::create([
+            'nama' => 'Device Gedung A'
         ]);
 
         Rfid::create([

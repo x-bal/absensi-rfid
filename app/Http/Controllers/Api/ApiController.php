@@ -339,66 +339,62 @@ class ApiController extends Controller
 
                             $jadwal = Jadwal::where('user_id', $rfid->id)->first();
                             $now = Carbon::now()->format('l');
+                            $weekday = WaktuOperasional::find(2);
+                            $saturday = WaktuOperasional::find(3);
 
                             if ($jadwal) {
 
                                 if ($now == 'Monday') {
-                                    if ($jadwal->monday == '00:00 - 00:00') {
+                                    if ($jadwal->monday == 0) {
                                         $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
                                         echo json_encode($notif);
                                     } else {
-                                        $waktu = explode(' - ', $jadwal->monday);
-                                        $this->absenStaff($waktu, $rfid, $device);
+                                        $this->absenStaff($weekday, $rfid, $device);
                                     }
                                 }
 
                                 if ($now == 'Tuesday') {
-                                    if ($jadwal->tuesday == '00:00 - 00:00') {
+                                    if ($jadwal->tuesday == 0) {
                                         $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
                                         echo json_encode($notif);
                                     } else {
-                                        $waktu = explode(' - ', $jadwal->tuesday);
-                                        $this->absenStaff($waktu, $rfid, $device);
+                                        $this->absenStaff($weekday, $rfid, $device);
                                     }
                                 }
 
                                 if ($now == 'Wednesday') {
-                                    if ($jadwal->wednesday == '00:00 - 00:00') {
+                                    if ($jadwal->wednesday == 0) {
                                         $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
                                         echo json_encode($notif);
                                     } else {
-                                        $waktu = explode(' - ', $jadwal->wednesday);
-                                        $this->absenStaff($waktu, $rfid, $device);
+                                        $this->absenStaff($weekday, $rfid, $device);
                                     }
                                 }
 
                                 if ($now == 'Thursday') {
-                                    if ($jadwal->thursday == '00:00 - 00:00') {
+                                    if ($jadwal->thursday == 0) {
                                         $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
                                         echo json_encode($notif);
                                     } else {
-                                        $waktu = explode(' - ', $jadwal->thursday);
-                                        $this->absenStaff($waktu, $rfid, $device);
+                                        $this->absenStaff($weekday, $rfid, $device);
                                     }
                                 }
 
                                 if ($now == 'Friday') {
-                                    if ($jadwal->friday == '00:00 - 00:00') {
+                                    if ($jadwal->friday == 0) {
                                         $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
                                         echo json_encode($notif);
                                     } else {
-                                        $waktu = explode(' - ', $jadwal->friday);
-                                        $this->absenStaff($waktu, $rfid, $device);
+                                        $this->absenStaff($weekday, $rfid, $device);
                                     }
                                 }
 
                                 if ($now == 'Saturday') {
-                                    if ($jadwal->saturday == '00:00 - 00:00') {
+                                    if ($jadwal->saturday == 0) {
                                         $notif = array('status' => 'failed', 'ket' => 'Tidak Ada Jadwal Hari Ini');
                                         echo json_encode($notif);
                                     } else {
-                                        $waktu = explode(' - ', $jadwal->saturday);
-                                        $this->absenStaff($waktu, $rfid, $device);
+                                        $this->absenStaff($saturday, $rfid, $device);
                                     }
                                 }
                             } else {
@@ -426,10 +422,13 @@ class ApiController extends Controller
 
     public function absenStaff($waktu, $rfid, $device)
     {
-        $startMasuk = Carbon::parse($waktu[0])->subMinute(10)->format('His');
-        $endMasuk = Carbon::parse($waktu[1])->format('His');
-        $startKeluar = Carbon::parse($waktu[1])->format('His');
-        $endKeluar = Carbon::parse($waktu[1])->addMinute(10)->format('His');
+        $masuk = explode(' - ', $waktu->waktu_masuk);
+        $keluar = explode(' - ', $waktu->waktu_keluar);
+
+        $startMasuk = Carbon::parse($masuk[0])->subMinute(10)->format('His');
+        $endMasuk = Carbon::parse($masuk[1])->format('His');
+        $startKeluar = Carbon::parse($keluar[1])->format('His');
+        $endKeluar = Carbon::parse($keluar[1])->format('His');
 
         $absen = false;
         $today = Carbon::now()->format('His');

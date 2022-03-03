@@ -46,7 +46,7 @@ class User extends Authenticatable
 
     public function jadwal()
     {
-        return $this->hasOne(Jadwal::class);
+        return $this->hasOne(Jadwal::class, 'user_id');
     }
 
     public function absensiStaff()

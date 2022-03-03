@@ -44,10 +44,10 @@ class PermissionController extends Controller
             ]);
             DB::commit();
 
-            return redirect()->route('permission.index')->with('success', 'Permission berhasil ditambahkan');
+            return back()->with('success', 'Permission berhasil ditambahkan');
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->route('permission.index')->with('error', $th->getMessage());
+            return back()->with('error', $th->getMessage());
         }
     }
 

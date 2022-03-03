@@ -15,6 +15,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama</th>
+                                <th>Jabatan</th>
                                 <th>Mon</th>
                                 <th>Tue</th>
                                 <th>Wed</th>
@@ -30,19 +31,34 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $jdl->staff->nama }}</td>
-                                <td>{{ $jdl->monday }}</td>
-                                <td>{{ $jdl->tuesday }}</td>
-                                <td>{{ $jdl->wednesday }}</td>
-                                <td>{{ $jdl->thursday }}</td>
-                                <td>{{ $jdl->friday }}</td>
-                                <td>{{ $jdl->saturday }}</td>
+                                <td>{{ $jdl->staff->jabatan }}</td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="day" id="{{ $jdl->id }}" data-day="monday" {{ $jdl->monday == 1 ? 'checked' : '' }}>
+                                </td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="day" id="{{ $jdl->id }}" data-day="tuesday" {{ $jdl->tuesday == 1 ? 'checked' : '' }}>
+                                </td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="day" id="{{ $jdl->id }}" data-day="wednesday" {{ $jdl->wednesday == 1 ? 'checked' : '' }}>
+                                </td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="day" id="{{ $jdl->id }}" data-day="thursday" {{ $jdl->thursday == 1 ? 'checked' : '' }}>
+                                </td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="day" id="{{ $jdl->id }}" data-day="friday" {{ $jdl->friday == 1 ? 'checked' : '' }}>
+                                </td>
+                                <td class="text-center">
+                                    <input type="checkbox" class="day" id="{{ $jdl->id }}" data-day="saturday" {{ $jdl->saturday == 1 ? 'checked' : '' }}>
+                                </td>
                                 <td>
-                                    <a href="{{ route('jadwal.edit', $jdl->id) }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
-                                    <form action="{{ route('jadwal.destroy', $jdl->id) }}" method="post" style="display: inline;" class="form-delete">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button>
-                                    </form>
+                                    <div class="d-flex">
+                                        <a href="{{ route('jadwal.edit', $jdl->id) }}" class="btn btn-sm btn-success mr-1"><i class="fas fa-edit"></i></a>
+                                        <form action="{{ route('jadwal.destroy', $jdl->id) }}" method="post" style="display: inline;" class="form-delete">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -57,6 +73,36 @@
 
 @push('script')
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     $(".table").DataTable()
+
+    $(".day").on('click', function() {
+        let id = $(this).attr('id')
+        let day = $(this).attr('data-day')
+        console.log(day)
+        $.ajax({
+            url: '{{ route("jadwal.set") }}',
+            type: 'GET',
+            data: {
+                id: id,
+                day: day
+            },
+            success: function(response) {
+                swal("Selamat!", response.message, {
+                    icon: "success",
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-success'
+                        }
+                    },
+                });
+            },
+        })
+    })
 </script>
 @endpush

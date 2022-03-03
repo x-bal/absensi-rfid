@@ -9,6 +9,7 @@ class Kernel extends ConsoleKernel
 {
     protected $commands = [
         Commands\HolidayCommand::class,
+        Commands\AbsensiMasukCommand::class,
     ];
     /**
      * Define the application's command schedule.
@@ -18,7 +19,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('cron:holiday')->everyMinute();
+        // $schedule->command('cron:holiday')->everyMinute();
+        $schedule->command('cron:masuk')->everyMinute();
     }
 
     /**

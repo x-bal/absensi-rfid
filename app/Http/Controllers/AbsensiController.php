@@ -18,9 +18,9 @@ class AbsensiController extends Controller
 
         if (request()->ajax()) {
             if (request('kelas') == 'all' || request('kelas') == '') {
-                $data = Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->get();
+                $data = Absensi::where('created_at', '>=', Carbon::now('Asia/Jakarta')->format('Y-m-d 00:00:00'))->get();
             } else {
-                $data = Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->whereHas('siswa', function ($query) {
+                $data = Absensi::where('created_at', '>=', Carbon::now('Asia/Jakarta')->format('Y-m-d 00:00:00'))->whereHas('siswa', function ($query) {
                     return $query->where('kelas_id', request('kelas'));
                 })->get();
 
@@ -47,10 +47,10 @@ class AbsensiController extends Controller
                     return $row->siswa->kelas->nama;
                 })
                 ->editColumn('waktu_masuk', function ($row) {
-                    return Carbon::parse($row->waktu_masuk)->format('d/m/Y H:i:s');
+                    return Carbon::parse($row->waktu_masuk)->format('d/m/Y H:i:s') ?? '-';
                 })
                 ->editColumn('waktu_keluar', function ($row) {
-                    return Carbon::parse($row->waktu_keluar)->format('d/m/Y H:i:s');
+                    return Carbon::parse($row->waktu_keluar)->format('d/m/Y H:i:s') ?? '-';
                 })
                 ->editColumn('action', function ($row) {
                     if ($row->edited_by == 0) {
@@ -90,11 +90,18 @@ class AbsensiController extends Controller
 
     public function edit(Absensi $absensi)
     {
-        if ($absensi->edited_by == 0) {
+        if (auth()->user()->hasRole('Super Admin', 'Admin')) {
             $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa'];
             return view('absensi.edit', compact('absensi', 'status'));
-        } else {
-            return back();
+        }
+
+        if (auth()->user()->hasRole('Guru')) {
+            if ($absensi->edited_by == 0) {
+                $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa'];
+                return view('absensi.edit', compact('absensi', 'status'));
+            } else {
+                return back();
+            }
         }
     }
 
@@ -106,6 +113,8 @@ class AbsensiController extends Controller
             DB::beginTransaction();
 
             $absensi->update([
+                'masuk' => 1,
+                'keluar' => 1,
                 'status_hadir' => $request->status_hadir,
                 'edited_by' => auth()->user()->id
             ]);

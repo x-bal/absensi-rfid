@@ -34,7 +34,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'isLogin'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/download', [UserController::class, 'download'])->name('user.download');
     Route::get('/dump/user', [UserController::class, 'dump'])->name('user.dump');
     Route::get('/user/{user:id}/status', [UserController::class, 'status'])->name('user.status');
+    Route::get('/user/islogin', [UserController::class, 'islogin'])->name('user.islogin');
     Route::resource('user', UserController::class);
 
     //Route Data Kelas
@@ -62,6 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('siswa', SiswaController::class);
 
     //Route Data Jadwal
+    Route::get('/jadwal/set', [JadwalController::class, 'set'])->name('jadwal.set');
     Route::resource('jadwal', JadwalController::class);
 
     //Route Data Holiday

@@ -20,9 +20,9 @@ class UserController extends Controller
         auth()->user()->can('user-access') ? true : abort(403);
 
         if (auth()->user()->id == 1) {
-            $users = User::where('status', 1)->get();
+            $users = User::where('is_active', 1)->get();
         } else {
-            $users = User::where('id', '!=', 1)->where('status', 1)->get();
+            $users = User::where('id', '!=', 1)->where('is_active', 1)->get();
         }
 
         return view('users.index', compact('users'));
@@ -164,7 +164,7 @@ class UserController extends Controller
             DB::beginTransaction();
 
             // Storage::delete($user->foto);
-            $user->update(['status' => 0]);
+            $user->update(['is_active' => 0, 'is_login' => 0]);
 
             DB::commit();
 
@@ -201,9 +201,9 @@ class UserController extends Controller
         auth()->user()->can('user-access') ? true : abort(403);
 
         if (auth()->user()->id == 1) {
-            $users = User::where('status', 0)->get();
+            $users = User::where('is_active', 0)->get();
         } else {
-            $users = User::where('id', '!=', 1)->where('status', 0)->get();
+            $users = User::where('id', '!=', 1)->where('is_active', 0)->get();
         }
 
         return view('users.dump', compact('users'));
@@ -214,13 +214,35 @@ class UserController extends Controller
         try {
             DB::beginTransaction();
 
-            $user->update(['status' => 1]);
+            $user->update(['is_login' => 1, 'is_active' => 1]);
 
             DB::commit();
 
             return back()->with('success', 'User berhasil diaktifkan kembali');
         } catch (\Throwable $th) {
             return back()->with('error', $th->getMessage());
+        }
+    }
+
+    public function islogin()
+    {
+        try {
+            DB::beginTransaction();
+            $user = User::find(request('id'));
+
+            $user->update([
+                'is_login' => $user->is_login == 1 ? 0 : 1
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Access login user berhasil diupdate'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => $th->getMessage()
+            ]);
         }
     }
 

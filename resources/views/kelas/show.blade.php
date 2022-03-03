@@ -7,12 +7,42 @@
             <div class="card-header">Data Siswa Kelas {{ $kela->nama }}</div>
 
             <div class="card-body">
-                <a href="{{ route('kelas.index') }}" class="btn btn-secondary mb-3"><i class="fas fa-arrow-left"></i> Kembali</a>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <form action="" method="post">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <select name="kelas" id="kelas" class="form-control">
+                                            <option disabled selected>-- Naik ke Kelas --</option>
+                                            @foreach($kelas as $kls)
+                                            <option {{ $kls->id == $kela->id ? 'selected': '' }} value="{{ $kls->id }}">{{ $kls->nama }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
 
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-danger">Submit</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <a href="{{ route('kelas.index') }}" class="btn btn-secondary float-right"><i class="fas fa-arrow-left"></i> Kembali</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
+                                <th class="text-center">
+                                    <input class="form-check-input" type="checkbox" id="check-all">
+                                </th>
                                 <th>No</th>
                                 <th>Device</th>
                                 <th>Rfid</th>
@@ -25,6 +55,9 @@
                         <tbody>
                             @foreach($kela->siswa as $siswa)
                             <tr>
+                                <td class="text-center">
+                                    <input type="checkbox" class="form-check-input check" data-id="{{ $siswa->id }}">
+                                </td>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $siswa->device->nama ?? '' }}</td>
                                 <td>{{ $siswa->rfid }}</td>
@@ -49,38 +82,27 @@
         </div>
     </div>
 </div>
-
-<!-- Modal import -->
-<div class="modal fade" id="modalImport" tabindex="-1" aria-labelledby="modalImportLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalImportLabel">Import Data Siswa</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="{{ route('kelas.import') }}" method="post" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-body">
-                    <input type="hidden" class="kelas_id" name="kelas_id" value="">
-                    <div class="form-gruop">
-                        <label for="file">File Excel</label>
-                        <input type="file" name="file" id="file" class="form-control">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 @stop
 
 @push('script')
 <script>
+    $("#check-all").click(function() {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+        var data = '{{ json_encode($kela->siswa) }}';
+        console.log(data)
+
+        var ischecked = $(this).is(':checked');
+        if (ischecked == true) {
+            $.each(JSON.parse(data), function(index, item) {
+                $('form').append('<input type="hidden" name="id[]" id="id' + item.id + '" value="' + item.id + '"/>');
+            });
+        } else {
+            $.each(JSON.parse(data), function(index, item) {
+                $('#id' + item.id).remove();
+            });
+        }
+    });
+
     $(".table").DataTable();
 
     $(".btn-import").on('click', function() {

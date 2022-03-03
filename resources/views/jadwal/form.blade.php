@@ -14,8 +14,12 @@
 
 <div class="form-group row">
     <div class="col-md-6">
-        <label for="monday">Monday</label>
-        <input type="text" name="monday" id="monday" class="form-control" placeholder="00:00 - 00:00" value="{{ $jadwal->monday ?? '00:00 - 00:00' }}">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" value="1" name="monday" {{ $jadwal->monday == 1 ? 'checked' : '' }}>
+                <span class="form-check-sign">Monday</span>
+            </label>
+        </div>
 
         @error('monday')
         <small class="text-danger">{{ $message }}</small>
@@ -23,8 +27,12 @@
     </div>
 
     <div class="col-md-6">
-        <label for="tuesday">Tuesday</label>
-        <input type="text" name="tuesday" id="tuesday" class="form-control" placeholder="00:00 - 00:00" value="{{ $jadwal->tuesday ?? '00:00 - 00:00' }}">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" value="1" name="tuesday" {{ $jadwal->tuesday == 1 ? 'checked' : '' }}>
+                <span class="form-check-sign">Tuesday</span>
+            </label>
+        </div>
 
         @error('tuesday')
         <small class="text-danger">{{ $message }}</small>
@@ -34,8 +42,12 @@
 
 <div class="form-group row">
     <div class="col-md-6">
-        <label for="wednesday">Wednesday</label>
-        <input type="text" name="wednesday" id="wednesday" class="form-control" placeholder="00:00 - 00:00" value="{{ $jadwal->wednesday ?? '00:00 - 00:00' }}">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" value="1" name="wednesday" {{ $jadwal->wednesday == 1 ? 'checked' : '' }}>
+                <span class="form-check-sign">Wednesday</span>
+            </label>
+        </div>
 
         @error('wednesday')
         <small class="text-danger">{{ $message }}</small>
@@ -43,8 +55,12 @@
     </div>
 
     <div class="col-md-6">
-        <label for="thursday">Thursday</label>
-        <input type="text" name="thursday" id="thursday" class="form-control" placeholder="00:00 - 00:00" value="{{ $jadwal->thursday ?? '00:00 - 00:00' }}">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" value="1" name="thursday" {{ $jadwal->thursday == 1 ? 'checked' : '' }}>
+                <span class="form-check-sign">Thursday</span>
+            </label>
+        </div>
 
         @error('thursday')
         <small class="text-danger">{{ $message }}</small>
@@ -54,8 +70,12 @@
 
 <div class="form-group row">
     <div class="col-md-6">
-        <label for="friday">Friday</label>
-        <input type="text" name="friday" id="friday" class="form-control" placeholder="00:00 - 00:00" value="{{ $jadwal->friday ?? '00:00 - 00:00' }}">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" value="1" name="friday" {{ $jadwal->friday == 1 ? 'checked' : '' }}>
+                <span class="form-check-sign">Friday</span>
+            </label>
+        </div>
 
         @error('friday')
         <small class="text-danger">{{ $message }}</small>
@@ -63,8 +83,12 @@
     </div>
 
     <div class="col-md-6">
-        <label for="saturday">Saturday</label>
-        <input type="text" name="saturday" id="saturday" class="form-control" placeholder="00:00 - 00:00" value="{{ $jadwal->saturday ?? '00:00 - 00:00' }}">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" value="1" name="saturday" {{ $jadwal->saturday == 1 ? 'checked' : '' }}>
+                <span class="form-check-sign">Saturday</span>
+            </label>
+        </div>
 
         @error('saturday')
         <small class="text-danger">{{ $message }}</small>

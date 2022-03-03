@@ -23,7 +23,6 @@
                                 <th>#</th>
                                 <th>No</th>
                                 <th>Foto</th>
-                                <th>Device</th>
                                 <th>RFID</th>
                                 <th>Nisn</th>
                                 <th>Nama</th>
@@ -72,10 +71,6 @@
                 {
                     data: 'foto',
                     name: 'foto'
-                },
-                {
-                    data: 'device',
-                    name: 'device'
                 },
                 {
                     data: 'rfid',

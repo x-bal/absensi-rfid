@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\Jadwal;
 use App\Models\User;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -15,7 +16,7 @@ class StaffImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        $user = new User([
+        $user = User::create([
             'nama' => $row['nama'],
             'username' => $row['westin'],
             'nik' => $row['westin'],
@@ -23,6 +24,18 @@ class StaffImport implements ToModel, WithHeadingRow
             'jabatan' => $row['jabatan']
         ]);
 
-        return $user->assignRole('Guru');
+        if ($user->jabatan == 'Guru') {
+            $user->assignRole('Guru');
+        }
+
+        if ($user->jabatan == 'Koordinator') {
+            $user->assignRole('Admin');
+        }
+
+        if ($user->jabatan != 'Guru' || $user->jabatan != 'Koordinator') {
+            $user->assignRole('Staff');
+        }
+
+        return Jadwal::create(['user_id' => $user->id]);
     }
 }

@@ -149,6 +149,7 @@
                             </a>
                         </li>
 
+                        @if(auth()->user()->hasRole(['Super Admin', 'Admin']))
                         <li class="nav-item {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') || request()->is('holiday*') ? 'active submenu' : '' }}">
                             <a data-toggle="collapse" href="#master">
                                 <i class="fas fa-th"></i>
@@ -192,7 +193,9 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
 
+                        @if(auth()->user()->hasRole(['Super Admin', 'Admin']))
                         <li class="nav-item {{ request()->is('device*') || request()->is('rfid*') || request()->is('history*') ? 'active submenu' : '' }}">
                             <a data-toggle="collapse" href="#alat">
                                 <i class="fas fa-cogs"></i>
@@ -219,6 +222,7 @@
                                 </ul>
                             </div>
                         </li>
+                        @endif
 
                         <li class="nav-item {{ request()->is('absensi*') || request()->is('absensi-staff*') ? 'submenu active' : '' }}">
                             <a data-toggle="collapse" href="#absensi">
@@ -233,11 +237,13 @@
                                             <span class="sub-item"><i style="color: {{ request()->is('absensi*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-id-badge"></i> Absensi Siswa</span>
                                         </a>
                                     </li>
+                                    @if(auth()->user()->hasRole(['Super Admin']))
                                     <li class="{{ request()->is('absensi-staff*') ? 'active' : '' }}">
                                         <a href="{{ route('absensi-staff.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('absensi-staff*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-clipboard-list"></i> Absensi Staff</span>
                                         </a>
                                     </li>
+                                    @endif
                                 </ul>
                             </div>
                         </li>
@@ -266,12 +272,14 @@
                         </li>
                         @endif
 
+                        @if(auth()->user()->hasRole(['Super Admin', 'Admin']))
                         <li class="nav-item {{ request()->is('setting*') ? 'active' : '' }}">
                             <a href="/setting">
                                 <i class="fas fa-cog"></i>
                                 <p>Setting</p>
                             </a>
                         </li>
+                        @endif
                     </ul>
                 </div>
             </div>

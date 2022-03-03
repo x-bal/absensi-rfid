@@ -109,4 +109,28 @@ class JadwalController extends Controller
             return redirect()->route('jadwal.index')->with('error', $th->getMessage());
         }
     }
+
+    public function set()
+    {
+        try {
+            DB::beginTransaction();
+            $jadwal = Jadwal::find(request('id'));
+            $day = request('day');
+            $jadwal->update([
+                $day => $jadwal->$day == 1 ? 0 : 1
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Jadwal berhasil diupdate'
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => 500,
+                'message' => $th->getMessage()
+            ], 500);
+        }
+    }
 }

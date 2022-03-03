@@ -46,7 +46,9 @@ class KelasController extends Controller
 
     public function show(Kelas $kela)
     {
-        return view('kelas.show', compact('kela'));
+        $kelas = Kelas::get();
+
+        return view('kelas.show', compact('kela', 'kelas'));
     }
 
     public function edit(Kelas $kela)

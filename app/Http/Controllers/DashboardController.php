@@ -8,13 +8,15 @@ use App\Models\WaktuOperasional;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->status == 0) {
+        if (auth()->user()->is_login == 0) {
             Auth::logout();
             return redirect('/');
         }
@@ -23,12 +25,20 @@ class DashboardController extends Controller
 
     public function setting()
     {
-        $waktu = WaktuOperasional::find(1);
         $secretKey = SecretKey::find(1);
+
+        $waktu = WaktuOperasional::find(1);
+        $weekday = WaktuOperasional::find(2);
+        $saturday = WaktuOperasional::find(3);
+
         $masuk = explode(' - ', $waktu->waktu_masuk);
         $keluar = explode(' - ', $waktu->waktu_keluar);
+        $masukWeekday = explode(' - ', $weekday->waktu_masuk);
+        $keluarWeekday = explode(' - ', $weekday->waktu_keluar);
+        $masukSat = explode(' - ', $saturday->waktu_masuk);
+        $keluarSat = explode(' - ', $saturday->waktu_keluar);
 
-        return view('dashboard.setting', compact('waktu', 'masuk', 'keluar', 'secretKey'));
+        return view('dashboard.setting', compact('waktu', 'masuk', 'keluar', 'masukWeekday', 'keluarWeekday', 'masukSat', 'keluarSat', 'secretKey'));
     }
 
     public function updateWaktu(Request $request, $id)
@@ -39,10 +49,19 @@ class DashboardController extends Controller
             'waktu_akhir_masuk' => 'required',
             'waktu_awal_keluar' => 'required',
             'waktu_akhir_keluar' => 'required',
+            'waktu_awal_masuk_week' => 'required',
+            'waktu_akhir_masuk_week' => 'required',
+            'waktu_awal_keluar_week' => 'required',
+            'waktu_akhir_keluar_week' => 'required',
+            'waktu_awal_masuk_sat' => 'required',
+            'waktu_akhir_masuk_sat' => 'required',
+            'waktu_awal_keluar_sat' => 'required',
+            'waktu_akhir_keluar_sat' => 'required',
         ]);
 
         try {
             DB::beginTransaction();
+            // Waktu Masuk Siswa
             $waktuOperasional = WaktuOperasional::find($id);
 
             $masuk = $request->waktu_awal_masuk . ' - ' . $request->waktu_akhir_masuk;
@@ -51,6 +70,28 @@ class DashboardController extends Controller
             $waktuOperasional->update([
                 'waktu_masuk' => $masuk,
                 'waktu_keluar' => $keluar,
+            ]);
+
+            // Waktu Masuk Staff (Mon - Fri)
+            $weekday = WaktuOperasional::find(2);
+
+            $masukWeek = $request->waktu_awal_masuk_week . ' - ' . $request->waktu_akhir_masuk_week;
+            $keluarWeek = $request->waktu_awal_keluar_week . ' - ' . $request->waktu_akhir_keluar_week;
+
+            $weekday->update([
+                'waktu_masuk' => $masukWeek,
+                'waktu_keluar' => $keluarWeek,
+            ]);
+
+            // Waktu Masuk Saturday
+            $saturday = WaktuOperasional::find(3);
+
+            $masukSat = $request->waktu_awal_masuk_sat . ' - ' . $request->waktu_akhir_masuk_sat;
+            $keluarSat = $request->waktu_awal_keluar_sat . ' - ' . $request->waktu_akhir_keluar_sat;
+
+            $saturday->update([
+                'waktu_masuk' => $masukSat,
+                'waktu_keluar' => $keluarSat,
             ]);
             DB::commit();
 
@@ -75,18 +116,28 @@ class DashboardController extends Controller
 
         try {
             DB::beginTransaction();
+            $user = User::find(auth()->user()->id);
+
             if ($request->password) {
                 $password = bcrypt($request->password);
             } else {
                 $password = auth()->user()->password;
             }
 
-            $user = User::find(auth()->user()->id);
+            if ($request->file('foto')) {
+                Storage::delete($user->foto);
+                $foto = $request->file('foto');
+                $fotoUrl = $foto->storeAs('images/user', date('YmdHis') . '-' . Str::slug($request->nama) . '.' . $foto->extension());
+            } else {
+                $fotoUrl = $user->foto;
+            }
+
 
             $user->update([
                 'nama' => $request->nama,
                 'gender' => $request->gender,
                 'password' => $password,
+                'foto' => $fotoUrl,
             ]);
 
             DB::commit();

@@ -36,6 +36,67 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <label for="waktu_masuk_week">Waktu Masuk Staff</label>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <label for="waktu_keluar_week">Waktu Keluar Staff</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_awal_masuk_week" id="waktu_awal_masuk_week" class="form-control text-center" value="{{ $masukWeekday[0] ?? '-' }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_akhir_masuk_week" id="waktu_akhir_masuk_week" class="form-control text-center" value="{{ $masukWeekday[1] ?? '-' }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_awal_keluar_week" id="waktu_awal_keluar_week" class="form-control text-center" value="{{ $keluarWeekday[0] ?? '-' }}">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_akhir_keluar_week" id="waktu_akhir_keluar_week" class="form-control text-center" value="{{ $keluarWeekday[1] ?? '-' }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 text-center">
+                            <label for="waktu_masuk_sat">Waktu Masuk Sabtu</label>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            <label for="waktu_keluar_sat">Waktu Keluar Sabtu</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_awal_masuk_sat" id="waktu_awal_masuk_sat" class="form-control text-center" value="{{ $masukSat[0] ?? '-' }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_akhir_masuk_sat" id="waktu_akhir_masuk_sat" class="form-control text-center" value="{{ $masukSat[1] ?? '-' }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_awal_keluar_sat" id="waktu_awal_keluar_sat" class="form-control text-center" value="{{ $keluarSat[0] ?? '-' }}">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_akhir_keluar_sat" id="waktu_akhir_keluar_sat" class="form-control text-center" value="{{ $keluarSat[1] ?? '-' }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row justify-content-center">
                         <div class="col-md-2">
                             <div class="form-group">

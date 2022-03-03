@@ -24,7 +24,8 @@ class CreateUsersTable extends Migration
             $table->string('jabatan')->nullable();
             $table->enum('gender', ['Laki - Laki', 'Perempuan']);
             $table->string('foto')->nullable();
-            $table->integer('status')->default(1);
+            $table->integer('is_login')->default(1);
+            $table->integer('is_active')->default(1);
             $table->rememberToken();
             $table->timestamps();
         });

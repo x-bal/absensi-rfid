@@ -16,12 +16,12 @@ class CreateJadwalsTable extends Migration
         Schema::create('jadwals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->string('monday')->nullable();
-            $table->string('tuesday')->nullable();
-            $table->string('wednesday')->nullable();
-            $table->string('thursday')->nullable();
-            $table->string('friday')->nullable();
-            $table->string('saturday')->nullable();
+            $table->integer('monday')->default(1);
+            $table->integer('tuesday')->default(1);
+            $table->integer('wednesday')->default(1);
+            $table->integer('thursday')->default(1);
+            $table->integer('friday')->default(1);
+            $table->integer('saturday')->default(0);
             $table->timestamps();
         });
     }

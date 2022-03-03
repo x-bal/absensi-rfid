@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="col-md-8">
-                    <form action="{{ route('profile.update') }}" method="post">
+                    <form action="{{ route('profile.update') }}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group row">
                             <div class="col-md-2">
@@ -49,6 +49,16 @@
 
                             <div class="col-md-10">
                                 <input type="password" name="password" id="password" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-2">
+                                <label for="foto">Foto</label>
+                            </div>
+
+                            <div class="col-md-10">
+                                <input type="file" name="foto" id="foto" class="form-control">
                             </div>
                         </div>
 

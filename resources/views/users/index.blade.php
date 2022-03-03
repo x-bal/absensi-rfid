@@ -19,12 +19,12 @@
                             <tr>
                                 <th>No</th>
                                 <th>Foto</th>
-                                <th>Device</th>
                                 <th>RFID</th>
                                 <th>Username</th>
                                 <th>West ID</th>
                                 <th>Nama</th>
-                                <th>Jabatan</th>
+                                <th>Jabatan / Role</th>
+                                <th>Access Login</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -32,18 +32,20 @@
                         <tbody>
                             @foreach($users as $user)
                             <tr>
-                                <td>{{ $loop->iteration }}</td>
+                                <td class="{{ $user->is_login == 0 ? 'text-danger' : '' }}">{{ $loop->iteration }}</td>
                                 <td>
                                     <div class="avatar avatar-l">
                                         <img src="{{ asset('storage/' . $user->foto ) }}" alt="" class="avatar-img rounded-circle">
                                     </div>
                                 </td>
-                                <td>{{ $user->device->nama ?? '' }} ({{ $user->device->id ?? '' }})</td>
-                                <td>{{ $user->rfid }}</td>
-                                <td>{{ $user->username }}</td>
-                                <td>{{ $user->nik }}</td>
-                                <td>{{ $user->nama }}</td>
-                                <td>{{ $user->jabatan }}</td>
+                                <td class="{{ $user->is_login == 0 ? 'text-danger' : '' }}">{{ $user->rfid }}</td>
+                                <td class="{{ $user->is_login == 0 ? 'text-danger' : '' }}">{{ $user->username }}</td>
+                                <td class="{{ $user->is_login == 0 ? 'text-danger' : '' }}">{{ $user->nik }}</td>
+                                <td class="{{ $user->is_login == 0 ? 'text-danger' : '' }}">{{ $user->nama }}</td>
+                                <td class="{{ $user->is_login == 0 ? 'text-danger' : '' }}">{{ $user->jabatan }} / {{ $user->roles()->first()->name ?? '-' }}</td>
+                                <td class="text-center">
+                                    <input type="checkbox" id="{{ $user->id }}" class="islogin" {{ $user->is_login == 1 ? 'checked' : '' }}>
+                                </td>
                                 <td>
                                     <div class="d-flex">
                                         <a href="{{ route('user.edit', $user->id) }}" class="btn btn-sm btn-success mr-1"><i class="fas fa-edit"></i></a>
@@ -93,6 +95,33 @@
 
 @push('script')
 <script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     $(".table").DataTable()
+
+    $(".islogin").on('click', function() {
+        let id = $(this).attr('id')
+        $.ajax({
+            url: '{{ route("user.islogin") }}',
+            type: 'GET',
+            data: {
+                id: id,
+            },
+            success: function(response) {
+                swal("Selamat!", response.message, {
+                    icon: "success",
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-success'
+                        }
+                    },
+                });
+            },
+        })
+    })
 </script>
 @endpush

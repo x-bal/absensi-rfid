@@ -13,7 +13,6 @@
                             <tr>
                                 <th>No</th>
                                 <th>Foto</th>
-                                <th>Device</th>
                                 <th>RFID</th>
                                 <th>Username</th>
                                 <th>West ID</th>
@@ -32,7 +31,6 @@
                                         <img src="{{ asset('storage/' . $user->foto ) }}" alt="" class="avatar-img rounded-circle">
                                     </div>
                                 </td>
-                                <td>{{ $user->device->nama ?? '' }} ({{ $user->device->id ?? '' }})</td>
                                 <td>{{ $user->rfid }}</td>
                                 <td>{{ $user->username }}</td>
                                 <td>{{ $user->nik }}</td>
