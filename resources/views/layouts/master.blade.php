@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Absensi - {{ $title }}</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
-    <link rel="icon" href="{{ asset('/') }}img/icon.ico" type="image/x-icon" />
+    <link rel="icon" href="{{ asset('/') }}img/favicon.png" type="image/png" sizes="32x32" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Fonts and icons -->
     <script src="{{ asset('/') }}js/plugin/webfont/webfont.min.js"></script>
