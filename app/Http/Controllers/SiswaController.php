@@ -16,7 +16,7 @@ class SiswaController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Siswa::orderBy('nama', 'ASC')->get();
+            $data = Siswa::get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -34,10 +34,10 @@ class SiswaController extends Controller
                 ->editColumn('action', function ($row) {
                     return '<div class="d-flex">
                     <a href="' . route("siswa.edit", $row->id) . '" class="btn btn-sm btn-success mr-1"><i class="fas fa-edit"></i></a>
-                    <form action="' . route("siswa.destroy", $row->id) . '" method="post" class="form-delete">
+                    <form action="' . route("siswa.destroy", $row->id) . '" method="post" class="form-delete-' . $row->id . '">
                     ' . csrf_field() . '
                     ' . method_field("DELETE") . '
-                        <button type="button" onclick="return confirm(\'Hapus Data?\')" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash"></i></button>
+                        <button type="submit" class="btn btn-danger btn-sm btn-delete" id="' . $row->id . '"><i class="fas fa-trash"></i></button>
                     </form>
                 </div>';
                 })
@@ -155,9 +155,9 @@ class SiswaController extends Controller
         try {
             DB::beginTransaction();
 
-            Storage::delete($siswa->foto);
+            // Storage::delete($siswa->foto);
 
-            $siswa->delete();
+            $siswa->update(['is_active' => 1]);
 
             DB::commit();
 

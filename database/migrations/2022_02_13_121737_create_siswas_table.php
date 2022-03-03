@@ -23,6 +23,7 @@ class CreateSiswasTable extends Migration
             $table->string('rfid')->nullable();
             $table->string('status_pelajar')->default('Siswa');
             $table->string('foto')->nullable();
+            $table->integer('is_active')->default(1);
             $table->timestamps();
         });
     }

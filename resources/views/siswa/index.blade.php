@@ -54,6 +54,12 @@
 
 <script>
     $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         var table = $('.table').DataTable({
             processing: true,
             serverSide: true,
@@ -111,8 +117,10 @@
 
         new $.fn.dataTable.FixedHeader(table);
 
-        $('.btn-delete').click(function(e) {
+        $('.table').on('click', '.btn-delete', function(e) {
             e.preventDefault();
+            let id = $(this).attr('id');
+
             swal({
                 title: 'Hapus data?',
                 text: "Data yang dihapus bersifat permanen!",
@@ -130,7 +138,7 @@
                 }
             }).then((response) => {
                 if (response) {
-                    $(".form-delete").submit()
+                    $(".form-delete-" + id).submit()
                 } else {
                     swal.close();
                 }
