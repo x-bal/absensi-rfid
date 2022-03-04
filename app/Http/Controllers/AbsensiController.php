@@ -58,10 +58,16 @@ class AbsensiController extends Controller
                     return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' .  $row->ket . '</span>';
                 })
                 ->editColumn('action', function ($row) {
-                    if ($row->edited_by == 0) {
+                    if (auth()->user()->hasRole(['Super Admin', 'Admin'])) {
                         return  '<a href="' . route('absensi.edit', $row->id) . '" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>';
-                    } else {
-                        return  '<p>Silahkan hubungi Admin</p>';
+                    }
+
+                    if (auth()->user()->hasRole('Guru')) {
+                        if ($row->edited_by == 0) {
+                            return  '<a href="' . route('absensi.edit', $row->id) . '" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>';
+                        } else {
+                            return  '<p>Silahkan hubungi Admin</p>';
+                        }
                     }
                 })
                 ->rawColumns(['device', 'rfid', 'waktu_masuk', 'waktu_keluar', 'nama', 'kelas', 'ket', 'action'])
