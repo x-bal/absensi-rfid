@@ -44,7 +44,6 @@
                                     <input class="form-check-input" type="checkbox" id="check-all">
                                 </th>
                                 <th>No</th>
-                                <th>Device</th>
                                 <th>Rfid</th>
                                 <th>Nisn</th>
                                 <th>Nama</th>
@@ -59,7 +58,6 @@
                                     <input type="checkbox" class="form-check-input check" data-id="{{ $siswa->id }}">
                                 </td>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $siswa->device->nama ?? '' }}</td>
                                 <td>{{ $siswa->rfid }}</td>
                                 <td>{{ $siswa->nisn }}</td>
                                 <td>{{ $siswa->nama }}</td>
