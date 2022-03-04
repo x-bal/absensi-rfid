@@ -63,6 +63,7 @@ class UserController extends Controller
             $user = User::create([
                 'username' => $request->username,
                 'nama' => $request->nama,
+                'rfid' => $request->rfid ?? '',
                 'nik' => $request->westin_id,
                 'gender' => $request->gender,
                 'password' => bcrypt($request->westin_id),
