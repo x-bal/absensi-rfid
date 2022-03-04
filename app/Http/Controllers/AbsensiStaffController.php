@@ -14,6 +14,8 @@ class AbsensiStaffController extends Controller
 {
     public function index()
     {
+        auth()->user()->can('absensi-staff-access') ? true : abort(403);
+
         if (request()->ajax()) {
             if (request('mulai') && request('sampai')) {
                 $data = AbsensiStaff::whereBetween('created_at', [request('mulai'), request('sampai')])->get();
@@ -74,12 +76,16 @@ class AbsensiStaffController extends Controller
 
     public function edit(AbsensiStaff $absensiStaff)
     {
+        auth()->user()->can('absensi-staff-edit') ? true : abort(403);
+
         $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa'];
         return view('absensi-staff.edit', compact('absensiStaff', 'status'));
     }
 
     public function update(Request $request, AbsensiStaff $absensiStaff)
     {
+        auth()->user()->can('absensi-staff-edit') ? true : abort(403);
+
         $request->validate(['status_hadir' => 'required']);
 
         try {

@@ -28,5 +28,15 @@
 
 <script>
     $("#permission").select2()
+
+    $("#all").click(function() {
+        if ($("#all").is(':checked')) { //select all
+            $("#permission").find('option').prop("selected", true);
+            $("#permission").trigger('change');
+        } else { //deselect all
+            $("#permission").find('option').prop("selected", false);
+            $("#permission").trigger('change');
+        }
+    });
 </script>
 @endpush

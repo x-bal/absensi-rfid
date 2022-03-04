@@ -9,6 +9,10 @@
 
 <div class="form-group">
     <label for="permission">Permission</label>
+    <div>
+        <input type="checkbox" name="all" id="all"> <label for="all">Select All</label>
+    </div>
+
     <select name="permission[]" id="permission" class="form-control" multiple>
         @foreach($permissions as $permission)
         <option @if(in_array($permission->id, $role->permissions()->pluck('permission_id')->toArray())) selected @endif value="{{ $permission->id }}">{{ $permission->name }}</option>

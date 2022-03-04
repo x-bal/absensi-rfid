@@ -15,6 +15,8 @@ class SiswaController extends Controller
 {
     public function index()
     {
+        auth()->user()->can('siswa-access') ? true : abort(403);
+
         if (request()->ajax()) {
             $data = Siswa::where('is_active', 1)->orderBy('nama', 'ASC')->get();
 
@@ -50,6 +52,8 @@ class SiswaController extends Controller
 
     public function create()
     {
+        auth()->user()->can('siswa-create') ? true : abort(403);
+
         $siswa = new Siswa();
         $kelas = Kelas::orderBy('nama', 'ASC')->get();
 
@@ -58,6 +62,8 @@ class SiswaController extends Controller
 
     public function store(Request $request)
     {
+        auth()->user()->can('siswa-create') ? true : abort(403);
+
         $request->validate([
             'nisn' => 'required',
             'nama' => 'required',
@@ -97,6 +103,8 @@ class SiswaController extends Controller
 
     public function edit(Siswa $siswa)
     {
+        auth()->user()->can('siswa-edit') ? true : abort(403);
+
         $kelas = Kelas::orderBy('nama', 'ASC')->get();
 
         return view('siswa.edit', compact('siswa', 'kelas'));
@@ -104,6 +112,8 @@ class SiswaController extends Controller
 
     public function update(Request $request, Siswa $siswa)
     {
+        auth()->user()->can('siswa-edit') ? true : abort(403);
+
         $request->validate([
             'nisn' => 'required',
             'nama' => 'required',
@@ -152,6 +162,8 @@ class SiswaController extends Controller
 
     public function destroy(Siswa $siswa)
     {
+        auth()->user()->can('siswa-delete') ? true : abort(403);
+
         try {
             DB::beginTransaction();
 
@@ -170,6 +182,8 @@ class SiswaController extends Controller
 
     public function dump()
     {
+        auth()->user()->can('dump-siswa-access') ? true : abort(403);
+
         $siswa = Siswa::where('is_active', 0)->get();
 
         return view('siswa.dump', compact('siswa'));

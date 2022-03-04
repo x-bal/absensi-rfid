@@ -149,7 +149,7 @@
                             </a>
                         </li>
 
-                        @if(auth()->user()->hasRole(['Super Admin', 'Admin']))
+                        @can('data-master-access')
                         <li class="nav-item {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') || request()->is('holiday*') ? 'active submenu' : '' }}">
                             <a data-toggle="collapse" href="#master">
                                 <i class="fas fa-th"></i>
@@ -158,52 +158,67 @@
                             </a>
                             <div class="collapse {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') || request()->is('holiday*') ||request()->is('dump/user') || request()->is('dump/siswa')  ? 'show' : '' }}" id="master">
                                 <ul class="nav nav-collapse">
+                                    @can('user-access')
                                     <li class="{{ request()->is('user*') ? 'active' : '' }}">
                                         <a href="{{ route('user.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('user*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-users"></i> Master User</span>
                                         </a>
                                     </li>
+                                    @endcan
+
+                                    @can('kelas-access')
                                     <li class="{{ request()->is('kelas*') ? 'active' : '' }}">
                                         <a href="{{ route('kelas.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('kelas*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-door-open"></i> Master Kelas</span>
                                         </a>
                                     </li>
+                                    @endcan
+
+                                    @can('siswa-access')
                                     <li class="{{ request()->is('siswa*') ? 'active' : '' }}">
                                         <a href="{{ route('siswa.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('siswa*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-user-check"></i> Master Siswa</span>
                                         </a>
                                     </li>
+                                    @endcan
+
+                                    @can('jadwal-access')
                                     <li class="{{ request()->is('jadwal*') ? 'active' : '' }}">
                                         <a href="{{ route('jadwal.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('jadwal*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-calendar-check"></i> Master Jadwal</span>
                                         </a>
                                     </li>
+                                    @endcan
+
+                                    @can('holiday-access')
                                     <li class="{{ request()->is('holiday*') ? 'active' : '' }}">
                                         <a href="{{ route('holiday.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('holiday*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-calendar-times"></i> Master Holiday</span>
                                         </a>
                                     </li>
-                                    @if(auth()->user()->hasRole('Super Admin'))
+                                    @endcan
+
+                                    @can('dump-user-access')
                                     <li class="{{ request()->is('dump/user') ? 'active' : '' }}">
                                         <a href="{{ route('user.dump') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('dump/user') ? '' : '#575962' }} !important;" class="menu-icon fas fa-trash-alt"></i> Dump User</span>
                                         </a>
                                     </li>
-                                    @endif
+                                    @endcan
 
-                                    @if(auth()->user()->hasRole(['Super Admin', 'Admin']))
+                                    @can('dump-siswa-access')
                                     <li class="{{ request()->is('dump/siswa') ? 'active' : '' }}">
                                         <a href="{{ route('siswa.dump') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('dump/siswa') ? '' : '#575962' }} !important;" class="menu-icon fas fa-trash-alt"></i> Dump Siswa</span>
                                         </a>
                                     </li>
-                                    @endif
+                                    @endcan
                                 </ul>
                             </div>
                         </li>
-                        @endif
+                        @endcan
 
-                        @if(auth()->user()->hasRole(['Super Admin', 'Admin']))
+                        @can('data-alat-access')
                         <li class="nav-item {{ request()->is('device*') || request()->is('rfid*') || request()->is('history*') ? 'active submenu' : '' }}">
                             <a data-toggle="collapse" href="#alat">
                                 <i class="fas fa-cogs"></i>
@@ -212,26 +227,35 @@
                             </a>
                             <div class="collapse {{ request()->is('device*') || request()->is('rfid*') || request()->is('history*') ? 'show' : '' }}" id="alat">
                                 <ul class="nav nav-collapse">
+                                    @can('device-access')
                                     <li class="{{ request()->is('device*') ? 'active' : '' }}">
                                         <a href="{{ route('device.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('device*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-suitcase"></i> Device</span>
                                         </a>
                                     </li>
+                                    @endcan
+
+                                    @can('rfid-access')
                                     <li class="{{ request()->is('rfid*') ? 'active' : '' }}">
                                         <a href="{{ route('rfid.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('rfid*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-id-card"></i> Rfid</span>
                                         </a>
                                     </li>
+                                    @endcan
+
+                                    @can('history-access')
                                     <li class="{{ request()->is('history*') ? 'active' : '' }}">
                                         <a href="{{ route('history.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('history*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-history"></i> History</span>
                                         </a>
                                     </li>
+                                    @endcan
                                 </ul>
                             </div>
                         </li>
-                        @endif
+                        @endcan
 
+                        @can('absensi-access')
                         <li class="nav-item {{ request()->is('absensi*') || request()->is('absensi-staff*') ? 'submenu active' : '' }}">
                             <a data-toggle="collapse" href="#absensi">
                                 <i class="fas fa-calendar-alt"></i>
@@ -240,23 +264,28 @@
                             </a>
                             <div class="collapse {{ request()->is('absensi*') || request()->is('absensi-staff*') ? 'show' : '' }}" id="absensi">
                                 <ul class="nav nav-collapse">
+                                    @can('absensi-siswa-access')
                                     <li class="{{ request()->is('absensi*') ? 'active' : '' }}">
                                         <a href="{{ route('absensi.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('absensi*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-id-badge"></i> Absensi Siswa</span>
                                         </a>
                                     </li>
-                                    @if(auth()->user()->hasRole(['Super Admin']))
+                                    @endcan
+
+
+                                    @can('absensi-staff-access')
                                     <li class="{{ request()->is('absensi-staff*') ? 'active' : '' }}">
                                         <a href="{{ route('absensi-staff.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('absensi-staff*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-clipboard-list"></i> Absensi Staff</span>
                                         </a>
                                     </li>
-                                    @endif
+                                    @endcan
                                 </ul>
                             </div>
                         </li>
+                        @endcan
 
-                        @if(auth()->user()->id == 1)
+                        @can('access-user')
                         <li class="nav-item {{ request()->is('role*') || request()->is('permission*') ? 'active submenu'  : '' }}">
                             <a data-toggle="collapse" href="#access">
                                 <i class="fas fa-universal-access"></i>
@@ -278,16 +307,16 @@
                                 </ul>
                             </div>
                         </li>
-                        @endif
+                        @endcan
 
-                        @if(auth()->user()->hasRole(['Super Admin', 'Admin']))
+                        @can('setting-access')
                         <li class="nav-item {{ request()->is('setting*') ? 'active' : '' }}">
                             <a href="/setting">
                                 <i class="fas fa-cog"></i>
                                 <p>Setting</p>
                             </a>
                         </li>
-                        @endif
+                        @endcan
                     </ul>
                 </div>
             </div>

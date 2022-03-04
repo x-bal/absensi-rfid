@@ -15,6 +15,7 @@ class AbsensiController extends Controller
 {
     public function index()
     {
+        auth()->user()->can('absensi-siswa-access') ? true : abort(403);
 
         if (request()->ajax()) {
             if (request('kelas') == 'all' || request('kelas') == '') {
@@ -101,6 +102,8 @@ class AbsensiController extends Controller
 
     public function edit(Absensi $absensi)
     {
+        auth()->user()->can('absensi-siswa-edit') ? true : abort(403);
+
         if (auth()->user()->hasRole(['Super Admin', 'Admin'])) {
             $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa'];
             return view('absensi.edit', compact('absensi', 'status'));
@@ -118,6 +121,8 @@ class AbsensiController extends Controller
 
     public function update(Request $request, Absensi $absensi)
     {
+        auth()->user()->can('absensi-siswa-edit') ? true : abort(403);
+
         $request->validate(['status_hadir' => 'required']);
 
         try {

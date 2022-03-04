@@ -204,7 +204,7 @@ class UserController extends Controller
 
     public function dump()
     {
-        auth()->user()->can('user-access') ? true : abort(403);
+        auth()->user()->can('dump-user-access') ? true : abort(403);
 
         if (auth()->user()->id == 1) {
             $users = User::where('is_active', 0)->get();

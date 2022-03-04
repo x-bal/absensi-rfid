@@ -43,6 +43,8 @@ class DashboardController extends Controller
 
     public function setting()
     {
+        auth()->user()->can('setting-access') ? true : abort(403);
+
         $secretKey = SecretKey::find(1);
 
         $waktu = WaktuOperasional::find(1);

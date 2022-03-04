@@ -10,6 +10,8 @@ class DeviceController extends Controller
 {
     public function index()
     {
+        auth()->user()->can('device-access') ? true : abort(403);
+
         $devices = Device::get();
 
         return view('device.index', compact('devices'));
@@ -17,6 +19,8 @@ class DeviceController extends Controller
 
     public function create()
     {
+        auth()->user()->can('device-access') ? true : abort(403);
+
         $device = new Device();
 
         return view('device.create', compact('device'));
@@ -24,6 +28,8 @@ class DeviceController extends Controller
 
     public function store(Request $request)
     {
+        auth()->user()->can('device-access') ? true : abort(403);
+
         $request->validate(['nama' => 'required']);
 
         try {
@@ -47,11 +53,15 @@ class DeviceController extends Controller
 
     public function edit(Device $device)
     {
+        auth()->user()->can('device-access') ? true : abort(403);
+
         return view('device.edit', compact('device'));
     }
 
     public function update(Request $request, Device $device)
     {
+        auth()->user()->can('device-access') ? true : abort(403);
+
         $request->validate(['nama' => 'required']);
 
         try {
@@ -70,6 +80,8 @@ class DeviceController extends Controller
 
     public function destroy(Device $device)
     {
+        auth()->user()->can('device-access') ? true : abort(403);
+
         try {
             DB::beginTransaction();
 

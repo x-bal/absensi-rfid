@@ -11,6 +11,8 @@ class JadwalController extends Controller
 {
     public function index()
     {
+        auth()->user()->can('jadwal-access') ? true : abort(403);
+
         $jadwal = Jadwal::get();
 
         return view('jadwal.index', compact('jadwal'));
@@ -18,6 +20,8 @@ class JadwalController extends Controller
 
     public function create()
     {
+        auth()->user()->can('jadwal-create') ? true : abort(403);
+
         $jadwal = new Jadwal();
         $users = User::role(['Admin', 'Guru'])->get();
 
@@ -26,6 +30,8 @@ class JadwalController extends Controller
 
     public function store(Request $request)
     {
+        auth()->user()->can('jadwal-create') ? true : abort(403);
+
         $request->validate([
             'guru' => 'required',
             'monday' => 'required',
@@ -60,6 +66,8 @@ class JadwalController extends Controller
 
     public function edit(Jadwal $jadwal)
     {
+        auth()->user()->can('jadwal-edit') ? true : abort(403);
+
         $users = User::role(['Admin', 'Guru', 'Staff'])->where('is_active', 1)->get();
 
         return view('jadwal.edit', compact('users', 'jadwal'));
@@ -67,6 +75,8 @@ class JadwalController extends Controller
 
     public function update(Request $request, Jadwal $jadwal)
     {
+        auth()->user()->can('jadwal-edit') ? true : abort(403);
+
         $request->validate([
             'guru' => 'required',
             'monday' => 'required',
@@ -96,6 +106,8 @@ class JadwalController extends Controller
 
     public function destroy(Jadwal $jadwal)
     {
+        auth()->user()->can('jadwal-delete') ? true : abort(403);
+
         try {
             DB::beginTransaction();
 

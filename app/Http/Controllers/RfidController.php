@@ -9,6 +9,8 @@ class RfidController extends Controller
 {
     public function index()
     {
+        auth()->user()->can('rfid-access') ? true : abort(403);
+
         $rfids = Rfid::get();
 
         return view('rfid.index', compact('rfids'));

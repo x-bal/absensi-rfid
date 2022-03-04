@@ -10,6 +10,8 @@ class HolidayController extends Controller
 {
     public function index()
     {
+        auth()->user()->can('holiday-access') ? true : abort(403);
+
         $holidays = Holiday::get();
 
         return view('holiday.index', compact('holidays'));
@@ -17,6 +19,8 @@ class HolidayController extends Controller
 
     public function create()
     {
+        auth()->user()->can('holiday-create') ? true : abort(403);
+
         $holiday = new Holiday();
 
         return view('holiday.create', compact('holiday'));
@@ -24,6 +28,8 @@ class HolidayController extends Controller
 
     public function store(Request $request)
     {
+        auth()->user()->can('holiday-create') ? true : abort(403);
+
         $request->validate([
             'nama' => 'required',
             'waktu' => 'required',
@@ -50,11 +56,15 @@ class HolidayController extends Controller
 
     public function edit(Holiday $holiday)
     {
+        auth()->user()->can('user-edit') ? true : abort(403);
+
         return view('holiday.edit', compact('holiday'));
     }
 
     public function update(Request $request, Holiday $holiday)
     {
+        auth()->user()->can('holiday-edit') ? true : abort(403);
+
         $request->validate([
             'nama' => 'required',
             'waktu' => 'required',
@@ -76,6 +86,8 @@ class HolidayController extends Controller
 
     public function destroy(Holiday $holiday)
     {
+        auth()->user()->can('holiday-delete') ? true : abort(403);
+
         try {
             DB::beginTransaction();
 

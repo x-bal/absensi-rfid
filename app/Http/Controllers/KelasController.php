@@ -14,6 +14,8 @@ class KelasController extends Controller
 {
     public function index()
     {
+        auth()->user()->can('kelas-access') ? true : abort(403);
+
         $kelas = Kelas::orderBy('nama', 'ASC')->get();
 
         return view('kelas.index', compact('kelas'));
@@ -21,6 +23,8 @@ class KelasController extends Controller
 
     public function create()
     {
+        auth()->user()->can('kelas-create') ? true : abort(403);
+
         $kela = new Kelas();
 
         return view('kelas.create', compact('kela'));
@@ -28,6 +32,8 @@ class KelasController extends Controller
 
     public function store(Request $request)
     {
+        auth()->user()->can('kelas-create') ? true : abort(403);
+
         $request->validate(['nama' => 'required']);
 
         try {
@@ -46,6 +52,8 @@ class KelasController extends Controller
 
     public function show(Kelas $kela)
     {
+        auth()->user()->can('kelas-access') ? true : abort(403);
+
         $kelas = Kelas::get();
 
         return view('kelas.show', compact('kela', 'kelas'));
@@ -53,11 +61,15 @@ class KelasController extends Controller
 
     public function edit(Kelas $kela)
     {
+        auth()->user()->can('kelas-edit') ? true : abort(403);
+
         return view('kelas.edit', compact('kela'));
     }
 
     public function update(Request $request, Kelas $kela)
     {
+        auth()->user()->can('kelas-edit') ? true : abort(403);
+
         $request->validate(['nama' => 'required']);
 
         try {
@@ -76,9 +88,14 @@ class KelasController extends Controller
 
     public function destroy(Kelas $kela)
     {
-        dd($kela);
+        auth()->user()->can('kelas-delete') ? true : abort(403);
+
         try {
             DB::beginTransaction();
+
+            foreach ($kela->siswa as $sw) {
+                $sw->delete();
+            }
 
             $kela->delete();
 
