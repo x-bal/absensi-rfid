@@ -95,7 +95,7 @@ class AbsensiController extends Controller
 
     public function edit(Absensi $absensi)
     {
-        if (auth()->user()->hasRole('Super Admin', 'Admin')) {
+        if (auth()->user()->hasRole(['Super Admin', 'Admin'])) {
             $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa'];
             return view('absensi.edit', compact('absensi', 'status'));
         }
