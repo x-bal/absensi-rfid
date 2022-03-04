@@ -34,7 +34,7 @@ class UserController extends Controller
         auth()->user()->can('user-create') ? true : abort(403);
 
         $user = new User();
-        $roles = Role::get();
+        $roles = Role::where('name', '!=', 'Me')->get();
         $jabatan = ['Kepala Sekolah TK', 'Wakasek', 'Kepala Sekolah SD', 'Admin', 'Koordinator', 'School Assistant', 'Guru'];
         $act = 'create';
 
@@ -93,7 +93,7 @@ class UserController extends Controller
     {
         auth()->user()->can('user-edit') ? true : abort(403);
 
-        $roles = Role::get();
+        $roles = Role::where('name', '!=', 'Me')->get();
         $jabatan = ['Kepala Sekolah TK', 'Wakasek', 'Kepala Sekolah SD', 'Admin', 'Koordinator', 'School Assistant', 'Guru'];
         $act = 'edit';
 
@@ -151,7 +151,7 @@ class UserController extends Controller
                 'foto' => $fotoUrl
             ]);
 
-            $user->assignRole($request->role);
+            $user->syncRoles($request->role);
 
             DB::commit();
 

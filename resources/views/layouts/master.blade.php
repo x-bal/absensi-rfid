@@ -294,16 +294,21 @@
                             </a>
                             <div class="collapse {{ request()->is('role*') || request()->is('permission*')  ? 'show'  : '' }}" id="access">
                                 <ul class="nav nav-collapse">
+                                    @can('permission-access')
                                     <li class="{{ request()->is('permission*') ? 'active' : '' }}">
                                         <a href="{{ route('permission.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('permission*') ? '' : '#575962' }} !important;" class="fas fa-exclamation-circle menu-icon"></i> Data Permission</span>
                                         </a>
                                     </li>
+                                    @endcan
+
+                                    @can('role-access')
                                     <li class="{{ request()->is('role*') ? 'active' : '' }}">
                                         <a href="{{ route('role.index') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('role*') ? '' : '#575962' }} !important;" class=" menu-icon fas fa-user-cog"></i> Data Role</span>
                                         </a>
                                     </li>
+                                    @endcan
                                 </ul>
                             </div>
                         </li>
