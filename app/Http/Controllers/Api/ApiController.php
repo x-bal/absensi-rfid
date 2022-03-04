@@ -662,13 +662,13 @@ class ApiController extends Controller
                     ];
                     echo json_encode($response);
                 }
-            } else if ($absensi->masuk == 1 && $today <= $startKeluar) {
+            } else if ($absensi->masuk == 1 && $absensi->keluar == 0 && Carbon::now('Asia/Jakarta')->format('His') < $startKeluar) {
                 $response = [
                     'status' => 'failed',
                     'ket' => 'Sudah Absensi'
                 ];
                 echo json_encode($response);
-            } else if ($absensi->masuk == 1 && $absensi->keluar == 0 && $today >= $startKeluar) {
+            } else if ($absensi->masuk == 1 && $absensi->keluar == 0 && Carbon::now('Asia/Jakarta')->format('His') >= $startKeluar) {
                 try {
                     $absensi->update([
                         'keluar' => $ket == 'Keluar' ? $status : 0,
