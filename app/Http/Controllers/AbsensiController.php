@@ -59,7 +59,7 @@ class AbsensiController extends Controller
                     return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' .  $row->ket . '</span>';
                 })
                 ->editColumn('action', function ($row) {
-                    if (auth()->user()->hasRole(['Super Admin', 'Admin'])) {
+                    if (auth()->user()->hasRole(['Me', 'Super Admin', 'Admin'])) {
                         return  '<a href="' . route('absensi.edit', $row->id) . '" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>';
                     }
 
@@ -104,7 +104,7 @@ class AbsensiController extends Controller
     {
         auth()->user()->can('absensi-siswa-edit') ? true : abort(403);
 
-        if (auth()->user()->hasRole(['Super Admin', 'Admin'])) {
+        if (auth()->user()->hasRole(['Me', 'Super Admin', 'Admin'])) {
             $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa'];
             return view('absensi.edit', compact('absensi', 'status'));
         }
