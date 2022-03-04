@@ -1,5 +1,12 @@
 @extends('layouts.master', ['title' => 'Data User Aktif'])
 
+@push('style')
+<!-- Datatable -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.7/css/fixedHeader.bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.6/css/responsive.bootstrap4.min.css">
+@endpush
+
 @section('content')
 <div class="row">
     <div class="col-md-12">
@@ -96,6 +103,7 @@
 @stop
 
 @push('script')
+<!-- Datatable -->
 <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.min.js"></script>
