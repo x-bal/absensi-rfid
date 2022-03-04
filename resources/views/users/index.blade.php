@@ -17,6 +17,7 @@
                     <table class="table table-bordered table-striped">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>No</th>
                                 <th>Foto</th>
                                 <th>RFID</th>
@@ -32,6 +33,7 @@
                         <tbody>
                             @foreach($users as $user)
                             <tr>
+                                <td class="{{ $user->is_login == 0 ? 'text-danger' : '' }}">{{ $loop->iteration }}</td>
                                 <td class="{{ $user->is_login == 0 ? 'text-danger' : '' }}">{{ $loop->iteration }}</td>
                                 <td>
                                     <div class="avatar avatar-l">
@@ -94,6 +96,12 @@
 @stop
 
 @push('script')
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.1.7/js/dataTables.fixedHeader.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.6/js/responsive.bootstrap.min.js"></script>
+
 <script>
     $.ajaxSetup({
         headers: {
@@ -101,7 +109,21 @@
         }
     });
 
-    $(".table").DataTable()
+    var table = $(".table").DataTable({
+        responsive: {
+            details: {
+                type: 'column'
+            }
+        },
+        columnDefs: [{
+            className: 'dtr-control',
+            responsivePriority: 1,
+            targets: 0
+        }, ]
+    })
+
+    new $.fn.dataTable.FixedHeader(table);
+
 
     $(".islogin").on('click', function() {
         let id = $(this).attr('id')
