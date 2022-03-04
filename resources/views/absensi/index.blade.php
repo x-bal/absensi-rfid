@@ -161,7 +161,7 @@
                 },
                 columnDefs: [{
                     className: 'dtr-control',
-                    responsivePriority: 1,
+                    responsivePriority: 3,
                     targets: 0
                 }, ]
             });
