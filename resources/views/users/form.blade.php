@@ -29,7 +29,7 @@
 
 <div class="form-group">
     <label for="westin_id">Westin ID</label>
-    <input type="number" name="westin_id" id="westin_id" class="form-control" value="{{ $user->nik ?? old('westin_id') }}">
+    <input type="text" name="westin_id" id="westin_id" class="form-control" value="{{ $user->nik ?? old('westin_id') }}">
 
     @error('westin_id')
     <small class="text-danger">{{ $message }}</small>
