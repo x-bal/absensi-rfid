@@ -161,7 +161,11 @@
                 },
                 columnDefs: [{
                     className: 'dtr-control',
-                    responsivePriority: 3,
+                    responsivePriority: 1,
+                    targets: 0
+                }, {
+                    className: 'dtr-control',
+                    responsivePriority: 2,
                     targets: 0
                 }, ]
             });
