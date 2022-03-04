@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absensi;
+use App\Models\AbsensiStaff;
+use App\Models\Kelas;
 use App\Models\SecretKey;
+use App\Models\Siswa;
 use App\Models\User;
 use App\Models\WaktuOperasional;
 use Carbon\Carbon;
@@ -16,11 +20,25 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->is_login == 0) {
-            Auth::logout();
-            return redirect('/');
-        }
-        return view('dashboard.index');
+        $totalUser = User::where('id', '!=', 1)->count();
+        $totalSiswa = Siswa::count();
+        $totalKelas = Kelas::count();
+        $totalPengguna = $totalUser + $totalSiswa;
+
+        $now = Carbon::now('Asia/Jakarta')->format('Y-m-d 00:00:00');
+        $hadirStaff = AbsensiStaff::where('status_hadir', 'Hadir')->where('created_at', $now)->count();
+        $zoomStaff = AbsensiStaff::where('status_hadir', 'Hadir Via Zoom')->where('created_at', $now)->count();
+        $sakitStaff = AbsensiStaff::where('status_hadir', 'Sakit')->where('created_at', $now)->count();
+        $ijinStaff = AbsensiStaff::where('status_hadir', 'Ijin')->where('created_at', $now)->count();
+        $alpaStaff = AbsensiStaff::where('status_hadir', 'Alpa')->where('created_at', $now)->count();
+
+        $hadirSiswa = Absensi::where('status_hadir', 'Hadir')->where('created_at', $now)->count();
+        $zoomSiswa = Absensi::where('status_hadir', 'Hadir Via Zoom')->where('created_at', $now)->count();
+        $sakitSiswa = Absensi::where('status_hadir', 'Sakit')->where('created_at', $now)->count();
+        $ijinSiswa = Absensi::where('status_hadir', 'Ijin')->where('created_at', $now)->count();
+        $alpaSiswa = Absensi::where('status_hadir', 'Alpa')->where('created_at', $now)->count();
+
+        return view('dashboard.index', compact('totalUser', 'totalSiswa', 'totalKelas', 'totalPengguna', 'hadirStaff', 'zoomStaff', 'sakitStaff', 'ijinStaff', 'alpaStaff', 'hadirSiswa', 'zoomSiswa', 'sakitSiswa', 'ijinSiswa', 'alpaSiswa'));
     }
 
     public function setting()

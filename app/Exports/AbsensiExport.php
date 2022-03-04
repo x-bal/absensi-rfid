@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 
 class AbsensiExport implements FromView
 {
-    public function __construct($start = null, $end = null, $kelas = null)
+    public function __construct($start = '', $end = '', $kelas = '')
     {
         $this->start = $start;
         $this->end = $end;
@@ -18,7 +18,7 @@ class AbsensiExport implements FromView
 
     public function view(): View
     {
-        if ($this->start == null && $this->end == null && $this->kelas == null) {
+        if ($this->start == '' && $this->end == '' || $this->kelas == '') {
             return view('absensi.export', [
                 'absensi' => Absensi::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->get()
             ]);

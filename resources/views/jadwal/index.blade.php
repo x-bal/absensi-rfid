@@ -7,8 +7,6 @@
             <div class="card-header">Master Jadwal</div>
 
             <div class="card-body">
-                <a href="{{ route('jadwal.create') }}" class="btn btn-danger mb-3">Tambah Jadwal</a>
-
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead>
@@ -53,11 +51,6 @@
                                 <td>
                                     <div class="d-flex">
                                         <a href="{{ route('jadwal.edit', $jdl->id) }}" class="btn btn-sm btn-success mr-1"><i class="fas fa-edit"></i></a>
-                                        <form action="{{ route('jadwal.destroy', $jdl->id) }}" method="post" style="display: inline;" class="form-delete">
-                                            @method('DELETE')
-                                            @csrf
-                                            <button type="submit" class="btn btn-sm btn-danger btn-delete"><i class="fas fa-trash"></i></button>
-                                        </form>
                                     </div>
                                 </td>
                             </tr>

@@ -31,33 +31,37 @@
 
 @push('script')
 <script>
-    $(".table").DataTable({
-        processing: true,
-        serverSide: true,
-        orderable: true,
-        searchable: true,
-        ajax: "{{ route('history.index') }}",
-        columns: [{
-                data: 'DT_RowIndex',
-                name: 'DT_RowIndex'
-            },
-            {
-                data: 'rfid',
-                name: 'rfid'
-            },
-            {
-                data: 'device',
-                name: 'device'
-            },
-            {
-                data: 'keterangan',
-                name: 'keterangan'
-            },
-            {
-                data: 'waktu',
-                name: 'waktu'
-            },
-        ]
-    })
+    function loadData() {
+        $(".table").DataTable({
+            processing: true,
+            serverSide: true,
+            orderable: true,
+            searchable: true,
+            ajax: "{{ route('history.index') }}",
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex'
+                },
+                {
+                    data: 'rfid',
+                    name: 'rfid'
+                },
+                {
+                    data: 'device',
+                    name: 'device'
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan'
+                },
+                {
+                    data: 'waktu',
+                    name: 'waktu'
+                },
+            ]
+        })
+    }
+
+    setInterval(loadData(), 2000)
 </script>
 @endpush

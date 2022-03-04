@@ -16,7 +16,7 @@ class SiswaController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Siswa::get();
+            $data = Siswa::where('is_active', 1)->orderBy('nama', 'ASC')->get();
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -157,7 +157,7 @@ class SiswaController extends Controller
 
             // Storage::delete($siswa->foto);
 
-            $siswa->update(['is_active' => 1]);
+            $siswa->update(['is_active' => 0]);
 
             DB::commit();
 
@@ -165,6 +165,26 @@ class SiswaController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->route('siswa.index')->with('error', $th->getMessage());
+        }
+    }
+
+    public function dump()
+    {
+        $siswa = Siswa::where('is_active', 0)->get();
+
+        return view('siswa.dump', compact('siswa'));
+    }
+
+    public function activated(Siswa $siswa)
+    {
+        try {
+            DB::beginTransaction();
+            $siswa->update(['is_active' => 1]);
+            DB::commit();
+
+            return back()->with('success', 'Siswa berhasil diaktifasi kembali');
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
         }
     }
 }

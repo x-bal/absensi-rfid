@@ -50,13 +50,13 @@ class AbsensiController extends Controller
                     return Carbon::parse($row->waktu_masuk)->format('d/m/Y H:i:s') ?? '-';
                 })
                 ->editColumn('waktu_keluar', function ($row) {
-                    return Carbon::parse($row->waktu_keluar)->format('d/m/Y H:i:s') ?? '-';
+                    return $row->keluar == 1 ?  Carbon::parse($row->waktu_keluar)->format('d/m/Y H:i:s') : '-';
                 })
                 ->editColumn('action', function ($row) {
                     if ($row->edited_by == 0) {
                         return ' <a href="' . route('absensi.edit', $row->id) . '" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>';
                     } else {
-                        return '<p>Silahkan hubungi Super Admin</p>';
+                        return '<p>Silahkan hubungi Admin</p>';
                     }
                 })
                 ->rawColumns(['device', 'rfid', 'waktu_masuk', 'waktu_keluar', 'nama', 'kelas', 'action'])
@@ -116,6 +116,7 @@ class AbsensiController extends Controller
                 'masuk' => 1,
                 'keluar' => 1,
                 'status_hadir' => $request->status_hadir,
+                'ket' => $request->status_hadir,
                 'edited_by' => auth()->user()->id
             ]);
 

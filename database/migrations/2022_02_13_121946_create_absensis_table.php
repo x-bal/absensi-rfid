@@ -22,6 +22,7 @@ class CreateAbsensisTable extends Migration
             $table->integer('keluar')->default(0);
             $table->timestamp('waktu_keluar')->nullable();
             $table->string('status_hadir')->default('Alpa');
+            $table->string('ket')->default('Alpa');
             $table->foreignId('edited_by')->default(0);
             $table->timestamps();
         });

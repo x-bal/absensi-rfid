@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Imports\StaffImport;
+use App\Models\Jadwal;
 use App\Models\Rfid;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -35,8 +36,9 @@ class UserController extends Controller
         $user = new User();
         $roles = Role::get();
         $jabatan = ['Kepala Sekolah TK', 'Wakasek', 'Kepala Sekolah SD', 'Admin', 'Koordinator', 'School Assistant', 'Guru'];
+        $act = 'create';
 
-        return view('users.create', compact('user', 'roles', 'jabatan'));
+        return view('users.create', compact('user', 'roles', 'jabatan', 'act'));
     }
 
     public function store(Request $request)
@@ -46,7 +48,7 @@ class UserController extends Controller
         $request->validate([
             'username' => 'required|unique:users',
             'nama' => 'required',
-            'nik' => 'required',
+            'westin_id' => 'required',
             'jabatan' => 'required',
             'gender' => 'required',
             'role' => 'required',
@@ -61,12 +63,14 @@ class UserController extends Controller
             $user = User::create([
                 'username' => $request->username,
                 'nama' => $request->nama,
-                'nik' => $request->nik,
+                'nik' => $request->westin_id,
                 'gender' => $request->gender,
-                'password' => bcrypt($request->nik),
+                'password' => bcrypt($request->westin_id),
                 'jabatan' => $request->jabatan,
                 'foto' => $fotoUrl
             ]);
+
+            Jadwal::create(['user_id' => $user->id]);
 
             $user->assignRole($request->role);
 
@@ -90,8 +94,9 @@ class UserController extends Controller
 
         $roles = Role::get();
         $jabatan = ['Kepala Sekolah TK', 'Wakasek', 'Kepala Sekolah SD', 'Admin', 'Koordinator', 'School Assistant', 'Guru'];
+        $act = 'edit';
 
-        return view('users.edit', compact('user', 'roles', 'jabatan'));
+        return view('users.edit', compact('user', 'roles', 'jabatan', 'act'));
     }
 
     public function update(Request $request, User $user)
@@ -101,7 +106,7 @@ class UserController extends Controller
         $request->validate([
             'username' => 'required|unique:users,username,' . $user->id,
             'nama' => 'required',
-            'nik' => 'required',
+            'westin_id' => 'required',
             'gender' => 'required',
             'jabatan' => 'required',
             'role' => 'required',
@@ -136,7 +141,7 @@ class UserController extends Controller
             $user->update([
                 'username' => $request->username,
                 'nama' => $request->nama,
-                'nik' => $request->nik,
+                'nik' => $request->westin_id,
                 'gender' => $request->gender,
                 'password' => $password,
                 'jabatan' => $request->jabatan,

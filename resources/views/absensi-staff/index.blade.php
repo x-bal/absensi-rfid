@@ -56,9 +56,10 @@
                                 <th>Rfid</th>
                                 <th>Nama</th>
                                 <th>Jabatan</th>
-                                <th>Waktu Masuk</th>
-                                <th>Waktu Keluar</th>
-                                <th>Ket</th>
+                                <th>Masuk</th>
+                                <th>Keluar</th>
+                                <th>Kehadiran</th>
+                                <th>Keterangan</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -134,6 +135,10 @@
                         name: 'status_hadir'
                     },
                     {
+                        data: 'ket',
+                        name: 'ket'
+                    },
+                    {
                         data: 'action',
                         name: 'action'
                     },
@@ -153,7 +158,7 @@
             new $.fn.dataTable.FixedHeader(table);
         }
 
-        loadData()
+        setInterval(loadData(), 2000)
 
         $('.btn-submit').click(function() {
             var mulai = $('#mulai').val();

@@ -6,6 +6,7 @@ use App\Exports\AbsensiStaffExport;
 use App\Models\AbsensiStaff;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Yajra\Datatables\Datatables;
 
@@ -65,22 +66,32 @@ class AbsensiStaffController extends Controller
 
         return Excel::download(new AbsensiStaffExport(request('mulai'), request('sampai')), $title);
     }
-    public function show(AbsensiStaff $absensiStaff)
-    {
-        # code...
-    }
+
     public function edit(AbsensiStaff $absensiStaff)
     {
-        //
+        $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa'];
+        return view('absensi-staff.edit', compact('absensiStaff', 'status'));
     }
 
     public function update(Request $request, AbsensiStaff $absensiStaff)
     {
-        //
-    }
+        $request->validate(['status_hadir' => 'required']);
 
-    public function destroy(AbsensiStaff $absensiStaff)
-    {
-        //
+        try {
+            DB::beginTransaction();
+
+            $absensiStaff->update([
+                'masuk' => 1,
+                'keluar' => 1,
+                'status_hadir' => $request->status_hadir,
+                'ket' => $request->status_hadir,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('absensi-staff.index')->with('success', 'Absensi Staff berhasil diupdate');
+        } catch (\Throwable $th) {
+            return back()->with('erorr', $th->getMessage());
+        }
     }
 }

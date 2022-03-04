@@ -35,6 +35,9 @@
         <div class="col-md-4">
             <div class="card pb-5 px-3 mt-5">
                 <div class="card-body">
+                    <div class="text-center mb-3">
+                        <img src="{{ asset('img/westinlogo.png') }}" alt="{{ asset('img/westinlogo.png') }}" width="150px">
+                    </div>
                     <h3 class="text-center">Sign In To Dashboard</h3>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf

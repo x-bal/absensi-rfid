@@ -9,7 +9,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 
 class AbsensiStaffExport implements FromView
 {
-    public function __construct($start = null, $end = null)
+    public function __construct($start = '', $end = '')
     {
         $this->start = $start;
         $this->end = $end;

@@ -32,7 +32,7 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::middleware(['auth', 'isLogin'])->group(function () {
     // Dashboard
@@ -60,6 +60,8 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
     Route::resource('kelas', KelasController::class);
 
     //Route Data Siswa
+    Route::get('/dump/siswa', [SiswaController::class, 'dump'])->name('siswa.dump');
+    Route::get('/siswa/{siswa:id}/activated', [SiswaController::class, 'activated'])->name('siswa.activated');
     Route::resource('siswa', SiswaController::class);
 
     //Route Data Jadwal

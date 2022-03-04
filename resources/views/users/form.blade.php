@@ -16,6 +16,7 @@
     @enderror
 </div>
 
+@if($act == 'edit')
 <div class="form-group">
     <label for="password">Password</label>
     <input type="password" name="password" id="password" class="form-control">
@@ -24,12 +25,13 @@
     <small class="text-danger">{{ $message }}</small>
     @enderror
 </div>
+@endif
 
 <div class="form-group">
-    <label for="nik">Nik</label>
-    <input type="number" name="nik" id="nik" class="form-control" value="{{ $user->nik ?? old('nik') }}">
+    <label for="westin_id">Westin ID</label>
+    <input type="number" name="westin_id" id="westin_id" class="form-control" value="{{ $user->westin_id ?? old('westin_id') }}">
 
-    @error('nik')
+    @error('westin_id')
     <small class="text-danger">{{ $message }}</small>
     @enderror
 </div>

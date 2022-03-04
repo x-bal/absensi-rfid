@@ -19,8 +19,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('cron:holiday')->everyMinute();
+        $schedule->command('cron:holiday')->everyMinute();
         $schedule->command('cron:masuk')->everyMinute();
+        $schedule->command('cron:keluar')->everyMinute();
     }
 
     /**

@@ -60,7 +60,7 @@ class JadwalController extends Controller
 
     public function edit(Jadwal $jadwal)
     {
-        $users = User::role(['Admin', 'Guru'])->get();
+        $users = User::role(['Admin', 'Guru', 'Staff'])->where('is_active', 1)->get();
 
         return view('jadwal.edit', compact('users', 'jadwal'));
     }

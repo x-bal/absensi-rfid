@@ -22,14 +22,14 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-danger">Submit</button>
                                     </div>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-2">
                                     <div class="form-group">
-                                        <a href="{{ route('kelas.index') }}" class="btn btn-secondary float-right"><i class="fas fa-arrow-left"></i> Kembali</a>
+                                        <a href="{{ route('kelas.index') }}" class="btn btn-secondary "><i class="fas fa-arrow-left"></i> Kembali</a>
                                     </div>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                         </thead>
 
                         <tbody>
-                            @foreach($kela->siswa as $siswa)
+                            @foreach($kela->siswa->where('is_active', 1) as $siswa)
                             <tr>
                                 <td class="text-center">
                                     <input type="checkbox" class="form-check-input check" data-id="{{ $siswa->id }}">
@@ -88,8 +88,9 @@
 <script>
     $("#check-all").click(function() {
         $('input:checkbox').not(this).prop('checked', this.checked);
-        var data = '{{ json_encode($kela->siswa) }}';
-        console.log(data)
+        var data = '{{ json_encode($kela->siswa->where("is_active", 1)) }}';
+        let siswa = JSON.parse(data)
+        console.log(siswa)
 
         var ischecked = $(this).is(':checked');
         if (ischecked == true) {

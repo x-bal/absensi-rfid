@@ -328,14 +328,14 @@ class ApiController extends Controller
                 $device = Device::find($request->iddev);
 
                 if ($device) {
-                    $rfid = Siswa::where('rfid', $request->rfid)->first() ?? User::where('rfid', $request->rfid)->first();
+                    $rfid = Siswa::where('rfid', $request->rfid)->where('is_active', 1)->first() ?? User::where('rfid', $request->rfid)->where('is_active', 1)->first();
 
                     if ($rfid) {
                         if ($rfid->status_pelajar == 'Siswa') {
 
                             $waktu = WaktuOperasional::find(1);
                             $this->absensiSiswa($waktu, $rfid, $device);
-                        } else if ($rfid->hasRole(['Admin', 'Guru'])) {
+                        } else if (isset($rfid->jabatan)) {
 
                             $jadwal = Jadwal::where('user_id', $rfid->id)->first();
                             $now = Carbon::now()->format('l');
@@ -492,7 +492,8 @@ class ApiController extends Controller
                         'user_id' => $rfid->id,
                         'masuk' => $ket == 'Masuk' || $ket == 'Telat Masuk' ? $status : 0,
                         'waktu_masuk' => Carbon::now()->format('Y-m-d H:i:s'),
-                        'status_hadir' => 'Hadir'
+                        'status_hadir' => 'Hadir',
+                        'ket' => $ket,
                     ]);
 
                     History::create([
@@ -634,7 +635,8 @@ class ApiController extends Controller
                         'siswa_id' => $rfid->id,
                         'masuk' => $ket == 'Masuk' || $ket == 'Telat Masuk' ? $status : 0,
                         'waktu_masuk' => Carbon::now()->format('Y-m-d H:i:s'),
-                        'status_hadir' => 'Hadir'
+                        'status_hadir' => 'Hadir',
+                        'ket' => $ket
                     ]);
 
                     History::create([

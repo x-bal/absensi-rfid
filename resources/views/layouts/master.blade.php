@@ -156,7 +156,7 @@
                                 <p>Data Master</p>
                                 <span class="caret"></span>
                             </a>
-                            <div class="collapse {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') || request()->is('holiday*') ||request()->is('dump/user')  ? 'show' : '' }}" id="master">
+                            <div class="collapse {{ request()->is('user*') || request()->is('kelas*') || request()->is('siswa*') || request()->is('jadwal*') || request()->is('holiday*') ||request()->is('dump/user') || request()->is('dump/siswa')  ? 'show' : '' }}" id="master">
                                 <ul class="nav nav-collapse">
                                     <li class="{{ request()->is('user*') ? 'active' : '' }}">
                                         <a href="{{ route('user.index') }}">
@@ -187,6 +187,14 @@
                                     <li class="{{ request()->is('dump/user') ? 'active' : '' }}">
                                         <a href="{{ route('user.dump') }}">
                                             <span class="sub-item"><i style="color: {{ request()->is('dump/user') ? '' : '#575962' }} !important;" class="menu-icon fas fa-trash-alt"></i> Dump User</span>
+                                        </a>
+                                    </li>
+                                    @endif
+
+                                    @if(auth()->user()->hasRole(['Super Admin', 'Admin']))
+                                    <li class="{{ request()->is('dump/siswa') ? 'active' : '' }}">
+                                        <a href="{{ route('siswa.dump') }}">
+                                            <span class="sub-item"><i style="color: {{ request()->is('dump/siswa') ? '' : '#575962' }} !important;" class="menu-icon fas fa-trash-alt"></i> Dump Siswa</span>
                                         </a>
                                     </li>
                                     @endif

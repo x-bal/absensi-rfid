@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\Absensi;
+use App\Models\AbsensiStaff;
 use App\Models\Holiday;
 use App\Models\Siswa;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -40,7 +42,9 @@ class HolidayCommand extends Command
         $holidays = Holiday::get();
         $now = Carbon::now('Asia/Jakarta')->format('Y-m-d');
         $siswa = Siswa::get();
+        $staff = User::where('id', '!=', 1)->get();
 
+        // Absensi Siswa
         if (Carbon::now('Asia/Jakarta')->format('l') == $sunday) {
             foreach ($siswa as $sw) {
                 Absensi::create([
@@ -50,7 +54,8 @@ class HolidayCommand extends Command
                     'waktu_masuk' => date('Y-m-d H:i:s'),
                     'keluar' => 1,
                     'waktu_keluar' => date('Y-m-d H:i:s'),
-                    'status_hadir' => 'Libur Hari Minggu'
+                    'status_hadir' => 'Libur',
+                    'ket' => 'Libur Hari Minggu',
                 ]);
             }
         }
@@ -65,7 +70,41 @@ class HolidayCommand extends Command
                         'waktu_masuk' => date('Y-m-d H:i:s'),
                         'keluar' => 1,
                         'waktu_keluar' => date('Y-m-d H:i:s'),
-                        'status_hadir' => 'Libur' . $holiday->nama
+                        'status_hadir' => 'Libur',
+                        'ket' => 'Libur' . $holiday->nama
+                    ]);
+                }
+            }
+        }
+
+        // Absnensi Staff
+        if (Carbon::now('Asia/Jakarta')->format('l') == $sunday) {
+            foreach ($staff as $stf) {
+                AbsensiStaff::create([
+                    'device_id' => 1,
+                    'user_id' => $stf->id,
+                    'masuk' => 1,
+                    'waktu_masuk' => date('Y-m-d H:i:s'),
+                    'keluar' => 1,
+                    'waktu_keluar' => date('Y-m-d H:i:s'),
+                    'status_hadir' => 'Libur',
+                    'ket' => 'Libur Hari Minggu'
+                ]);
+            }
+        }
+
+        foreach ($holidays as $holiday) {
+            if ($now == $holiday->waktu) {
+                foreach ($staff as $stf) {
+                    AbsensiStaff::create([
+                        'device_id' => 1,
+                        'user_id' => $stf->id,
+                        'masuk' => 1,
+                        'waktu_masuk' => date('Y-m-d H:i:s'),
+                        'keluar' => 1,
+                        'waktu_keluar' => date('Y-m-d H:i:s'),
+                        'status_hadir' => 'Libur',
+                        'ket' => 'Libur' . $holiday->nama
                     ]);
                 }
             }
