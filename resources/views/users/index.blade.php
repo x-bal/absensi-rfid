@@ -109,7 +109,7 @@
         }
     });
 
-    var table = $(".table").DataTable({
+    var table = $('.table').DataTable({
         responsive: {
             details: {
                 type: 'column'
@@ -120,7 +120,7 @@
             responsivePriority: 1,
             targets: 0
         }, ]
-    })
+    });
 
     new $.fn.dataTable.FixedHeader(table);
 
