@@ -35,31 +35,36 @@ class AbsensiController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('device', function ($row) {
-                    return $row->device->nama . ' ' . '(' . $row->device->id . ')';
+                    return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $row->device->nama . ' ' . '(' . $row->device->id . ')' . '</span>';
                 })
                 ->editColumn('rfid', function ($row) {
-                    return $row->siswa->rfid;
+                    return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $row->siswa->rfid . '</span>';
                 })
                 ->editColumn('nama', function ($row) {
-                    return $row->siswa->nama . ' ' . '(' . $row->siswa->nisn . ')';
+                    return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' .  $row->siswa->nama . ' ' . '(' . $row->siswa->nisn . ')' . '</span>';
                 })
                 ->editColumn('kelas', function ($row) {
-                    return $row->siswa->kelas->nama;
+                    return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $row->siswa->kelas->nama . '</span>';
                 })
                 ->editColumn('waktu_masuk', function ($row) {
-                    return Carbon::parse($row->waktu_masuk)->format('d/m/Y H:i:s') ?? '-';
+                    $masuk = $row->masuk == 1 ? Carbon::parse($row->waktu_masuk)->format('d/m/Y H:i:s') : '-';
+                    return  $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $masuk . '</span>';
                 })
                 ->editColumn('waktu_keluar', function ($row) {
-                    return $row->keluar == 1 ?  Carbon::parse($row->waktu_keluar)->format('d/m/Y H:i:s') : '-';
+                    $keluar = $row->keluar == 1 ? Carbon::parse($row->waktu_keluar)->format('d/m/Y H:i:s') : '-';
+                    return  $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $keluar . '</span>';
+                })
+                ->editColumn('ket', function ($row) {
+                    return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' .  $row->ket . '</span>';
                 })
                 ->editColumn('action', function ($row) {
                     if ($row->edited_by == 0) {
-                        return ' <a href="' . route('absensi.edit', $row->id) . '" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>';
+                        return  '<a href="' . route('absensi.edit', $row->id) . '" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>';
                     } else {
-                        return '<p>Silahkan hubungi Admin</p>';
+                        return  '<p>Silahkan hubungi Admin</p>';
                     }
                 })
-                ->rawColumns(['device', 'rfid', 'waktu_masuk', 'waktu_keluar', 'nama', 'kelas', 'action'])
+                ->rawColumns(['device', 'rfid', 'waktu_masuk', 'waktu_keluar', 'nama', 'kelas', 'ket', 'action'])
                 ->make(true);
         }
 

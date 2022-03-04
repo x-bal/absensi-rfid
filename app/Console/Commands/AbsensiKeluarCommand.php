@@ -55,7 +55,6 @@ class AbsensiKeluarCommand extends Command
                         'siswa_id' => $sw->id,
                         'keluar' => 1,
                         'waktu_keluar' => $today,
-                        'status_hadir' => 'Hadir'
                     ]);
                 }
             }
