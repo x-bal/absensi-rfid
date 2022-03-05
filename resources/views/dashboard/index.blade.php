@@ -91,7 +91,7 @@
                                     <td>{{ $sw->siswa->nama }}</td>
                                     @can('absensi-siswa-edit')
                                     <td>
-                                        <a href="{{ route('absensi-edit', $sw->id) }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
+                                        <a href="{{ route('absensi.edit', $sw->id) }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
                                     </td>
                                     @endcan
                                 </tr>
