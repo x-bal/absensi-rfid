@@ -40,7 +40,9 @@ class DashboardController extends Controller
         $ijinSiswa = Absensi::where('status_hadir', 'Ijin')->where('created_at', '>=', $now)->where('created_at', '<=', $tomorrow)->count();
         $alpaSiswa = Absensi::where('status_hadir', 'Alpa')->where('created_at', '>=', $now)->where('created_at', '<=', $tomorrow)->count();
 
-        return view('dashboard.index', compact('totalUser', 'totalSiswa', 'totalKelas', 'totalPengguna', 'hadirStaff', 'zoomStaff', 'sakitStaff', 'ijinStaff', 'alpaStaff', 'hadirSiswa', 'zoomSiswa', 'sakitSiswa', 'ijinSiswa', 'alpaSiswa'));
+        $siswa = Absensi::where('created_at', '>=', $now)->where('created_at', '<=', $tomorrow)->where('masuk', 0)->where('keluar', 0)->get();
+
+        return view('dashboard.index', compact('totalUser', 'totalSiswa', 'totalKelas', 'totalPengguna', 'hadirStaff', 'zoomStaff', 'sakitStaff', 'ijinStaff', 'alpaStaff', 'hadirSiswa', 'zoomSiswa', 'sakitSiswa', 'ijinSiswa', 'alpaSiswa', 'siswa'));
     }
 
     public function setting()

@@ -59,11 +59,57 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-12">
+        <div class="card full-height">
+            <div class="card-body">
+                <div class="card-title">Siswa yang belum absensi</div>
+                <div class="card-category">Tanggal {{ Carbon\Carbon::now('Asia/Jakarta')->format('d/m/Y') }}</div>
+                <div class="row py-3">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Rfid</th>
+                                    <th>Nisn</th>
+                                    <th>Kelas</th>
+                                    <th>Nama</th>
+                                    @can('absensi-siswa-edit')
+                                    <th>Action</th>
+                                    @endcan
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach($siswa as $sw)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $sw->siswa->rfid }}</td>
+                                    <td>{{ $sw->siswa->nisn }}</td>
+                                    <td>{{ $sw->siswa->kelas->nama }}</td>
+                                    <td>{{ $sw->siswa->nama }}</td>
+                                    @can('absensi-siswa-edit')
+                                    <td>
+                                        <a href="{{ route('absensi-edit', $sw->id) }}" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>
+                                    </td>
+                                    @endcan
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @stop
 
 @push('script')
 <script>
+    $(".table").DataTable()
+
     Circles.create({
         id: 'circles-1',
         radius: 45,

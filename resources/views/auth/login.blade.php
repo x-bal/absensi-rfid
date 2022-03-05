@@ -66,12 +66,10 @@
                             @enderror
                         </div>
 
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-danger">
-                                    {{ __('Login') }}
-                                </button>
-                            </div>
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-danger">
+                                {{ __('Login') }}
+                            </button>
                         </div>
                     </form>
                 </div>
