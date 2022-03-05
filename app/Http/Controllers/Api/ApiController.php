@@ -427,7 +427,7 @@ class ApiController extends Controller
 
         $startMasuk = Carbon::parse($masuk[0])->subMinute(10)->format('His');
         $endMasuk = Carbon::parse($masuk[1])->format('His');
-        $startKeluar = Carbon::parse($keluar[1])->format('His');
+        $startKeluar = Carbon::parse($keluar[0])->format('His');
         $endKeluar = Carbon::parse($keluar[1])->format('His');
 
         $absen = false;
