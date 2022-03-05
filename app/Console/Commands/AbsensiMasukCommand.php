@@ -44,13 +44,16 @@ class AbsensiMasukCommand extends Command
     {
         $now = Carbon::now('Asia/Jakarta')->format('H:i');
         $today = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
+        $tomorrow = Carbon::tomorrow('Asia/Jakarta')->format('Y-m-d H:i:s');
         $siswa = Siswa::get();
         $staff = User::where('id', '!=', 1)->get();
 
         // Absensi Siswa
-        if ($now == '09:00') {
+        if ($now == '10:40') {
             foreach ($siswa as $sw) {
-                if (!$sw->absensi->where('created_at', '>=', $today)->first()) {
+                $absensi = Absensi::where('siswa_id',  $sw->id)->where('created_at', '>=', $today)->where('created_at', '>=', $tomorrow)->first();
+
+                if (!$absensi) {
                     Absensi::create([
                         'device_id' => 1,
                         'siswa_id' => $sw->id,
@@ -63,9 +66,11 @@ class AbsensiMasukCommand extends Command
         }
 
         // Absensi Staff
-        if ($now == '10:33') {
+        if ($now == '10:40') {
             foreach ($staff as $stf) {
-                if (!$stf->absensiStaff->where('created_at', '>=', $today)->first()) {
+                $absensiStaff = AbsensiStaff::where('user_id',  $stf->id)->where('created_at', '>=', $today)->where('created_at', '>=', $tomorrow)->first();
+
+                if (!$absensiStaff) {
                     AbsensiStaff::create([
                         'device_id' => 1,
                         'user_id' => $stf->id,
