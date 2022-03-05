@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Absensi;
+use App\Models\AbsensiStaff;
 use App\Models\Siswa;
 use App\Models\User;
 use Carbon\Carbon;
@@ -65,7 +66,7 @@ class AbsensiMasukCommand extends Command
         if ($now == '09:00') {
             foreach ($staff as $stf) {
                 if (!$stf->absensiStaff->where('created_at', '>=', $today)->first()) {
-                    Absensi::create([
+                    AbsensiStaff::create([
                         'device_id' => 1,
                         'user_id' => $stf->id,
                         'masuk' => 0,
