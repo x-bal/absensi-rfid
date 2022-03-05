@@ -42,7 +42,7 @@ class AbsensiKeluarCommand extends Command
     public function handle()
     {
         $now = Carbon::now('Asia/Jakarta')->format('H:i');
-        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d H:i:s');
+        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d 00:00:00');
         $siswa = Siswa::get();
         $staff = User::where('id', '!=', 1)->get();
 
@@ -50,7 +50,7 @@ class AbsensiKeluarCommand extends Command
         if ($now == '18:00') {
             foreach ($siswa as $sw) {
                 if ($sw->absensi->where('created_at', '>=', $today)->where('masuk', 1)->first()) {
-                    Absensi::create([
+                    $sw->absensi->update([
                         'device_id' => 1,
                         'siswa_id' => $sw->id,
                         'keluar' => 1,
@@ -64,7 +64,7 @@ class AbsensiKeluarCommand extends Command
         if ($now == '18:00') {
             foreach ($staff as $stf) {
                 if ($stf->absensiStaff->where('created_at', '>=', $today)->where('masuk', 1)->first()) {
-                    Absensi::create([
+                    $stf->absensiStaff->update([
                         'device_id' => 1,
                         'user_id' => $stf->id,
                         'keluar' => 1,
