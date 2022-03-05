@@ -63,7 +63,7 @@ class AbsensiMasukCommand extends Command
         }
 
         // Absensi Staff
-        if ($now == '09:00') {
+        if ($now == '10:33') {
             foreach ($staff as $stf) {
                 if (!$stf->absensiStaff->where('created_at', '>=', $today)->first()) {
                     AbsensiStaff::create([
