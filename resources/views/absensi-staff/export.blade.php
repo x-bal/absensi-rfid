@@ -19,12 +19,60 @@
             <td>{{ $loop->iteration }}</td>
             <td>{{ $absen->staff->nama }}</td>
             <td>{{ Carbon\Carbon::parse($absen->created_at)->format('d/m/Y') }}</td>
-            <td>{{ Carbon\Carbon::parse($absen->created_at)->format('l') == 'Monday' ? 'Y' : '' }}</td>
-            <td>{{ Carbon\Carbon::parse($absen->created_at)->format('l') == 'Tuesday' ? 'Y' : '' }}</td>
-            <td>{{ Carbon\Carbon::parse($absen->created_at)->format('l') == 'Wednesday' ? 'Y' : '' }}</td>
-            <td>{{ Carbon\Carbon::parse($absen->created_at)->format('l') == 'Thursday' ? 'Y' : '' }}</td>
-            <td>{{ Carbon\Carbon::parse($absen->created_at)->format('l') == 'Friday' ? 'Y' : '' }}</td>
-            <td>{{ Carbon\Carbon::parse($absen->created_at)->format('l') == 'Saturday' ? 'Y' : '' }}</td>
+            <td>
+                @if(Carbon\Carbon::parse($absen->created_at)->format('l') == 'Monday')
+                {{ $absen->status_hadir == 'Hadir' ? 'Y' : '' }}
+                {{ $absen->status_hadir == 'Hadir Via Zoom' ? 'Z' : '' }}
+                {{ $absen->status_hadir == 'Sakit' ? 'S' : '' }}
+                {{ $absen->status_hadir == 'Ijin' ? 'I' : '' }}
+                {{ $absen->status_hadir == 'Alpa' ? 'A' : '' }}
+                @endif
+            </td>
+            <td>
+                @if(Carbon\Carbon::parse($absen->created_at)->format('l') == 'Tuesday')
+                {{ $absen->status_hadir == 'Hadir' ? 'Y' : '' }}
+                {{ $absen->status_hadir == 'Hadir Via Zoom' ? 'Z' : '' }}
+                {{ $absen->status_hadir == 'Sakit' ? 'S' : '' }}
+                {{ $absen->status_hadir == 'Ijin' ? 'I' : '' }}
+                {{ $absen->status_hadir == 'Alpa' ? 'A' : '' }}
+                @endif
+            </td>
+            <td>
+                @if(Carbon\Carbon::parse($absen->created_at)->format('l') == 'Wednesday')
+                {{ $absen->status_hadir == 'Hadir' ? 'Y' : '' }}
+                {{ $absen->status_hadir == 'Hadir Via Zoom' ? 'Z' : '' }}
+                {{ $absen->status_hadir == 'Sakit' ? 'S' : '' }}
+                {{ $absen->status_hadir == 'Ijin' ? 'I' : '' }}
+                {{ $absen->status_hadir == 'Alpa' ? 'A' : '' }}
+                @endif
+            </td>
+            <td>
+                @if(Carbon\Carbon::parse($absen->created_at)->format('l') == 'Thursday')
+                {{ $absen->status_hadir == 'Hadir' ? 'Y' : '' }}
+                {{ $absen->status_hadir == 'Hadir Via Zoom' ? 'Z' : '' }}
+                {{ $absen->status_hadir == 'Sakit' ? 'S' : '' }}
+                {{ $absen->status_hadir == 'Ijin' ? 'I' : '' }}
+                {{ $absen->status_hadir == 'Alpa' ? 'A' : '' }}
+                @endif
+            </td>
+            <td>
+                @if(Carbon\Carbon::parse($absen->created_at)->format('l') == 'Friday')
+                {{ $absen->status_hadir == 'Hadir' ? 'Y' : '' }}
+                {{ $absen->status_hadir == 'Hadir Via Zoom' ? 'Z' : '' }}
+                {{ $absen->status_hadir == 'Sakit' ? 'S' : '' }}
+                {{ $absen->status_hadir == 'Ijin' ? 'I' : '' }}
+                {{ $absen->status_hadir == 'Alpa' ? 'A' : '' }}
+                @endif
+            </td>
+            <td>
+                @if(Carbon\Carbon::parse($absen->created_at)->format('l') == 'Saturday')
+                {{ $absen->status_hadir == 'Hadir' ? 'Y' : '' }}
+                {{ $absen->status_hadir == 'Hadir Via Zoom' ? 'Z' : '' }}
+                {{ $absen->status_hadir == 'Sakit' ? 'S' : '' }}
+                {{ $absen->status_hadir == 'Ijin' ? 'I' : '' }}
+                {{ $absen->status_hadir == 'Alpa' ? 'A' : '' }}
+                @endif
+            </td>
         </tr>
         @endforeach
     </tbody>
