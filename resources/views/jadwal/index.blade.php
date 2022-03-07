@@ -74,10 +74,10 @@
 
     $(".table").DataTable()
 
-    $(".day").on('click', function() {
+    $(".table").on('click', '.day', function() {
         let id = $(this).attr('id')
         let day = $(this).attr('data-day')
-        console.log(day)
+        console.log(id)
         $.ajax({
             url: '{{ route("jadwal.set") }}',
             type: 'GET',
