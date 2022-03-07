@@ -149,7 +149,7 @@ class UserController extends Controller
                 'password' => $password,
                 'jabatan' => $request->jabatan,
                 'rfid' => $request->rfid ?? '',
-                'device_id' => $device_id,
+                'device_id' => $device_id ?? $user->device_id,
                 'foto' => $fotoUrl
             ]);
 
