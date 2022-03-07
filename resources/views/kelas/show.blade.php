@@ -33,6 +33,8 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="form-target"></div>
                         </form>
                     </div>
                 </div>
@@ -55,7 +57,7 @@
                             @foreach($kela->siswa->where('is_active', 1) as $siswa)
                             <tr>
                                 <td class="text-center">
-                                    <input type="checkbox" class="form-check-input check" data-id="{{ $siswa->id }}">
+                                    <input type="checkbox" class="form-check-input check-siswa" data-id="{{ $siswa->id }}">
                                 </td>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $siswa->rfid }}</td>
@@ -84,23 +86,58 @@
 
 @push('script')
 <script>
-    $("#check-all").click(function() {
-        $('input:checkbox').not(this).prop('checked', this.checked);
-        var data = '{{ json_encode($kela->siswa->where("is_active", 1)) }}';
-        let siswa = JSON.parse(data)
-        console.log(siswa)
-
-        var ischecked = $(this).is(':checked');
-        if (ischecked == true) {
-            $.each(JSON.parse(data), function(index, item) {
-                $('form').append('<input type="hidden" name="id[]" id="id' + item.id + '" value="' + item.id + '"/>');
-            });
-        } else {
-            $.each(JSON.parse(data), function(index, item) {
-                $('#id' + item.id).remove();
-            });
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+    $("#check-all").click(function() {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+
+        var ischecked = $(this).is(':checked');
+        let id = '{{ $kela->id }}';
+
+        if (ischecked == true) {
+            $.ajax({
+                url: '{{ route("kelas.siswa") }}',
+                type: 'GET',
+                data: {
+                    id: id
+                },
+                success: function(response) {
+                    $('.form-target').empty()
+                    $.each(response.siswas, function(index, item) {
+                        $('.form-target').append('<input type="hidden" name="id[]" id="' + item.id + '" value="' + item.id + '"/>');
+                    });
+                }
+            })
+        } else {
+            $.ajax({
+                url: '{{ route("kelas.siswa") }}',
+                type: 'GET',
+                data: {
+                    id: id
+                },
+                success: function(response) {
+                    $.each(response.siswas, function(index, item) {
+                        $('#' + item.id).remove();
+                    });
+                }
+            })
+        }
+    });
+
+    $('.table').on('click', '.check-siswa', function() {
+        var ischecked = $(this).is(':checked');
+        let id = $(this).attr('data-id')
+        console.log(id)
+        if (ischecked == false) {
+            $('#' + id).remove();
+        } else {
+            $('.form-target').append('<input type="hidden" name="id[]" id="' + id + '" value="' + id + '"/>');
+        }
+    })
 
     $(".table").DataTable();
 

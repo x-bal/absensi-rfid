@@ -10,6 +10,8 @@
             <th>Thu</th>
             <th>Fri</th>
             <th>Sat</th>
+            <th>Jam Masuk</th>
+            <th>Jam Pulang</th>
         </tr>
     </thead>
 
@@ -72,6 +74,12 @@
                 {{ $absen->status_hadir == 'Ijin' ? 'I' : '' }}
                 {{ $absen->status_hadir == 'Alpa' ? 'A' : '' }}
                 @endif
+            </td>
+            <td>
+                {{ $absen->masuk == 1 ? Carbon\Carbon::parse($absen->jam_masuk)->format('d/m/Y H:i:s') : '-' }}
+            </td>
+            <td>
+                {{ $absen->keluar == 1 ? Carbon\Carbon::parse($absen->jam_keluar)->format('d/m/Y H:i:s') : '-' }}
             </td>
         </tr>
         @endforeach

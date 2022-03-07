@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Imports\SiswaImport;
 use App\Models\Kelas;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
@@ -56,7 +57,7 @@ class KelasController extends Controller
 
         $kelas = Kelas::get();
 
-        return view('kelas.show', compact('kela', 'kelas'));
+        return view('kelas.show', compact('kela', 'kelas',));
     }
 
     public function edit(Kelas $kela)
@@ -132,5 +133,13 @@ class KelasController extends Controller
     public function download()
     {
         return Response::download('excel/example-format-siswa.xlsx');
+    }
+
+    public function getSiswa()
+    {
+        $siswas = Siswa::where('kelas_id', request('id'))->where('is_active', 1)->get();
+        return response()->json([
+            'siswas' => $siswas
+        ], 200);
     }
 }
