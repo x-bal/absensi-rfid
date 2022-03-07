@@ -82,7 +82,7 @@
 <script>
     $(".table").DataTable();
 
-    $(".btn-import").on('click', function() {
+    $(".table").on('click', 'btn-import', function() {
         let id = $(this).attr('id');
 
         $('.kelas_id').val('');

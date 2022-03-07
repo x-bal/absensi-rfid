@@ -96,11 +96,11 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
     Route::get('setting', [DashboardController::class, 'setting'])->name('setting');
 });
 
-// Route::get('/install', function () {
-//     shell_exec('composer install');
-//     shell_exec('cp .env.example .env');
-//     Artisan::call('key:generate');
-//     Artisan::call('migrate:fresh --seed');
-//     Artisan::call('storage:link');
-//     Artisan::call('cache:clear');
-// });
+Route::get('/install', function () {
+    shell_exec('composer install');
+    shell_exec('cp .env.example .env');
+    Artisan::call('key:generate');
+    Artisan::call('migrate:fresh --seed');
+    Artisan::call('storage:link');
+    Artisan::call('cache:clear');
+});

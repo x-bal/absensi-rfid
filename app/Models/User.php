@@ -53,4 +53,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(AbsensiStaff::class, 'user_id');
     }
+
+    public function absensi()
+    {
+        return $this->hasOne(Absensi::class, 'edited_by');
+    }
 }

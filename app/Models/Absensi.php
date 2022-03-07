@@ -20,4 +20,9 @@ class Absensi extends Model
     {
         return $this->belongsTo(Device::class);
     }
+
+    public function edited()
+    {
+        return $this->belongsTo(User::class, 'edited_by');
+    }
 }

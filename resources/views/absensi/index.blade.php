@@ -70,6 +70,7 @@
                                 <th>Keluar</th>
                                 <th>Kehadiran</th>
                                 <th>Keterangan</th>
+                                <th>Edited By</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -148,6 +149,10 @@
                     {
                         data: 'ket',
                         name: 'ket'
+                    },
+                    {
+                        data: 'edited',
+                        name: 'edited'
                     },
                     {
                         data: 'action',

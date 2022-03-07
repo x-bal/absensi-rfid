@@ -58,6 +58,9 @@ class AbsensiController extends Controller
                 ->editColumn('ket', function ($row) {
                     return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' .  $row->ket . '</span>';
                 })
+                ->editColumn('edited', function ($row) {
+                    return $row->edited_by != 1 ? $row->edited->nama : '';
+                })
                 ->editColumn('action', function ($row) {
                     if (auth()->user()->hasRole(['Me', 'Super Admin', 'Admin'])) {
                         return  '<a href="' . route('absensi.edit', $row->id) . '" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>';
@@ -71,7 +74,7 @@ class AbsensiController extends Controller
                         }
                     }
                 })
-                ->rawColumns(['device', 'rfid', 'waktu_masuk', 'waktu_keluar', 'nama', 'kelas', 'ket', 'action'])
+                ->rawColumns(['device', 'rfid', 'waktu_masuk', 'waktu_keluar', 'nama', 'kelas', 'ket', 'edited', 'action'])
                 ->make(true);
         }
 
