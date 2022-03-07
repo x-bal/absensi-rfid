@@ -142,4 +142,28 @@ class KelasController extends Controller
             'siswas' => $siswas
         ], 200);
     }
+
+    public function kenaikan(Request $request, Kelas $kela)
+    {
+        $request->validate(['kelas' => 'required']);
+
+        try {
+            DB::beginTransaction();
+            if ($request->kelas == 'Lulus') {
+                foreach ($request->id as $id) {
+                    $siswa = Siswa::find($id)->update(['status_pelajar' => $request->kelas]);
+                }
+            } else {
+                foreach ($request->id as $id) {
+                    $siswa = Siswa::find($id)->update(['kelas_id' => $request->kelas]);
+                }
+            }
+
+            DB::commit();
+
+            return redirect()->route('kelas.show', $request->kelas)->with('success', 'Kenaikan kelas siswa berhasil');
+        } catch (\Throwable $th) {
+            return back()->with('success', $th->getMessage());
+        }
+    }
 }

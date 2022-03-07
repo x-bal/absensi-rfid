@@ -125,12 +125,14 @@ class UserController extends Controller
                 $fotoUrl = $user->foto;
             }
 
-            if ($request->rfid) {
-                $device = Rfid::where('rfid', $request->rfid)->first();
-                $device->update(['status' => 0]);
-                $device_id = $device->id;
-            } else {
-                $device_id = 0;
+            if ($user->rfid == NULL) {
+                if ($request->rfid) {
+                    $device = Rfid::where('rfid', $request->rfid)->first();
+                    $device->update(['status' => 0]);
+                    $device_id = $device->id;
+                } else {
+                    $device_id = 0;
+                }
             }
 
             if ($request->password) {

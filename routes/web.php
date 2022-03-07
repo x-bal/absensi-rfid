@@ -58,6 +58,7 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
     Route::post('/kelas/import', [KelasController::class, 'import'])->name('kelas.import');
     Route::get('/kelas/download', [KelasController::class, 'download'])->name('kelas.download');
     Route::get('/kelas/siswa', [KelasController::class, 'getSiswa'])->name('kelas.siswa');
+    Route::post('/kelas/kenaikan', [KelasController::class, 'kenaikan'])->name('kelas.kenaikan');
     Route::resource('kelas', KelasController::class);
 
     //Route Data Siswa

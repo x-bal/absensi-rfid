@@ -9,27 +9,30 @@
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-md-12">
-                        <form action="" method="post">
+                        <form action="{{ route('kelas.kenaikan', $kela->id) }}" method="post">
+                            @csrf
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
+                                        <label for="naik_kelas">Naik ke Kelas</label>
                                         <select name="kelas" id="kelas" class="form-control">
                                             <option disabled selected>-- Naik ke Kelas --</option>
                                             @foreach($kelas as $kls)
                                             <option {{ $kls->id == $kela->id ? 'selected': '' }} value="{{ $kls->id }}">{{ $kls->nama }}</option>
                                             @endforeach
+                                            <option value="Lulus">Lulus</option>
                                         </select>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-danger">Submit</button>
+                                        <button type="submit" class="btn btn-danger mt-4">Submit</button>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <a href="{{ route('kelas.index') }}" class="btn btn-secondary "><i class="fas fa-arrow-left"></i> Kembali</a>
+                                        <a href="{{ route('kelas.index') }}" class="btn btn-secondary mt-4"><i class="fas fa-arrow-left"></i> Kembali</a>
                                     </div>
                                 </div>
                             </div>
