@@ -164,6 +164,7 @@ class SiswaController extends Controller
     {
         auth()->user()->can('siswa-delete') ? true : abort(403);
 
+        dd($siswa);
         try {
             DB::beginTransaction();
 

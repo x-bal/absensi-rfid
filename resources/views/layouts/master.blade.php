@@ -414,6 +414,8 @@
     <script>
         $('.btn-delete').click(function(e) {
             e.preventDefault();
+            let id = $(this).attr('id')
+
             swal({
                 title: 'Hapus data?',
                 text: "Data yang dihapus bersifat permanen!",
@@ -431,7 +433,7 @@
                 }
             }).then((response) => {
                 if (response) {
-                    $(".form-delete").submit()
+                    $(this).parent().submit()
                 } else {
                     swal.close();
                 }

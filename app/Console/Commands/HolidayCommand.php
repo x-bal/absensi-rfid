@@ -44,24 +44,9 @@ class HolidayCommand extends Command
         $siswa = Siswa::get();
         $staff = User::where('id', '!=', 1)->get();
 
-        // Absensi Siswa
-        if (Carbon::now('Asia/Jakarta')->format('l') == $sunday) {
-            foreach ($siswa as $sw) {
-                Absensi::create([
-                    'device_id' => 1,
-                    'siswa_id' => $sw->id,
-                    'masuk' => 1,
-                    'waktu_masuk' => date('Y-m-d H:i:s'),
-                    'keluar' => 1,
-                    'waktu_keluar' => date('Y-m-d H:i:s'),
-                    'status_hadir' => 'Libur',
-                    'ket' => 'Libur Hari Minggu',
-                ]);
-            }
-        }
-
-        foreach ($holidays as $holiday) {
-            if ($now == $holiday->waktu) {
+        if (Carbon::now('Asia/Jakarta')->format('H:i') == '07:00') {
+            // Absensi Siswa
+            if (Carbon::now('Asia/Jakarta')->format('l') == $sunday) {
                 foreach ($siswa as $sw) {
                     Absensi::create([
                         'device_id' => 1,
@@ -71,30 +56,30 @@ class HolidayCommand extends Command
                         'keluar' => 1,
                         'waktu_keluar' => date('Y-m-d H:i:s'),
                         'status_hadir' => 'Libur',
-                        'ket' => 'Libur' . $holiday->nama
+                        'ket' => 'Libur Hari Minggu',
                     ]);
                 }
             }
-        }
 
-        // Absnensi Staff
-        if (Carbon::now('Asia/Jakarta')->format('l') == $sunday) {
-            foreach ($staff as $stf) {
-                AbsensiStaff::create([
-                    'device_id' => 1,
-                    'user_id' => $stf->id,
-                    'masuk' => 1,
-                    'waktu_masuk' => date('Y-m-d H:i:s'),
-                    'keluar' => 1,
-                    'waktu_keluar' => date('Y-m-d H:i:s'),
-                    'status_hadir' => 'Libur',
-                    'ket' => 'Libur Hari Minggu'
-                ]);
+            foreach ($holidays as $holiday) {
+                if ($now == $holiday->waktu) {
+                    foreach ($siswa as $sw) {
+                        Absensi::create([
+                            'device_id' => 1,
+                            'siswa_id' => $sw->id,
+                            'masuk' => 1,
+                            'waktu_masuk' => date('Y-m-d H:i:s'),
+                            'keluar' => 1,
+                            'waktu_keluar' => date('Y-m-d H:i:s'),
+                            'status_hadir' => 'Libur',
+                            'ket' => 'Libur' . $holiday->nama
+                        ]);
+                    }
+                }
             }
-        }
 
-        foreach ($holidays as $holiday) {
-            if ($now == $holiday->waktu) {
+            // Absnensi Staff
+            if (Carbon::now('Asia/Jakarta')->format('l') == $sunday) {
                 foreach ($staff as $stf) {
                     AbsensiStaff::create([
                         'device_id' => 1,
@@ -104,8 +89,25 @@ class HolidayCommand extends Command
                         'keluar' => 1,
                         'waktu_keluar' => date('Y-m-d H:i:s'),
                         'status_hadir' => 'Libur',
-                        'ket' => 'Libur' . $holiday->nama
+                        'ket' => 'Libur Hari Minggu'
                     ]);
+                }
+            }
+
+            foreach ($holidays as $holiday) {
+                if ($now == $holiday->waktu) {
+                    foreach ($staff as $stf) {
+                        AbsensiStaff::create([
+                            'device_id' => 1,
+                            'user_id' => $stf->id,
+                            'masuk' => 1,
+                            'waktu_masuk' => date('Y-m-d H:i:s'),
+                            'keluar' => 1,
+                            'waktu_keluar' => date('Y-m-d H:i:s'),
+                            'status_hadir' => 'Libur',
+                            'ket' => 'Libur' . $holiday->nama
+                        ]);
+                    }
                 }
             }
         }

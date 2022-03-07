@@ -20,8 +20,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $totalUser = User::where('id', '!=', 1)->count();
-        $totalSiswa = Siswa::count();
+        $totalUser = User::where('id', '!=', 1)->where('is_active', 1)->count();
+        $totalSiswa = Siswa::where('is_active', 1)->count();
         $totalKelas = Kelas::count();
         $totalPengguna = $totalUser + $totalSiswa;
 
