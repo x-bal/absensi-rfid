@@ -133,7 +133,7 @@
     new $.fn.dataTable.FixedHeader(table);
 
 
-    $(".islogin").on('click', function() {
+    $(".table").on('click', '.islogin', function() {
         let id = $(this).attr('id')
         $.ajax({
             url: '{{ route("user.islogin") }}',
