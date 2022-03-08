@@ -6,7 +6,7 @@
             <th>Nama</th>
             @if($act == 'export' && $from != '' && $to != '')
             @foreach (Carbon\CarbonPeriod::create($from, $to) as $date)
-            <th>{{ $date->format('d') }}</th>
+            <th>{{ $date->format('d/m/y') }}</th>
             @endforeach
             @endif
             <th>Hadir</th>
@@ -36,7 +36,7 @@
             <td>{{ $sw->nama }}</td>
             @if($act == 'export' && $from != '' && $to != '')
             @foreach (Carbon\CarbonPeriod::create($from, $to) as $date)
-            <th class="text-center">{{ $sw->absensi->where('created_at', $date->format('Y-m-d'))->first()->status_hadir ?? '-' }}</th>
+            <th class="text-center">{{ $sw->absensi->where('created_at', '>=', $date->format('Y-m-d 00:00:00'))->where('created_at', '<', $date->addDay(1)->format('Y-m-d 00:00:00'))->first()->status_hadir ?? '-' }}</th>
             @endforeach
             @endif
             <td class="text-center">
