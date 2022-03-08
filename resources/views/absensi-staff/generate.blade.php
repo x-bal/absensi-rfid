@@ -8,7 +8,6 @@
             @foreach (Carbon\CarbonPeriod::create($from, $to) as $date)
             <th>{{ $date->format('d/m/y') }}</th>
             @endforeach
-            @endifach
             @endif
             <th>Hadir</th>
             <th>Hadir Via Zoom</th>
