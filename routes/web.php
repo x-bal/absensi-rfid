@@ -85,6 +85,8 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
 
     //Route Data Absensi
     Route::get('/absensi/export', [AbsensiController::class, 'export'])->name('absensi.export');
+    Route::get('/absensi/report', [AbsensiController::class, 'report'])->name('absensi.report');
+    Route::get('/absensi/export-report', [AbsensiController::class, 'generate'])->name('absensi.generate');
     Route::resource('absensi', AbsensiController::class);
 
     //Route Data Absensi Staff

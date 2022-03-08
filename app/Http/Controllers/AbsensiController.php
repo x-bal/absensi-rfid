@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AbsensiExport;
+use App\Exports\ReportAbsensiExport;
 use App\Models\Absensi;
 use App\Models\Kelas;
+use App\Models\Siswa;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -145,5 +147,43 @@ class AbsensiController extends Controller
         } catch (\Throwable $th) {
             return back()->with('erorr', $th->getMessage());
         }
+    }
+
+    public function report(Request $request)
+    {
+        $kelas = Kelas::get();
+        $siswa = '';
+        $from = $request->from ?? '';
+        $to = $request->to ?? '';
+        $act = '';
+
+        if ($request->kelas == 'all') {
+            $siswa = Siswa::get();
+        } else {
+            $siswa = Siswa::where('kelas_id', $request->kelas)->get();
+        }
+
+        return view('absensi.report', compact('kelas', 'siswa', 'from', 'to', 'act'));
+    }
+
+    public function generate()
+    {
+        $title = 'Rekap Absensi Siswa ';
+
+        if (request('kelas') != 'all') {
+            $title .= 'Kelas ' . Kelas::find(request('kelas'))->nama;
+        } else {
+            $title .= 'Semua Kelas ';
+        }
+
+        if (request('from') && request('to')) {
+            $title .= ' Tanggal ' . Carbon::parse(request('from'))->format('d-m-Y') . ' s.d ' . Carbon::parse(request('to'))->format('d-m-Y');
+        } else {
+            $title .= 'Tanggal ' . Carbon::now()->format('d-m-Y');
+        }
+
+        $title .= '.xlsx';
+
+        return Excel::download(new ReportAbsensiExport(request('from'), request('to'), request('kelas'), request('act')), $title);
     }
 }

@@ -94,13 +94,6 @@ class KelasController extends Controller
         try {
             DB::beginTransaction();
 
-            foreach ($kela->siswa as $sw) {
-                $sw->delete();
-            }
-
-            $kela->delete();
-
-            DB::commit();
 
             return redirect()->route('kelas.index')->with('success', 'Kelas berhasil didelete');
         } catch (\Throwable $th) {
@@ -151,11 +144,11 @@ class KelasController extends Controller
             DB::beginTransaction();
             if ($request->kelas == 'Lulus') {
                 foreach ($request->id as $id) {
-                    $siswa = Siswa::find($id)->update(['status_pelajar' => $request->kelas]);
+                    Siswa::find($id)->update(['status_pelajar' => $request->kelas]);
                 }
             } else {
                 foreach ($request->id as $id) {
-                    $siswa = Siswa::find($id)->update(['kelas_id' => $request->kelas]);
+                    Siswa::find($id)->update(['kelas_id' => $request->kelas, 'status_pelajar' => 'Siswa']);
                 }
             }
 
@@ -163,7 +156,7 @@ class KelasController extends Controller
 
             return redirect()->route('kelas.show', $request->kelas)->with('success', 'Kenaikan kelas siswa berhasil');
         } catch (\Throwable $th) {
-            return back()->with('success', $th->getMessage());
+            return back()->with('error', $th->getMessage());
         }
     }
 }

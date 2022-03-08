@@ -265,18 +265,26 @@
                             <div class="collapse {{ request()->is('absensi*') || request()->is('absensi-staff*') ? 'show' : '' }}" id="absensi">
                                 <ul class="nav nav-collapse">
                                     @can('absensi-siswa-access')
-                                    <li class="{{ request()->is('absensi*') ? 'active' : '' }}">
+                                    <li class="{{ request()->is('absensi') ? 'active' : '' }}">
                                         <a href="{{ route('absensi.index') }}">
-                                            <span class="sub-item"><i style="color: {{ request()->is('absensi*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-id-badge"></i> Absensi Siswa</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('absensi.index') ? '' : '#575962' }} !important;" class="menu-icon fas fa-id-badge"></i> Absensi Siswa</span>
                                         </a>
                                     </li>
                                     @endcan
 
 
                                     @can('absensi-staff-access')
-                                    <li class="{{ request()->is('absensi-staff*') ? 'active' : '' }}">
+                                    <li class="{{ request()->is('absensi-staff') ? 'active' : '' }}">
                                         <a href="{{ route('absensi-staff.index') }}">
-                                            <span class="sub-item"><i style="color: {{ request()->is('absensi-staff*') ? '' : '#575962' }} !important;" class="menu-icon fas fa-clipboard-list"></i> Absensi Staff</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('absensi-staff.index') ? '' : '#575962' }} !important;" class="menu-icon fas fa-clipboard-list"></i> Absensi Staff</span>
+                                        </a>
+                                    </li>
+                                    @endcan
+
+                                    @can('report-siswa-access')
+                                    <li class="{{ request()->is('absensi/report') ? 'active' : '' }}">
+                                        <a href="{{ route('absensi.report') }}">
+                                            <span class="sub-item"><i style="color: {{ request()->is('absensi.report') ? '' : '#575962' }} !important;" class="menu-icon fas fa-id-badge"></i> Rekap Absensi Siswa</span>
                                         </a>
                                     </li>
                                     @endcan
