@@ -95,9 +95,9 @@ class AbsensiController extends Controller
         }
 
         if (request('mulai') && request('sampai')) {
-            $title .= ' Tanggal ' . Carbon::parse(request('mulai'))->format('d-m-Y') . ' - ' . Carbon::parse(request('sampai'))->format('d-m-Y');
+            $title .= ' Tanggal ' . Carbon::parse(request('mulai'))->format('d-m-Y') . ' s.d ' . Carbon::parse(request('sampai'))->format('d-m-Y');
         } else {
-            $title .= 'Tanggal ' . Carbon::now()->format('d-m-Y');
+            $title .= ' Tanggal ' . Carbon::now()->format('d-m-Y');
         }
 
         $title .= '.xlsx';

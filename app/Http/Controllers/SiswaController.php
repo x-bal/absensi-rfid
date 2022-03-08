@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kelas;
 use App\Models\Rfid;
 use App\Models\Siswa;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -199,6 +200,16 @@ class SiswaController extends Controller
             return back()->with('success', 'Siswa berhasil diaktifasi kembali');
         } catch (\Throwable $th) {
             return back()->with('error', $th->getMessage());
+        }
+    }
+
+    public function export(Siswa $siswa)
+    {
+        $period = CarbonPeriod::create('2022-02-01', '2022-03-01');
+
+        // Iterate over the period
+        foreach ($period as $date) {
+            echo $date->format('d') . '<br>';
         }
     }
 }

@@ -64,6 +64,7 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
     //Route Data Siswa
     Route::get('/dump/siswa', [SiswaController::class, 'dump'])->name('siswa.dump');
     Route::get('/siswa/{siswa:id}/activated', [SiswaController::class, 'activated'])->name('siswa.activated');
+    Route::get('/siswa/{siswa:id}/export', [SiswaController::class, 'export'])->name('siswa.export');
     Route::resource('siswa', SiswaController::class);
 
     //Route Data Jadwal
@@ -91,6 +92,8 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
 
     //Route Data Absensi Staff
     Route::get('/absensi-staff/export', [AbsensiStaffController::class, 'export'])->name('absensi-staff.export');
+    Route::get('/absensi-staff/report', [AbsensiStaffController::class, 'report'])->name('absensi-staff.report');
+    Route::get('/absensi-staff/export-report', [AbsensiStaffController::class, 'generate'])->name('absensi-staff.generate');
     Route::resource('absensi-staff', AbsensiStaffController::class);
 
 

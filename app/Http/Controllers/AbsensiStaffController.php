@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Exports\AbsensiStaffExport;
+use App\Exports\ReportAbsensiStaffExport;
 use App\Models\AbsensiStaff;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -64,7 +66,7 @@ class AbsensiStaffController extends Controller
         $title = 'Data Absensi Staff';
 
         if (request('mulai') && request('sampai')) {
-            $title .= ' Tanggal ' . Carbon::parse(request('mulai'))->format('d-m-Y') . ' - ' . Carbon::parse(request('sampai'))->format('d-m-Y');
+            $title .= ' Tanggal ' . Carbon::parse(request('mulai'))->format('d-m-Y') . ' s.d ' . Carbon::parse(request('sampai'))->format('d-m-Y');
         } else {
             $title .= ' Tanggal ' . Carbon::now()->format('d-m-Y');
         }
@@ -104,5 +106,30 @@ class AbsensiStaffController extends Controller
         } catch (\Throwable $th) {
             return back()->with('erorr', $th->getMessage());
         }
+    }
+
+    public function report(Request $request)
+    {
+        $from = $request->from ?? '';
+        $to = $request->to ?? '';
+        $act = '';
+        $staff = User::where('id', '!=', 1)->where('is_active', 1)->get();
+
+        return view('absensi-staff.report', compact('staff', 'from', 'to', 'act'));
+    }
+
+    public function generate()
+    {
+        $title = 'Rekap Absensi Staff';
+
+        if (request('from') && request('to')) {
+            $title .= ' Tanggal ' . Carbon::parse(request('from'))->format('d-m-Y') . ' s.d ' . Carbon::parse(request('to'))->format('d-m-Y');
+        } else {
+            $title .= ' Tanggal ' . Carbon::now()->format('d-m-Y');
+        }
+
+        $title .= '.xlsx';
+
+        return Excel::download(new ReportAbsensiStaffExport(request('from'), request('to'), request('act')), $title);
     }
 }

@@ -284,7 +284,15 @@
                                     @can('report-siswa-access')
                                     <li class="{{ request()->is('absensi/report') ? 'active' : '' }}">
                                         <a href="{{ route('absensi.report') }}">
-                                            <span class="sub-item"><i style="color: {{ request()->is('absensi.report') ? '' : '#575962' }} !important;" class="menu-icon fas fa-id-badge"></i> Rekap Absensi Siswa</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('absensi.report') ? '' : '#575962' }} !important;" class="menu-icon fas fa-book-open"></i> Rekap Absensi Siswa</span>
+                                        </a>
+                                    </li>
+                                    @endcan
+
+                                    @can('report-staff-access')
+                                    <li class="{{ request()->is('absensi-staff/report') ? 'active' : '' }}">
+                                        <a href="{{ route('absensi-staff.report') }}">
+                                            <span class="sub-item"><i style="color: {{ request()->is('absensi.report') ? '' : '#575962' }} !important;" class="menu-icon fas fa-book-reader"></i> Rekap Absensi Staff</span>
                                         </a>
                                     </li>
                                     @endcan
@@ -294,7 +302,7 @@
                         @endcan
 
                         @can('access-user')
-                        <li class="nav-item {{ request()->is('role*') || request()->is('permission*') ? 'active submenu'  : '' }}">
+                        <li class=" nav-item {{ request()->is('role*') || request()->is('permission*') ? 'active submenu'  : '' }}">
                             <a data-toggle="collapse" href="#access">
                                 <i class="fas fa-universal-access"></i>
                                 <p>Access User</p>
