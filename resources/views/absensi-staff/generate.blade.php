@@ -15,9 +15,6 @@
             <th>Sakit</th>
             <th>Ijin</th>
             <th>Alpa</th>
-            @if($act != 'export')
-            <th>Action</th>
-            @endif
         </tr>
     </thead>
 
