@@ -61,7 +61,7 @@ class AbsensiController extends Controller
                     return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' .  $row->ket . '</span>';
                 })
                 ->editColumn('edited', function ($row) {
-                    return $row->edited_by != 1 ? $row->edited->nama : '';
+                    return $row->edited_by != 0 ? $row->edited->nama : '';
                 })
                 ->editColumn('action', function ($row) {
                     if (auth()->user()->hasRole(['Me', 'Super Admin', 'Admin'])) {
