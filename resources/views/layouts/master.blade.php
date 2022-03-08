@@ -292,7 +292,7 @@
                                     @can('report-staff-access')
                                     <li class="{{ request()->is('absensi-staff/report') ? 'active' : '' }}">
                                         <a href="{{ route('absensi-staff.report') }}">
-                                            <span class="sub-item"><i style="color: {{ request()->is('absensi.report') ? '' : '#575962' }} !important;" class="menu-icon fas fa-book-reader"></i> Rekap Absensi Staff</span>
+                                            <span class="sub-item"><i style="color: {{ request()->is('absensi-staff.report') ? '' : '#575962' }} !important;" class="menu-icon fas fa-book-reader"></i> Rekap Absensi Staff</span>
                                         </a>
                                     </li>
                                     @endcan
