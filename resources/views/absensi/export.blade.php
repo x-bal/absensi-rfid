@@ -18,8 +18,8 @@
             <td>{{ $loop->iteration }}</td>
             <td>{{ $absen->siswa->nama }}</td>
             <td>{{ Carbon\Carbon::parse($absen->created_at)->format('d/m/Y') }}</td>
-            <td>{{ $absen->status_hadir == 'Hadir' ? 'Y' : '' }}</td>
-            <td>{{ $absen->status_hadir == 'Hadir Via Zoom' ? 'Y' : '' }}</td>
+            <td>{{ $absen->status_hadir == 'Hadir' ? 'Y' : '' }} ({{$absen->ket}})</td>
+            <td>{{ $absen->status_hadir == 'Hadir Via Zoom' ? 'Y' : '' }} ({{$absen->ket}})</td>
             <td>{{ $absen->status_hadir == 'Sakit' ? 'Y' : '' }}</td>
             <td>{{ $absen->status_hadir == 'Ijin' ? 'Y' : '' }}</td>
             <td>{{ $absen->status_hadir == 'Alpa' ? 'Y' : '' }}</td>
