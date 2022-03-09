@@ -14,7 +14,7 @@ class HistoryController extends Controller
         auth()->user()->can('history-access') ? true : abort(403);
 
         if (request()->ajax()) {
-            $data = History::latest()->get();
+            $data = History::where('created_at', '>=', Carbon::now('Asia/Jakarta')->format('Y-m-d 00:00:00'))->where('created_at', '<', Carbon::now('Asia/Jakarta')->addDay(1)->format('Y-m-d 00:00:00'))->latest()->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('device', function ($row) {
