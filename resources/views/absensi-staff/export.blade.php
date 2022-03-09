@@ -22,22 +22,22 @@
             <td>{{ $absen->staff->nama }}</td>
             <td>{{ Carbon\Carbon::parse($absen->created_at)->format('d/m/Y') }}</td>
             <td>
-                {{ $absen->status_hadir }} ({{$absen->ket}})
+                {{ $absen->status_hadir }}
             </td>
             <td>
-                {{ $absen->status_hadir }} ({{$absen->ket}})
+                {{ $absen->status_hadir }}
             </td>
             <td>
-                {{ $absen->status_hadir }} ({{$absen->ket}})
+                {{ $absen->status_hadir }}
             </td>
             <td>
-                {{ $absen->status_hadir }} ({{$absen->ket}})
+                {{ $absen->status_hadir }}
             </td>
             <td>
-                {{ $absen->status_hadir }} ({{$absen->ket}})
+                {{ $absen->status_hadir }}
             </td>
             <td>
-                {{ $absen->status_hadir }} ({{$absen->ket}})
+                {{ $absen->status_hadir }}
             </td>
             <td>
                 {{ $absen->masuk == 1 ? Carbon\Carbon::parse($absen->waktu_masuk)->format('d/m/Y H:i:s') : '-' }}
