@@ -68,9 +68,8 @@
             $ijin += $sw->absensi->whereBetween('created_at', [$from, Carbon\Carbon::parse($to)->addDay(1)->format('Y-m-d 00:00:00')])->where('status_hadir', 'Ijin')->count();
 
             $alpa += $sw->absensi->whereBetween('created_at', [$from, Carbon\Carbon::parse($to)->addDay(1)->format('Y-m-d 00:00:00')])->where('status_hadir', 'Alpa')->count();
-            @endphp
 
-            $alpa += $sw->absensi->whereBetween('created_at', [$from, Carbon\Carbon::parse($to)->addDay(1)->format('Y-m-d 00:00:00')])->where('status_hadir', 'Telat Masuk')->count();
+            $telat += $sw->absensi->whereBetween('created_at', [$from, Carbon\Carbon::parse($to)->addDay(1)->format('Y-m-d 00:00:00')])->where('status_hadir', 'Telat Masuk')->count();
             @endphp
         </tr>
         @endforeach
