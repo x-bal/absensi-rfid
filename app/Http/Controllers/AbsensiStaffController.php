@@ -64,6 +64,7 @@ class AbsensiStaffController extends Controller
     public function export()
     {
         $title = 'Data Absensi Staff';
+        $sampai = '';
 
         if (request('mulai') && request('sampai')) {
             $title .= ' Tanggal ' . Carbon::parse(request('mulai'))->format('d-m-Y') . ' s.d ' . Carbon::parse(request('sampai'))->format('d-m-Y');
