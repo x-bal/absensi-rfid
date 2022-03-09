@@ -429,6 +429,7 @@ class ApiController extends Controller
         $endMasuk = Carbon::parse($masuk[1])->format('His');
         $startKeluar = Carbon::parse($keluar[0])->format('His');
         $endKeluar = Carbon::parse($keluar[1])->format('His');
+        $telat = Carbon::parse($waktu->telat)->format('His');
 
         $absen = false;
         $today = Carbon::now()->format('His');
@@ -448,7 +449,7 @@ class ApiController extends Controller
             $respon = "Masuk Tepat Waktu";
         }
 
-        if ($today > $endMasuk && $today <= Carbon::parse($endMasuk)->format('His')) {
+        if ($today > $endMasuk && $today <= $telat) {
             $absen = true;
             $ket = "Telat Masuk";
             $status = 1;
@@ -572,6 +573,7 @@ class ApiController extends Controller
         $endMasuk = Carbon::parse($masuk[1])->format('His');
         $startKeluar = Carbon::parse($keluar[0])->format('His');
         $endKeluar = Carbon::parse($keluar[1])->format('His');
+        $telat = Carbon::parse($waktu->telat)->format('His');
 
         $absen = false;
         $today = Carbon::now()->format('His');
@@ -591,7 +593,7 @@ class ApiController extends Controller
             $respon = "Masuk Tepat Waktu";
         }
 
-        if ($today > $endMasuk && $today <= Carbon::parse($endMasuk)->format('His')) {
+        if ($today > $endMasuk && $today <= $telat) {
             $absen = true;
             $ket = "Telat Masuk";
             $status = 1;

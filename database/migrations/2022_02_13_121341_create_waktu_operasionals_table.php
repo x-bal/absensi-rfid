@@ -17,7 +17,7 @@ class CreateWaktuOperasionalsTable extends Migration
             $table->id();
             $table->string('waktu_masuk');
             $table->string('waktu_keluar');
-            $table->string('keterangan')->nullable();
+            $table->string('telat')->nullable();
             $table->timestamps();
         });
     }

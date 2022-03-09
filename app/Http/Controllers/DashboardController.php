@@ -62,7 +62,7 @@ class DashboardController extends Controller
         $masukSat = explode(' - ', $saturday->waktu_masuk);
         $keluarSat = explode(' - ', $saturday->waktu_keluar);
 
-        return view('dashboard.setting', compact('waktu', 'masuk', 'keluar', 'masukWeekday', 'keluarWeekday', 'masukSat', 'keluarSat', 'secretKey'));
+        return view('dashboard.setting', compact('waktu', 'weekday', 'saturday', 'masuk', 'keluar', 'masukWeekday', 'keluarWeekday', 'masukSat', 'keluarSat', 'secretKey'));
     }
 
     public function updateWaktu(Request $request, $id)
@@ -81,6 +81,9 @@ class DashboardController extends Controller
             'waktu_akhir_masuk_sat' => 'required',
             'waktu_awal_keluar_sat' => 'required',
             'waktu_akhir_keluar_sat' => 'required',
+            'telat_siswa' => 'required',
+            'telat_staff' => 'required',
+            'telat_sat' => 'required',
         ]);
 
         try {
@@ -94,6 +97,7 @@ class DashboardController extends Controller
             $waktuOperasional->update([
                 'waktu_masuk' => $masuk,
                 'waktu_keluar' => $keluar,
+                'telat' => $request->telat_siswa
             ]);
 
             // Waktu Masuk Staff (Mon - Fri)
@@ -105,6 +109,7 @@ class DashboardController extends Controller
             $weekday->update([
                 'waktu_masuk' => $masukWeek,
                 'waktu_keluar' => $keluarWeek,
+                'telat' => $request->telat_staff
             ]);
 
             // Waktu Masuk Saturday
@@ -116,7 +121,9 @@ class DashboardController extends Controller
             $saturday->update([
                 'waktu_masuk' => $masukSat,
                 'waktu_keluar' => $keluarSat,
+                'telat' => $request->telat_sat
             ]);
+
             DB::commit();
 
             return redirect()->route('setting')->with('success', 'Waktu Operasional berhasil diupdate');
