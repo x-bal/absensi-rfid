@@ -45,8 +45,8 @@ class AbsensiMasukCommand extends Command
         $now = Carbon::now('Asia/Jakarta')->format('H:i');
         $today = Carbon::now('Asia/Jakarta')->format('Y-m-d 00:00:00');
         $tomorrow = Carbon::tomorrow('Asia/Jakarta')->format('Y-m-d 00:00:00');
-        $siswa = Siswa::get();
-        $staff = User::where('id', '!=', 1)->get();
+        $siswa = Siswa::where('is_active', 1)->get();
+        $staff = User::where('id', '!=', 1)->where('is_active', 1)->get();
 
         // Absensi Siswa
         if ($now == '09:00') {

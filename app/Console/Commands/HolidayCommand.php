@@ -41,8 +41,8 @@ class HolidayCommand extends Command
         $sunday = 'Sunday';
         $holidays = Holiday::get();
         $now = Carbon::now('Asia/Jakarta')->format('Y-m-d');
-        $siswa = Siswa::get();
-        $staff = User::where('id', '!=', 1)->get();
+        $siswa = Siswa::where('is_active', 1)->get();
+        $staff = User::where('is_active', 1)->where('id', '!=', 1)->get();
 
         if (Carbon::now('Asia/Jakarta')->format('H:i') == '07:00') {
             // Absensi Siswa
