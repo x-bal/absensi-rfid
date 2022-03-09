@@ -13,7 +13,7 @@ class RoleController extends Controller
     {
         auth()->user()->can('role-access') ? true : abort(403);
 
-        $roles = Role::where('name', '!=', 'Me')->orderBy('name', 'ASC')->get();
+        $roles = Role::orderBy('name', 'ASC')->get();
 
         return view('roles.index', compact('roles'));
     }

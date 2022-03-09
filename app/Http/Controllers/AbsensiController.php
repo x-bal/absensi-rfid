@@ -151,6 +151,8 @@ class AbsensiController extends Controller
 
     public function report(Request $request)
     {
+        auth()->user()->can('report-siswa-access') ? true : abort(403);
+
         $kelas = Kelas::get();
         $siswa = '';
         $from = $request->from ?? '';
@@ -160,7 +162,7 @@ class AbsensiController extends Controller
         if ($request->kelas == 'all') {
             $siswa = Siswa::get();
         } else {
-            $siswa = Siswa::where('kelas_id', $request->kelas)->get();
+            $siswa = Siswa::where('is_active', 1)->where('kelas_id', $request->kelas)->get();
         }
 
         return view('absensi.report', compact('kelas', 'siswa', 'from', 'to', 'act'));
@@ -179,7 +181,7 @@ class AbsensiController extends Controller
         if (request('from') && request('to')) {
             $title .= ' Tanggal ' . Carbon::parse(request('from'))->format('d-m-Y') . ' s.d ' . Carbon::parse(request('to'))->format('d-m-Y');
         } else {
-            $title .= 'Tanggal ' . Carbon::now()->format('d-m-Y');
+            $title .= ' Tanggal ' . Carbon::now()->format('d-m-Y');
         }
 
         $title .= '.xlsx';
