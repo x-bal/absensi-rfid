@@ -462,14 +462,6 @@ class ApiController extends Controller
             $respon = "Telat Masuk";
         }
 
-        if ($today >= $awalIjin && $today <= $akhirIjin) {
-            $response = [
-                'status' => 'failed',
-                'ket' => 'Absensi Diluar Waktu Masuk dan Keluar'
-            ];
-            echo json_encode($response);
-        }
-
         if ($today >= $startKeluar && $today <= Carbon::parse($endKeluar)->format('His')) {
             $absen = true;
             $ket = "Keluar";
