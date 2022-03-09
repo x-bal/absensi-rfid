@@ -87,6 +87,7 @@ class AbsensiController extends Controller
     public function export()
     {
         $title = 'Data Absensi Siswa ';
+        $sampai = '';
 
         if (request('kelas')) {
             $title .= 'Kelas ' . Kelas::find(request('kelas'))->nama;
@@ -96,13 +97,14 @@ class AbsensiController extends Controller
 
         if (request('mulai') && request('sampai')) {
             $title .= ' Tanggal ' . Carbon::parse(request('mulai'))->format('d-m-Y') . ' s.d ' . Carbon::parse(request('sampai'))->format('d-m-Y');
+            $sampai = Carbon::parse(request('sampai'))->addDay(1)->format('Y-m-d 00:00:00');
         } else {
             $title .= ' Tanggal ' . Carbon::now()->format('d-m-Y');
         }
 
         $title .= '.xlsx';
 
-        return Excel::download(new AbsensiExport(request('mulai'), request('sampai'), request('kelas')), $title);
+        return Excel::download(new AbsensiExport(request('mulai'), $sampai, request('kelas')), $title);
     }
 
     public function edit(Absensi $absensi)
