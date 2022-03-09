@@ -128,6 +128,28 @@
                         </div>
                     </div>
 
+                    <div class="row">
+                        <div class="col-md-5 text-center">
+                            <label for="waktu_ijin_pulang">Waktu ijin Pulang Lebih Awal</label>
+                        </div>
+                        <div class="col-md-5 text-center">
+                            <label for="waktu_keluar_sat"></label>
+                        </div>
+                        <div class="col-md-2 text-center">
+                            <label for="telat_sat"></label>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_awal_ijin" id="waktu_awal_ijin" class="form-control text-center" value="{{ $ijinPulang->waktu_masuk ?? '-' }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="time" name="waktu_akhir_ijin" id="waktu_akhir_ijin" class="form-control text-center" value="{{ $ijinPulang->waktu_keluar ?? '-' }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row justify-content-center">
                         <div class="col-md-2">
                             <div class="form-group">

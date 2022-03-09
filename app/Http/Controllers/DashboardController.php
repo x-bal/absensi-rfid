@@ -54,6 +54,7 @@ class DashboardController extends Controller
         $waktu = WaktuOperasional::find(1);
         $weekday = WaktuOperasional::find(2);
         $saturday = WaktuOperasional::find(3);
+        $ijinPulang = WaktuOperasional::find(4);
 
         $masuk = explode(' - ', $waktu->waktu_masuk);
         $keluar = explode(' - ', $waktu->waktu_keluar);
@@ -62,7 +63,7 @@ class DashboardController extends Controller
         $masukSat = explode(' - ', $saturday->waktu_masuk);
         $keluarSat = explode(' - ', $saturday->waktu_keluar);
 
-        return view('dashboard.setting', compact('waktu', 'weekday', 'saturday', 'masuk', 'keluar', 'masukWeekday', 'keluarWeekday', 'masukSat', 'keluarSat', 'secretKey'));
+        return view('dashboard.setting', compact('waktu', 'weekday', 'saturday', 'ijinPulang', 'masuk', 'keluar', 'masukWeekday', 'keluarWeekday', 'masukSat', 'keluarSat', 'secretKey'));
     }
 
     public function updateWaktu(Request $request, $id)
@@ -84,6 +85,8 @@ class DashboardController extends Controller
             'telat_siswa' => 'required',
             'telat_staff' => 'required',
             'telat_sat' => 'required',
+            'waktu_awal_ijin' => 'required',
+            'waktu_akhir_ijin' => 'required',
         ]);
 
         try {
@@ -122,6 +125,14 @@ class DashboardController extends Controller
                 'waktu_masuk' => $masukSat,
                 'waktu_keluar' => $keluarSat,
                 'telat' => $request->telat_sat
+            ]);
+
+            // Waktu ijin Pulang
+            $ijin = WaktuOperasional::find(4);
+
+            $ijin->update([
+                'waktu_masuk' => $request->waktu_awal_ijin,
+                'waktu_keluar' => $request->waktu_akhir_ijin,
             ]);
 
             DB::commit();
