@@ -40,10 +40,10 @@
                 {{ $absen->status_hadir }}
             </td>
             <td>
-                {{ $absen->masuk == 1 ? Carbon\Carbon::parse($absen->jam_masuk)->format('d/m/Y H:i:s') : '-' }}
+                {{ $absen->masuk == 1 ? Carbon\Carbon::parse($absen->waktu_masuk)->format('d/m/Y H:i:s') : '-' }}
             </td>
             <td>
-                {{ $absen->keluar == 1 ? Carbon\Carbon::parse($absen->jam_keluar)->format('d/m/Y H:i:s') : '-' }}
+                {{ $absen->keluar == 1 ? Carbon\Carbon::parse($absen->waktu_keluar)->format('d/m/Y H:i:s') : '-' }}
             </td>
         </tr>
         @endforeach
