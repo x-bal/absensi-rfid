@@ -20,7 +20,7 @@ class AbsensiStaffController extends Controller
 
         if (request()->ajax()) {
             if (request('mulai') && request('sampai')) {
-                $data = AbsensiStaff::whereBetween('created_at', [request('mulai'), request('sampai')])->get();
+                $data = AbsensiStaff::whereBetween('created_at', [request('mulai'), Carbon::parse(request('sampai'))->addDay(1)->format('Y-m-d 00:00:00')])->get();
             } else {
                 $data = AbsensiStaff::where('created_at', '>=', Carbon::now()->format('Y-m-d 00:00:00'))->get();
             }

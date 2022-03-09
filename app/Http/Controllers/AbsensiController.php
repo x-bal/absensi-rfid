@@ -28,7 +28,7 @@ class AbsensiController extends Controller
                 })->get();
 
                 if (request('mulai') != '' && request('sampai') != '') {
-                    $data = Absensi::whereBetween('created_at', [request('mulai'), request('sampai')])->whereHas('siswa', function ($query) {
+                    $data = Absensi::whereBetween('created_at', [request('mulai'), Carbon::parse(request('sampai'))->addDay(1)->format('Y-m-d 00:00:00')])->whereHas('siswa', function ($query) {
                         return $query->where('kelas_id', request('kelas'));
                     })->get();
                 }
