@@ -112,13 +112,13 @@ class AbsensiController extends Controller
         auth()->user()->can('absensi-siswa-edit') ? true : abort(403);
 
         if (auth()->user()->hasRole(['Me', 'Super Admin', 'Admin'])) {
-            $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa'];
+            $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa', 'Telat Masuk'];
             return view('absensi.edit', compact('absensi', 'status'));
         }
 
         if (auth()->user()->hasRole('Guru')) {
             if ($absensi->edited_by == 0) {
-                $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa'];
+                $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa', 'Telat Masuk'];
                 return view('absensi.edit', compact('absensi', 'status'));
             } else {
                 return back();

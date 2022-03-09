@@ -14,6 +14,7 @@
             <th>Sakit</th>
             <th>Ijin</th>
             <th>Alpa</th>
+            <th>Telat</th>
         </tr>
     </thead>
 
@@ -24,6 +25,7 @@
         $sakit = 0;
         $ijin = 0;
         $alpa = 0;
+        $telat = 0;
         @endphp
         @foreach($staff as $stf)
         <tr>
@@ -52,6 +54,9 @@
             <td class="text-center">
                 {{ $stf->absensiStaff->whereBetween('created_at', [$from, Carbon\Carbon::parse($to)->addDay(1)->format('Y-m-d 00:00:00')])->where('status_hadir', 'Alpa')->count() }}
             </td>
+            <td class="text-center">
+                {{ $stf->absensiStaff->whereBetween('created_at', [$from, Carbon\Carbon::parse($to)->addDay(1)->format('Y-m-d 00:00:00')])->where('status_hadir', 'Telat Masuk')->count() }}
+            </td>
             @php
             $hadir += $stf->absensiStaff->whereBetween('created_at', [$from, Carbon\Carbon::parse($to)->addDay(1)->format('Y-m-d 00:00:00')])->where('status_hadir', 'Hadir')->count();
 
@@ -62,6 +67,9 @@
             $ijin += $stf->absensiStaff->whereBetween('created_at', [$from, Carbon\Carbon::parse($to)->addDay(1)->format('Y-m-d 00:00:00')])->where('status_hadir', 'Ijin')->count();
 
             $alpa += $stf->absensiStaff->whereBetween('created_at', [$from, Carbon\Carbon::parse($to)->addDay(1)->format('Y-m-d 00:00:00')])->where('status_hadir', 'Alpa')->count();
+            @endphp
+
+            $alpa += $stf->absensiStaff->whereBetween('created_at', [$from, Carbon\Carbon::parse($to)->addDay(1)->format('Y-m-d 00:00:00')])->where('status_hadir', 'Telat Masuk')->count();
             @endphp
         </tr>
         @endforeach
@@ -75,6 +83,7 @@
             <th class="text-center">{{ $sakit }}</th>
             <th class="text-center">{{ $ijin }}</th>
             <th class="text-center">{{ $alpa }}</th>
+            <th class="text-center">{{ $telat }}</th>
         </tr>
     </tfoot>
     @endif

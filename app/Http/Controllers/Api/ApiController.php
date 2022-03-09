@@ -445,6 +445,7 @@ class ApiController extends Controller
         if ($today >= $startMasuk && $today <= $endMasuk) {
             $absen = true;
             $ket = "Masuk";
+            $stt = "Hadir";
             $status = 1;
             $respon = "Masuk Tepat Waktu";
         }
@@ -452,6 +453,7 @@ class ApiController extends Controller
         if ($today > $endMasuk && $today <= $telat) {
             $absen = true;
             $ket = "Telat Masuk";
+            $stt = "Telat Masuk";
             $status = 1;
             $respon = "Telat Masuk";
         }
@@ -493,7 +495,7 @@ class ApiController extends Controller
                         'user_id' => $rfid->id,
                         'masuk' => $ket == 'Masuk' || $ket == 'Telat Masuk' ? $status : 0,
                         'waktu_masuk' => Carbon::now()->format('Y-m-d H:i:s'),
-                        'status_hadir' => 'Hadir',
+                        'status_hadir' => $stt,
                         'ket' => $ket,
                     ]);
 
@@ -589,6 +591,7 @@ class ApiController extends Controller
         if ($today >= $startMasuk && $today <= $endMasuk) {
             $absen = true;
             $ket = "Masuk";
+            $stt = 'Hadir';
             $status = 1;
             $respon = "Masuk Tepat Waktu";
         }
@@ -596,6 +599,7 @@ class ApiController extends Controller
         if ($today > $endMasuk && $today <= $telat) {
             $absen = true;
             $ket = "Telat Masuk";
+            $stt = "Telat Masuk";
             $status = 1;
             $respon = "Telat Masuk";
         }
@@ -637,7 +641,7 @@ class ApiController extends Controller
                         'siswa_id' => $rfid->id,
                         'masuk' => $ket == 'Masuk' || $ket == 'Telat Masuk' ? $status : 0,
                         'waktu_masuk' => Carbon::now()->format('Y-m-d H:i:s'),
-                        'status_hadir' => 'Hadir',
+                        'status_hadir' => $stt,
                         'ket' => $ket
                     ]);
 
