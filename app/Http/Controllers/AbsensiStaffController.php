@@ -110,7 +110,7 @@ class AbsensiStaffController extends Controller
 
     public function report(Request $request)
     {
-        auth()->user()->can('report-staff-edit') ? true : abort(403);
+        auth()->user()->can('report-staff-access') ? true : abort(403);
 
         $from = $request->from ?? '';
         $to = $request->to ?? '';
