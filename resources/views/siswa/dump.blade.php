@@ -10,6 +10,26 @@
 @section('content')
 <div class="row">
     <div class="col-md-12">
+        <div class="card card-stats card-danger card-round">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-2">
+                        <div class="icon-big text-center">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                    </div>
+                    <div class="col-10 col-stats">
+                        <div class="numbers">
+                            <h4 class="card-title">Warning</h4>
+                            <p class="card-category">
+                                Data siswa yang dihapus dari sini bersifat permanen & semua data absensi siswa juga akan ikut terhapus !
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="card">
             <div class="card-header">Data Dump Siswa</div>
 
@@ -46,7 +66,14 @@
                                 <td>{{ $sw->gender }}</td>
                                 <td>{{ $sw->kelas->nama }}</td>
                                 <td>
-                                    <a href="{{ route('siswa.activated', $sw->id) }}" class="btn btn-sm btn-success" onclick="return confirm('Aktifkan kembali siswa ?')"><i class="fas fa-check"></i></a>
+                                    <div class="d-flex">
+                                        <a href="{{ route('siswa.activated', $sw->id) }}" class="btn btn-sm btn-success mr-1" onclick="return confirm('Aktifkan kembali siswa ?')"><i class="fas fa-check"></i></a>
+
+                                        <form action="{{ route('siswa.delete', $sw->id) }}" method="post" class="form-delete">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger btn-delete"><i class="fas fa-times"></i></button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

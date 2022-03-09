@@ -52,6 +52,7 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
     Route::get('/dump/user', [UserController::class, 'dump'])->name('user.dump');
     Route::get('/user/{user:id}/status', [UserController::class, 'status'])->name('user.status');
     Route::get('/user/islogin', [UserController::class, 'islogin'])->name('user.islogin');
+    Route::post('/user/{user:id}/delete', [UserController::class, 'delete'])->name('user.delete');
     Route::resource('user', UserController::class);
 
     //Route Data Kelas
@@ -65,6 +66,7 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
     Route::get('/dump/siswa', [SiswaController::class, 'dump'])->name('siswa.dump');
     Route::get('/siswa/{siswa:id}/activated', [SiswaController::class, 'activated'])->name('siswa.activated');
     Route::get('/siswa/{siswa:id}/export', [SiswaController::class, 'export'])->name('siswa.export');
+    Route::post('/siswa/{siswa:id}/delete', [SiswaController::class, 'delete'])->name('siswa.delete');
     Route::resource('siswa', SiswaController::class);
 
     //Route Data Jadwal

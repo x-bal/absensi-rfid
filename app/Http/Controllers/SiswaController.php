@@ -212,4 +212,22 @@ class SiswaController extends Controller
             echo $date->format('d') . '<br>';
         }
     }
+
+    public function delete(Siswa $siswa)
+    {
+        try {
+            DB::beginTransaction();
+            foreach ($siswa->absensi as $absen) {
+                $absen->delete();
+            }
+
+            $siswa->delete();
+
+            DB::commit();
+
+            return back()->with('success', 'Data siswa berhasil dihapus secara permanen');
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
+    }
 }

@@ -258,4 +258,22 @@ class UserController extends Controller
     {
         return Response::download('excel/example-format-staff.xlsx');
     }
+
+    public function delete(User $user)
+    {
+        try {
+            DB::beginTransaction();
+            foreach ($user->absensiStaff as $absen) {
+                $absen->delete();
+            }
+
+            $user->delete();
+
+            DB::commit();
+
+            return back()->with('success', 'Data Staff berhasil dihapus secara permanen');
+        } catch (\Throwable $th) {
+            return back()->with('error', $th->getMessage());
+        }
+    }
 }

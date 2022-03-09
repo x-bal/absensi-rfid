@@ -4,7 +4,12 @@
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">Data Siswa Kelas {{ $kela->nama }}</div>
+            <div class="card-header d-flex justify-content-between">
+                <div>
+                    Data Siswa Kelas {{ $kela->nama }}
+                </div>
+                <a href="{{ route('kelas.index') }}" class="btn btn-sm btn-default"><i class="fas fa-arrow-left"></i> Kembali</a>
+            </div>
 
             <div class="card-body">
                 <div class="row mb-3">
@@ -28,11 +33,6 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-danger mt-4">Submit</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <a href="{{ route('kelas.index') }}" class="btn btn-secondary mt-4"><i class="fas fa-arrow-left"></i> Kembali</a>
                                     </div>
                                 </div>
                             </div>
