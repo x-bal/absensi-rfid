@@ -526,7 +526,7 @@ class ApiController extends Controller
                     ];
                     echo json_encode($response);
                 }
-            } else if (!$absensi && $today > $telat && $today <= $awalIjin) {
+            } else if (!$absensi && $today >= $telat && $today <= $startKeluar) {
                 $response = array('status' => 'failed', 'ket' => 'Absensi diluar waktu operasional');
                 echo json_encode($response);
             } else if ($absensi && $absensi->masuk == 1 && $today >= $telat && Carbon::now('Asia/Jakarta')->format('His') >= $awalIjin && Carbon::now('Asia/Jakarta')->format('His') <= $akhirIjin) {
