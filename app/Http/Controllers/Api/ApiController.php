@@ -462,7 +462,7 @@ class ApiController extends Controller
             $respon = "Telat Masuk";
         }
 
-        if ($today >= $awalIjin && $today <= $akhirIjin) {
+        if ($today >= $telat && $today >= $awalIjin && $today <= $akhirIjin) {
             $absen = true;
             $ket = "Ijin Pulang Awal";
             $stt = "Ijin Pulang Awal";
@@ -526,7 +526,7 @@ class ApiController extends Controller
                     ];
                     echo json_encode($response);
                 }
-            } else if ($absensi && $absensi->masuk == 1 && Carbon::now('Asia/Jakarta')->format('His') >= $awalIjin && Carbon::now('Asia/Jakarta')->format('His') <= $akhirIjin) {
+            } else if ($absensi && $absensi->masuk == 1 && $today >= $telat && Carbon::now('Asia/Jakarta')->format('His') >= $awalIjin && Carbon::now('Asia/Jakarta')->format('His') <= $akhirIjin) {
                 try {
                     $absensi->update([
                         'keluar' => 1,
