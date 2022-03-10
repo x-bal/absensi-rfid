@@ -518,7 +518,7 @@ class ApiController extends Controller
                     ];
                     echo json_encode($response);
                 }
-            } else if ($absensi && $absensi->masuk == 1 && $today >= $awalIjin && $today <= $akhirIjin) {
+            } else if ($absensi && $absensi->masuk == 1 && Carbon::now('Asia/Jakarta')->format('His') >= $awalIjin && Carbon::now('Asia/Jakarta')->format('His') <= $akhirIjin) {
                 try {
                     $absensi->update([
                         'keluar' => 1,
