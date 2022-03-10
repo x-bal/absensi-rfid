@@ -58,6 +58,24 @@
     </div>
 </div>
 
+<div class="form-group row">
+    <div class="col-md-3">
+        <label for="ket">Keterangan</label>
+    </div>
+
+    <div class="col-md-9">
+        <select name="ket" id="ket" class="form-control">
+            @foreach($status as $stt)
+            <option {{ $stt == $absensiStaff->ket ? 'selected' : '' }} value="{{ $stt }}">{{ $stt }}</option>
+            @endforeach
+        </select>
+
+        @error('rfid')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
+    </div>
+</div>
+
 <div class="form-group">
     <button type="submit" class="btn btn-primary">Submit</button>
 </div>

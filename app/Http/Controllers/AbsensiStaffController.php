@@ -82,7 +82,7 @@ class AbsensiStaffController extends Controller
     {
         auth()->user()->can('absensi-staff-edit') ? true : abort(403);
 
-        $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa', 'Telat Masuk'];
+        $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa', 'Telat Masuk', 'Ijin Pulang Awal'];
         return view('absensi-staff.edit', compact('absensiStaff', 'status'));
     }
 
@@ -99,7 +99,7 @@ class AbsensiStaffController extends Controller
                 'masuk' => 1,
                 'keluar' => 1,
                 'status_hadir' => $request->status_hadir,
-                'ket' => $request->status_hadir,
+                'ket' => $request->ket,
             ]);
 
             DB::commit();
