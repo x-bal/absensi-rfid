@@ -462,7 +462,7 @@ class ApiController extends Controller
             $respon = "Telat Masuk";
         }
 
-        if ($today >= $telat && $today >= $awalIjin && $today <= $akhirIjin) {
+        if ($today > $telat && $today >= $awalIjin && $today <= $akhirIjin) {
             $absen = true;
             $ket = "Ijin Pulang Awal";
             $stt = "Ijin Pulang Awal";
@@ -492,7 +492,7 @@ class ApiController extends Controller
             $absensi = AbsensiStaff::where('user_id', $rfid->id)->where('created_at', '>=', $now)->where('created_at', '<', $tomorrow)->first();
 
 
-            if (!$absensi) {
+            if (!$absensi && $today <= $telat) {
                 try {
                     AbsensiStaff::create([
                         'device_id' => $device->id,
