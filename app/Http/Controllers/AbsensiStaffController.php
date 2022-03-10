@@ -49,7 +49,7 @@ class AbsensiStaffController extends Controller
                     return  $row->status_hadir == 'Telat Masuk' ? '<p class="text-warning">' . $keluar : '<p>' . $keluar . '</p>';
                 })
                 ->editColumn('status_hadir', function ($row) {
-                    return $row->status_hadir == 'Telat Masuk' ? '<p class="text-warning">' . $row->status_hadir : '<p>' .  $row->ket . '</p>';
+                    return $row->status_hadir == 'Telat Masuk' ? '<p class="text-warning">' . $row->status_hadir : '<p>' .  $row->status_hadir . '</p>';
                 })
                 ->editColumn('ket', function ($row) {
                     return $row->status_hadir == 'Telat Masuk' ? '<p class="text-warning">' . $row->ket : '<p>' .  $row->ket . '</p>';
