@@ -462,9 +462,13 @@ class ApiController extends Controller
             $respon = "Telat Masuk";
         }
 
-        // if ($today >= $awalIjin && $today <= $akhirIjin) {
-        //     $absen = true;
-        // }
+        if ($today >= $awalIjin && $today <= $akhirIjin) {
+            $absen = true;
+            $ket = "Ijin Pulang Awal";
+            $stt = "Ijin Pulang Awal";
+            $status = 1;
+            $respon = "Ijin Pulang Awal";
+        }
 
         if ($today >= $startKeluar && $today <= Carbon::parse($endKeluar)->format('His')) {
             $absen = true;

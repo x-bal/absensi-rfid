@@ -29,24 +29,24 @@ class AbsensiStaffController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('device', function ($row) {
-                    return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $row->device->nama . ' ' . '(' . $row->device->id . ')' . '</span>';
+                    return $row->status_hadir == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $row->device->nama . ' ' . '(' . $row->device->id . ')' . '</span>';
                 })
                 ->editColumn('rfid', function ($row) {
-                    return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $row->staff->rfid . '</span>';
+                    return $row->status_hadir == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $row->staff->rfid . '</span>';
                 })
                 ->editColumn('nama', function ($row) {
-                    return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $row->staff->nama . ' ' . '(' . $row->staff->nik . ')' . '</span>';
+                    return $row->status_hadir == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $row->staff->nama . ' ' . '(' . $row->staff->nik . ')' . '</span>';
                 })
                 ->editColumn('jabatan', function ($row) {
-                    return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $row->staff->jabatan . '</span>';
+                    return $row->status_hadir == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $row->staff->jabatan . '</span>';
                 })
                 ->editColumn('waktu_masuk', function ($row) {
                     $masuk = $row->masuk == 1 ? Carbon::parse($row->waktu_masuk)->format('d/m/Y H:i:s') : '-';
-                    return  $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $masuk . '</span>';
+                    return  $row->status_hadir == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $masuk . '</span>';
                 })
                 ->editColumn('waktu_keluar', function ($row) {
                     $keluar = $row->keluar == 1 ? Carbon::parse($row->waktu_keluar)->format('d/m/Y H:i:s') : '-';
-                    return  $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $keluar . '</span>';
+                    return  $row->status_hadir == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' . $keluar . '</span>';
                 })
                 ->editColumn('ket', function ($row) {
                     return $row->ket == 'Telat Masuk' ? '<span class="text-warning">' : '<span>' .  $row->ket . '</span>';
