@@ -28,8 +28,8 @@
                             @foreach($jadwal as $jdl)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $jdl->staff->nama }}</td>
-                                <td>{{ $jdl->staff->jabatan }}</td>
+                                <td>{{ $jdl->staff->nama ?? '' }}</td>
+                                <td>{{ $jdl->staff->jabatan ?? '' }}</td>
                                 <td class="text-center">
                                     <input type="checkbox" class="day" id="{{ $jdl->id }}" data-day="monday" {{ $jdl->monday == 1 ? 'checked' : '' }}>
                                 </td>
