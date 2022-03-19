@@ -266,6 +266,7 @@ class UserController extends Controller
             foreach ($user->absensiStaff as $absen) {
                 $absen->delete();
             }
+            $user->jadwal->delete();
 
             $user->delete();
 
