@@ -35,7 +35,8 @@ class DashboardController extends Controller
         $alpaStaff = AbsensiStaff::where('status_hadir', 'Alpa')->where('created_at', '>=', $now)->where('created_at', '<=', $tomorrow)->count();
 
         $hadirSiswa = Absensi::where('status_hadir', 'Hadir')->where('created_at', '>=', $now)->where('created_at', '<=', $tomorrow)->count();
-        $zoomSiswa = Absensi::where('status_hadir', 'Hadir Via Zoom')->where('created_at', $now)->where('created_at', '<=', $tomorrow)->count();
+        $zoomSiswa = Absensi::where('status_hadir', 'Hadir Via Zoom')->where('created_at', '>=', $now)->where('created_at', '<=', $tomorrow)->count();
+
         $sakitSiswa = Absensi::where('status_hadir', 'Sakit')->where('created_at', '>=', $now)->where('created_at', '<=', $tomorrow)->count();
         $ijinSiswa = Absensi::where('status_hadir', 'Ijin')->where('created_at', '>=', $now)->where('created_at', '<=', $tomorrow)->count();
         $alpaSiswa = Absensi::where('status_hadir', 'Alpa')->where('created_at', '>=', $now)->where('created_at', '<=', $tomorrow)->count();

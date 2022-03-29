@@ -83,7 +83,7 @@ class AbsensiController extends Controller
                 ->make(true);
         }
 
-        $kelas = Kelas::get();
+        $kelas = Kelas::orderBy('nama', 'ASC')->get();
         return view('absensi.index', compact('kelas'));
     }
 
@@ -158,7 +158,7 @@ class AbsensiController extends Controller
     {
         auth()->user()->can('report-siswa-access') ? true : abort(403);
 
-        $kelas = Kelas::get();
+        $kelas = Kelas::orderBy('nama', 'ASC')->get();
         $siswa = '';
         $from = $request->from ?? '';
         $to = $request->to ?? '';
