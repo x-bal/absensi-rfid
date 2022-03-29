@@ -49,7 +49,7 @@ class AbsensiMasukCommand extends Command
         $staff = User::where('id', '!=', 1)->where('is_active', 1)->get();
 
         // Absensi Siswa
-        if ($now == '09:00') {
+        if ($now == '11:00') {
             foreach ($siswa as $sw) {
                 $absensi = Absensi::where('siswa_id',  $sw->id)->where('created_at', '>=', $today)->where('created_at', '<=', $tomorrow)->first();
 
@@ -66,7 +66,7 @@ class AbsensiMasukCommand extends Command
         }
 
         // Absensi Staff
-        if ($now == '09:00') {
+        if ($now == '11:00') {
             foreach ($staff as $stf) {
                 $absensiStaff = AbsensiStaff::where('user_id',  $stf->id)->where('created_at', '>=', $today)->where('created_at', '<=', $tomorrow)->first();
 
