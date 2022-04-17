@@ -90,12 +90,14 @@ Route::middleware(['auth', 'isLogin'])->group(function () {
     Route::get('/absensi/export', [AbsensiController::class, 'export'])->name('absensi.export');
     Route::get('/absensi/report', [AbsensiController::class, 'report'])->name('absensi.report');
     Route::get('/absensi/export-report', [AbsensiController::class, 'generate'])->name('absensi.generate');
+    Route::get('/absensi/{absensi:id}/change', [AbsensiController::class, 'change'])->name('absensi.change');
     Route::resource('absensi', AbsensiController::class);
 
     //Route Data Absensi Staff
     Route::get('/absensi-staff/export', [AbsensiStaffController::class, 'export'])->name('absensi-staff.export');
     Route::get('/absensi-staff/report', [AbsensiStaffController::class, 'report'])->name('absensi-staff.report');
     Route::get('/absensi-staff/export-report', [AbsensiStaffController::class, 'generate'])->name('absensi-staff.generate');
+    Route::get('/absensi-staff/{absensiStaff:id}/change', [AbsensiStaffController::class, 'change'])->name('absensi-staff.change');
     Route::resource('absensi-staff', AbsensiStaffController::class);
 
 

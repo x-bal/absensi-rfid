@@ -66,6 +66,26 @@ class AbsensiController extends Controller
                 ->editColumn('edited', function ($row) {
                     return $row->edited_by != 0 ? $row->edited->nama : '';
                 })
+                ->editColumn('keterangan', function ($row) {
+                    $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa', 'Telat Masuk'];
+                    if ($row->edited_by == 0) {
+                        $disabled = '';
+                    } else {
+                        $disabled = 'disabled';
+                    }
+
+                    $select = '<select name="keterangan" id="' . $row->id . '" class="form-control ket" ' . $disabled . '>
+                    <option disabled selected>-- Select Keterangan --</option>';
+                    foreach ($status as $stt) {
+                        if ($row->ket == $stt) {
+                            $select .= '<option selected value="' . $stt . '">' . $stt . '</option>';
+                        } else {
+                            $select .= '<option value="' . $stt . '">' . $stt . '</option>';
+                        }
+                    }
+                    $select .= '</select>';
+                    return $select;
+                })
                 ->editColumn('action', function ($row) {
                     if (auth()->user()->hasRole(['Me', 'Super Admin', 'Admin'])) {
                         return  '<a href="' . route('absensi.edit', $row->id) . '" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>';
@@ -79,7 +99,7 @@ class AbsensiController extends Controller
                         }
                     }
                 })
-                ->rawColumns(['device', 'rfid', 'waktu_masuk', 'waktu_keluar', 'nama', 'kelas', 'status_hadir', 'ket', 'edited', 'action'])
+                ->rawColumns(['device', 'rfid', 'waktu_masuk', 'waktu_keluar', 'nama', 'kelas', 'status_hadir', 'ket', 'keterangan', 'edited', 'action'])
                 ->make(true);
         }
 
@@ -192,5 +212,30 @@ class AbsensiController extends Controller
         $title .= '.xlsx';
 
         return Excel::download(new ReportAbsensiExport(request('from'), request('to'), request('kelas'), request('act')), $title);
+    }
+
+    public function change(Absensi $absensi)
+    {
+        try {
+            DB::beginTransaction();
+
+            if ($absensi->edited_by == 0) {
+                $absensi->update([
+                    'status_hadir' => request('ket'),
+                    'ket' => request('ket'),
+                    'edited_by' => auth()->user()->id
+                ]);
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Absensi berhasil di edit'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Absensi gagal di edit'
+            ]);
+        }
     }
 }

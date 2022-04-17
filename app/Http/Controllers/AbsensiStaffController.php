@@ -54,10 +54,30 @@ class AbsensiStaffController extends Controller
                 ->editColumn('ket', function ($row) {
                     return $row->status_hadir == 'Telat Masuk' ? '<p class="text-warning">' . $row->ket : '<p>' .  $row->ket . '</p>';
                 })
+                ->editColumn('keterangan', function ($row) {
+                    $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa', 'Telat Masuk', 'Ijin Pulang Awal'];
+                    if ($row->edited_by == 0) {
+                        $disabled = '';
+                    } else {
+                        $disabled = 'disabled';
+                    }
+
+                    $select = '<select name="keterangan" id="' . $row->id . '" class="form-control ket" ' . $disabled . '>
+                    <option disabled selected>-- Select Keterangan --</option>';
+                    foreach ($status as $stt) {
+                        if ($row->ket == $stt) {
+                            $select .= '<option selected value="' . $stt . '">' . $stt . '</option>';
+                        } else {
+                            $select .= '<option value="' . $stt . '">' . $stt . '</option>';
+                        }
+                    }
+                    $select .= '</select>';
+                    return $select;
+                })
                 ->editColumn('action', function ($row) {
                     return ' <a href="' . route('absensi-staff.edit', $row->id) . '" class="btn btn-sm btn-success"><i class="fas fa-edit"></i></a>';
                 })
-                ->rawColumns(['device', 'rfid', 'waktu_masuk', 'waktu_keluar', 'nama', 'jabatan', 'status_hadir', 'ket', 'action'])
+                ->rawColumns(['device', 'rfid', 'waktu_masuk', 'waktu_keluar', 'nama', 'jabatan', 'status_hadir', 'ket', 'keterangan', 'action'])
                 ->make(true);
         }
 
@@ -138,5 +158,27 @@ class AbsensiStaffController extends Controller
         $title .= '.xlsx';
 
         return Excel::download(new ReportAbsensiStaffExport(request('from'), request('to'), request('act')), $title);
+    }
+
+    public function change(AbsensiStaff $absensiStaff)
+    {
+        try {
+            DB::beginTransaction();
+
+            $absensiStaff->update([
+                'status_hadir' => request('ket'),
+                'ket' => request('ket'),
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Absensi berhasil di edit'
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Absensi gagal di edit'
+            ]);
+        }
     }
 }

@@ -71,7 +71,7 @@
                                 <th>Kehadiran</th>
                                 <th>Keterangan</th>
                                 <th>Edited By</th>
-                                <th>Action</th>
+                                <!-- <th>Action</th> -->
                             </tr>
                         </thead>
 
@@ -147,17 +147,17 @@
                         name: 'status_hadir'
                     },
                     {
-                        data: 'ket',
-                        name: 'ket'
+                        data: 'keterangan',
+                        name: 'keterangan'
                     },
                     {
                         data: 'edited',
                         name: 'edited'
                     },
-                    {
-                        data: 'action',
-                        name: 'action'
-                    },
+                    // {
+                    //     data: 'action',
+                    //     name: 'action'
+                    // },
                 ],
                 responsive: {
                     details: {
@@ -190,5 +190,38 @@
             }
         });
     });
+
+    $('.table').on('change', '.ket', function() {
+        let id = $(this).attr('id')
+        let ket = $(this).val();
+        $.ajax({
+            url: '/absensi/' + id + '/change',
+            type: 'GET',
+            data: {
+                ket: ket
+            },
+            success: function(response) {
+                swal("Selamat!", response.message, {
+                    icon: "success",
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-success'
+                        }
+                    },
+                });
+            },
+            error: function(response) {
+                swal("Error!", response.message, {
+                    icon: "error",
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-danger'
+                        }
+                    },
+                });
+            }
+        })
+
+    })
 </script>
 @endpush
