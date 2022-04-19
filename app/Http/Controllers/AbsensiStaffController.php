@@ -165,6 +165,8 @@ class AbsensiStaffController extends Controller
             $absensiStaff->update([
                 'status_hadir' => request('ket'),
                 'ket' => request('ket'),
+                'masuk' => 1,
+                'keluar' => 1,
                 'waktu_masuk' => Carbon::now()->format('Y-m-d H:i:s')
             ]);
 

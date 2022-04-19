@@ -228,6 +228,8 @@ class AbsensiController extends Controller
             $absensi->update([
                 'status_hadir' => request('ket'),
                 'ket' => request('ket'),
+                'masuk' => 1,
+                'keluar' => 1,
                 'edited_by' => auth()->user()->id,
                 'waktu_masuk' => Carbon::now()->format('Y-m-d H:i:s'),
                 'waktu_keluar' => Carbon::now()->format('Y-m-d H:i:s'),
