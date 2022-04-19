@@ -68,8 +68,17 @@ class AbsensiController extends Controller
                 })
                 ->editColumn('keterangan', function ($row) {
                     $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa', 'Telat Masuk'];
+                    if ($row->edited_by == 0) {
+                        $disabled = '';
+                    } else {
+                        $disabled = 'disabled';
+                    }
 
-                    $select = '<select name="keterangan" id="' . $row->id . '" class="form-control ket">
+                    if (auth()->user()->hasRole(['Me', 'Super Admin', 'Admin'])) {
+                        $disabled = '';
+                    }
+
+                    $select = '<select name="keterangan" id="' . $row->id . '" class="form-control ket" ' . $disabled . '>
                     <option disabled selected>-- Select Keterangan --</option>';
                     foreach ($status as $stt) {
                         if ($row->ket == $stt) {
