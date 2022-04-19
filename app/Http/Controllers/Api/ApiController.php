@@ -681,7 +681,7 @@ class ApiController extends Controller
                         'masuk' => $ket == 'Masuk' || $ket == 'Telat Masuk' ? $status : 0,
                         'waktu_masuk' => Carbon::now()->format('Y-m-d H:i:s'),
                         'status_hadir' => $stt,
-                        'ket' => $ket
+                        'ket' => $stt
                     ]);
 
                     History::create([

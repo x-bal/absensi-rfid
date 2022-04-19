@@ -68,13 +68,8 @@ class AbsensiController extends Controller
                 })
                 ->editColumn('keterangan', function ($row) {
                     $status = ['Hadir', 'Hadir Via Zoom', 'Sakit', 'Ijin', 'Alpa', 'Telat Masuk'];
-                    if ($row->edited_by == 0) {
-                        $disabled = '';
-                    } else {
-                        $disabled = 'disabled';
-                    }
 
-                    $select = '<select name="keterangan" id="' . $row->id . '" class="form-control ket" ' . $disabled . '>
+                    $select = '<select name="keterangan" id="' . $row->id . '" class="form-control ket">
                     <option disabled selected>-- Select Keterangan --</option>';
                     foreach ($status as $stt) {
                         if ($row->ket == $stt) {
@@ -216,16 +211,18 @@ class AbsensiController extends Controller
 
     public function change(Absensi $absensi)
     {
+        auth()->user()->can('absensi-siswa-edit') ? true : abort(403);
+
         try {
             DB::beginTransaction();
 
-            if ($absensi->edited_by == 0) {
-                $absensi->update([
-                    'status_hadir' => request('ket'),
-                    'ket' => request('ket'),
-                    'edited_by' => auth()->user()->id
-                ]);
-            }
+            $absensi->update([
+                'status_hadir' => request('ket'),
+                'ket' => request('ket'),
+                'edited_by' => auth()->user()->id,
+                'waktu_masuk' => Carbon::now()->format('Y-m-d H:i:s'),
+                'waktu_keluar' => Carbon::now()->format('Y-m-d H:i:s'),
+            ]);
 
             DB::commit();
 
