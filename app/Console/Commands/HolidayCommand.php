@@ -93,6 +93,17 @@ class HolidayCommand extends Command
                             'status_hadir' => 'Libur',
                             'ket' => 'Libur'
                         ]);
+                    } else {
+                        AbsensiStaff::create([
+                            'device_id' => 1,
+                            'user_id' => $stf->id,
+                            'masuk' => 1,
+                            'waktu_masuk' => date('Y-m-d H:i:s'),
+                            'keluar' => 1,
+                            'waktu_keluar' => date('Y-m-d H:i:s'),
+                            'status_hadir' => 'Alpa',
+                            'ket' => 'Alpa'
+                        ]);
                     }
                 }
             }
