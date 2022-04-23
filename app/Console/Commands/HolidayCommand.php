@@ -82,7 +82,7 @@ class HolidayCommand extends Command
             // Absnensi Staff
             if (Carbon::now('Asia/Jakarta')->format('l') == $sunday || Carbon::now('Asia/Jakarta')->format('l') == $saturday) {
                 foreach ($staff as $stf) {
-                    if ($stf->jadwal->saturday == 0) {
+                    if ($stf->jadwal->saturday == 0 && Carbon::now('Asia/Jakarta')->format('H:i') == '08:00') {
                         AbsensiStaff::create([
                             'device_id' => 1,
                             'user_id' => $stf->id,
