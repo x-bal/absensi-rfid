@@ -45,6 +45,14 @@ class HolidayCommand extends Command
         $siswa = Siswa::where('is_active', 1)->get();
         $staff = User::where('is_active', 1)->where('id', '!=', 1)->get();
 
+        $staffOnSaturday = User::with('jadwal')->where('is_active', 1)->where('id', '!=', 1)->whereHas('jadwal', function ($query) {
+            $query->where('saturday', 1);
+        })->get();
+
+        $staffOffSaturday = User::with('jadwal')->where('is_active', 1)->where('id', '!=', 1)->whereHas('jadwal', function ($query) {
+            $query->where('saturday', 0);
+        })->get();
+
         if (Carbon::now('Asia/Jakarta')->format('H:i') == '07:00') {
             // Absensi Siswa
             if (Carbon::now('Asia/Jakarta')->format('l') == $sunday || Carbon::now('Asia/Jakarta')->format('l') == $saturday) {
@@ -80,31 +88,47 @@ class HolidayCommand extends Command
             }
 
             // Absnensi Staff
-            if (Carbon::now('Asia/Jakarta')->format('l') == $sunday || Carbon::now('Asia/Jakarta')->format('l') == $saturday) {
+            if (Carbon::now('Asia/Jakarta')->format('l') == $sunday) {
                 foreach ($staff as $stf) {
-                    if ($stf->jadwal->saturday == 0 && Carbon::now('Asia/Jakarta')->format('H:i') == '09:00') {
-                        AbsensiStaff::create([
-                            'device_id' => 1,
-                            'user_id' => $stf->id,
-                            'masuk' => 1,
-                            'waktu_masuk' => date('Y-m-d H:i:s'),
-                            'keluar' => 1,
-                            'waktu_keluar' => date('Y-m-d H:i:s'),
-                            'status_hadir' => 'Libur',
-                            'ket' => 'Libur'
-                        ]);
-                    } else {
-                        AbsensiStaff::create([
-                            'device_id' => 1,
-                            'user_id' => $stf->id,
-                            'masuk' => 1,
-                            'waktu_masuk' => date('Y-m-d H:i:s'),
-                            'keluar' => 1,
-                            'waktu_keluar' => date('Y-m-d H:i:s'),
-                            'status_hadir' => 'Alpa',
-                            'ket' => 'Alpa'
-                        ]);
-                    }
+                    AbsensiStaff::create([
+                        'device_id' => 1,
+                        'user_id' => $stf->id,
+                        'masuk' => 1,
+                        'waktu_masuk' => date('Y-m-d H:i:s'),
+                        'keluar' => 1,
+                        'waktu_keluar' => date('Y-m-d H:i:s'),
+                        'status_hadir' => 'Libur',
+                        'ket' => 'Libur'
+                    ]);
+                }
+            }
+
+            if (Carbon::now('Asia/Jakarta')->format('l') == $saturday && Carbon::now('Asia/Jakarta')->format('H:i') == '09:00') {
+
+                foreach ($staffOnSaturday as $on) {
+                    AbsensiStaff::create([
+                        'device_id' => 1,
+                        'user_id' => $on->id,
+                        'masuk' => 1,
+                        'waktu_masuk' => date('Y-m-d H:i:s'),
+                        'keluar' => 1,
+                        'waktu_keluar' => date('Y-m-d H:i:s'),
+                        'status_hadir' => 'Alpa',
+                        'ket' => 'Alpa'
+                    ]);
+                }
+
+                foreach ($staffOffSaturday as $off) {
+                    AbsensiStaff::create([
+                        'device_id' => 1,
+                        'user_id' => $off->id,
+                        'masuk' => 1,
+                        'waktu_masuk' => date('Y-m-d H:i:s'),
+                        'keluar' => 1,
+                        'waktu_keluar' => date('Y-m-d H:i:s'),
+                        'status_hadir' => 'Libur',
+                        'ket' => 'Libur'
+                    ]);
                 }
             }
 
