@@ -66,7 +66,7 @@ class AbsensiMasukCommand extends Command
         }
 
         // Absensi Staff
-        if ($now == '11:00') {
+        if ($now == '11:00' && Carbon::now('Asia/Jakarta')->format('l') != 'Saturday' && Carbon::now('Asia/Jakarta')->format('l') != 'Sunday') {
             foreach ($staff as $stf) {
                 $absensiStaff = AbsensiStaff::where('user_id',  $stf->id)->where('created_at', '>=', $today)->where('created_at', '<=', $tomorrow)->first();
 
